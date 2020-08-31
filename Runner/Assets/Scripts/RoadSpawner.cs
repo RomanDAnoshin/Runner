@@ -17,6 +17,7 @@ public class RoadSpawner : MonoBehaviour
     void Start()
     {
         blockZposition = StartBlock.transform.position.z;
+        RoadBlocks.Add(StartBlock);
         for(var i = 0; i < blockCount; i++) {
             SpawnBlock();
         }
@@ -24,13 +25,13 @@ public class RoadSpawner : MonoBehaviour
 
     void Update()
     {
-        if (IsNnecessarySpawn()) {
+        if (IsNecessarySpawn()) {
             SpawnBlock();
             DestroyBlock();
         }
     }
 
-    private bool IsNnecessarySpawn()
+    private bool IsNecessarySpawn()
     {
         if(HeroTransform.position.z - delayZone > (blockZposition - blockCount * blockLenght)) {
             return true;

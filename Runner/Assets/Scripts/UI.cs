@@ -8,8 +8,15 @@ public class UI : MonoBehaviour
     public Transform HeroTransform;
     public Text Text;
 
+    void Start()
+    {
+        // TODO: get data in PlayerData
+    }
+
     void Update()
     {
-        Text.text = "Distance: " + ((int)HeroTransform.position.z).ToString();
+        Text.text = 
+            "Coins: " + "\n" +
+            "Distance: " + ((int)HeroTransform.position.z).ToString();
     }
 }

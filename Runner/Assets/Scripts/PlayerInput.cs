@@ -4,30 +4,31 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
-    public MoveDirection MoveDirection;
-
-    private void Start()
+    public enum InputType
     {
-        
+        None,
+        MoveLeft,
+        MoveRight,
+        Run,
+        Stay
     }
+
+    public InputType Value;
 
     private void Update()
     {
         if (Input.anyKeyDown) {
-            if (Input.GetKeyDown(KeyCode.LeftArrow)) {
-                MoveDirection = MoveDirection.Left;
-            } else if (Input.GetKeyDown(KeyCode.RightArrow)) {
-                MoveDirection = MoveDirection.Right;
-            } 
+            if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)) {
+                Value = InputType.MoveLeft;
+            } else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)) {
+                Value = InputType.MoveRight;
+            } else if(Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space)) {
+                Value = InputType.Run;
+            } else if (Input.GetKeyDown(KeyCode.DownArrow)) {
+                Value = InputType.Stay;
+            }
         } else {
-            MoveDirection = MoveDirection.None;
+            Value = InputType.None;
         }
     }
-}
-
-public enum MoveDirection
-{
-    None,
-    Left,
-    Right
 }
