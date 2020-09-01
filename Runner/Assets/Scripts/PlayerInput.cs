@@ -17,6 +17,8 @@ public class PlayerInput : MonoBehaviour
 
     private void Update()
     {
+        // TODO: on events.
+        // TODO: Take away control from the player over the character when death.
         if (Input.anyKeyDown) {
             if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)) {
                 Value = InputType.MoveLeft;

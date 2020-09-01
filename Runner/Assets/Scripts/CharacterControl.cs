@@ -18,6 +18,7 @@ public class CharacterControl : MonoBehaviour
     }
 
     public PlayerInput PlayerInput;
+    public PlayerData PlayerData;
     public Lanes Lanes;
 
     public float Speed;
@@ -40,6 +41,8 @@ public class CharacterControl : MonoBehaviour
 
         HorizontalMovement();
         VerticalMovement();
+
+        UpdatePlayerData();
     }
 
     public void OnCollisionEnter()
@@ -89,5 +92,10 @@ public class CharacterControl : MonoBehaviour
         if(verticalMove != MoveDirectionVertical.Stay) {
             transform.position += new Vector3(0, 0, Speed * Time.deltaTime);
         }
+    }
+
+    private void UpdatePlayerData()
+    {
+        PlayerData.CurrentDistance = transform.position.z;
     }
 }
