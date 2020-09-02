@@ -30,6 +30,7 @@ public class GameGUI : MonoBehaviour
 
     public void OnClickButtonRestart()
     {
+        PlayerData.Save();
         SceneManager.LoadScene("Game");
     }
 

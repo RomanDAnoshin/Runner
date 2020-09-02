@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 6914295043546491929}
   - component: {fileID: 6914295043546491928}
   - component: {fileID: 6914295043546491931}
+  - component: {fileID: 2877310428599081746}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -172,9 +173,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerInput: {fileID: 6914295043546491931}
+  PlayerData: {fileID: 11400000, guid: e30773def68e1ee4e8ee29b3696da7d2, type: 2}
+  CharacterData: {fileID: 2877310428599081746}
   Lanes: {fileID: 0}
-  Speed: 20
-  SmoothTime: 0.3
 --- !u!114 &6914295043546491931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,3 +189,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Value: 0
+--- !u!114 &2877310428599081746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6914295043546491926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d22de04028765b14891a426c858ebf1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Speed: 20
+  SmoothTime: 0.3
+  Velocity: {x: 0, y: 0, z: 0}
