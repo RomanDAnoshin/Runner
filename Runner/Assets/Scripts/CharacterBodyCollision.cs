@@ -1,18 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 
 public class CharacterBodyCollision : MonoBehaviour
 {
-    public UnityEvent CollisionEvent;
+    public UnityEvent CollisionBarricade;
+    public UnityEvent CollisionCoin;
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.CompareTag("RoadBarricade")) {
-            CollisionEvent.Invoke();
-
-            // TODO: remove lag on Z axis
+        switch (other.gameObject.tag) {
+            case "RoadBarricade":
+                CollisionBarricade.Invoke();
+                break;
+            case "RoadCoin":
+                CollisionCoin.Invoke();
+                Destroy(other.gameObject);
+                break;
         }
     }
 }

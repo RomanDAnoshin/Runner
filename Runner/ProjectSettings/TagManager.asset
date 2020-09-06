@@ -6,6 +6,7 @@ TagManager:
   tags:
   - RoadBarricade
   - Character
+  - RoadCoin
   layers:
   - Default
   - TransparentFX

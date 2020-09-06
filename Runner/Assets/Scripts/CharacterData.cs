@@ -1,8 +1,12 @@
 ﻿using UnityEngine;
 
-public class CharacterData : MonoBehaviour
+[CreateAssetMenu]
+public class CharacterData : ScriptableObject
 {
-    public float Speed;
-    public float SmoothTime;
-    public Vector3 Velocity = Vector3.zero;
+    public float SpeedVertical;
+    public float SpeedHorizontal;
+
+    public float CurrentSpeedVertical;
+
+    public Vector3 VelocitySmoothDamp = Vector3.zero;
 }

@@ -20,7 +20,8 @@ public class CharacterController : MonoBehaviour
     public PlayerInput PlayerInput;
     public PlayerData PlayerData;
     public CharacterData CharacterData;
-    public Lanes Lanes;
+    public LanesData Lanes;
+    public Animator Animator;
 
     private int targetLane;
     private MoveDirectionVertical verticalMove;
@@ -29,6 +30,7 @@ public class CharacterController : MonoBehaviour
     private void Start()
     {
         targetLane = Lanes.StartLaneIndex;
+        UpdateCurrentSpeed();
     }
 
     private void Update()
@@ -39,12 +41,6 @@ public class CharacterController : MonoBehaviour
         VerticalMovement();
 
         UpdateCurrentDistance();
-    }
-
-    public void OnCollisionEnter()
-    {
-        verticalMove = MoveDirectionVertical.Stay;
-        horizontalMove = MoveDirectionHorizontal.None;
     }
 
     private void ProcessPlayerInput(PlayerInput.InputType value)
@@ -65,28 +61,33 @@ public class CharacterController : MonoBehaviour
                 // Run
             } else if (value == PlayerInput.InputType.Run) {
                 verticalMove = MoveDirectionVertical.Run;
+                Animator.SetBool("IsRunning", true);
+                Animator.SetBool("IsStaying", false);
                 // Stay
             } else if (value == PlayerInput.InputType.Stay) {
                 verticalMove = MoveDirectionVertical.Stay;
+                Animator.SetBool("IsStaying", true);
+                Animator.SetBool("IsRunning", false);
             }
         }
     }
 
     private void HorizontalMovement()
     {
+		// TODO: rotation on change targetLane. mb Vector3.SmoothDamp
         if (
             horizontalMove != MoveDirectionHorizontal.None && 
             transform.position.x != Lanes.Positions[targetLane].x
         ) {
             var lanePos = new Vector3(Lanes.Positions[targetLane].x, transform.position.y, transform.position.z);
-            transform.position = Vector3.SmoothDamp(transform.position, lanePos, ref CharacterData.Velocity, CharacterData.SmoothTime);
+            transform.position = Vector3.SmoothDamp(transform.position, lanePos, ref CharacterData.VelocitySmoothDamp, CharacterData.SpeedHorizontal / 100f);
         }
     }
 
     private void VerticalMovement()
     {
         if(verticalMove != MoveDirectionVertical.Stay) {
-            transform.position += new Vector3(0f, 0f, CharacterData.Speed * Time.deltaTime);
+            transform.position += new Vector3(0f, 0f, CharacterData.CurrentSpeedVertical * Time.deltaTime);
         }
     }
 
@@ -95,8 +96,21 @@ public class CharacterController : MonoBehaviour
         PlayerData.CurrentDistance = transform.position.z;
     }
 
-    public void RaiseCoin()
+    private void UpdateCurrentSpeed()
+    {
+        CharacterData.CurrentSpeedVertical = CharacterData.SpeedVertical + PlayerData.Coins / 10f;
+    }
+
+    public void OnCollisionBarricade()
+    {
+        verticalMove = MoveDirectionVertical.Stay;
+        horizontalMove = MoveDirectionHorizontal.None;
+    }
+
+    public void OnCollisionCoin()
     {
         PlayerData.Coins++;
+
+        UpdateCurrentSpeed();
     }
 }
