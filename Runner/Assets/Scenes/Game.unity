@@ -251,6 +251,7 @@ MonoBehaviour:
   StartBlock: {fileID: 1134965512}
   HeroTransform: {fileID: 1574762792}
   CurrentRoadBlocks: []
+  BlockCount: 10
 --- !u!1 &321647795
 GameObject:
   m_ObjectHideFlags: 0

@@ -70,7 +70,10 @@ public class CharacterMovement : MonoBehaviour
 
     public void MoveLeft()
     {
-        if (targetLane != 0) {
+        if (
+            targetLane != 0 &&
+            verticalMove != MoveDirectionVertical.Stay
+        ) {
             targetLane--;
             horizontalMove = MoveDirectionHorizontal.Left;
         }
@@ -78,7 +81,10 @@ public class CharacterMovement : MonoBehaviour
 
     public void MoveRight()
     {
-        if (targetLane != Lanes.Positions.Length - 1) {
+        if (
+            targetLane != Lanes.Positions.Length - 1 &&
+            verticalMove != MoveDirectionVertical.Stay
+        ) {
             targetLane++;
             horizontalMove = MoveDirectionHorizontal.Right;
         }
