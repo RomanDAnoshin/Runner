@@ -5,8 +5,6 @@ public class CharacterData : ScriptableObject
 {
     public float SpeedVertical;
     public float SpeedHorizontal;
-
-    public float CurrentSpeedVertical;
-
-    public Vector3 VelocitySmoothDamp = Vector3.zero;
+    [Range(0f, 1f), Header("CurrentSpeedVertical = SpeedVertical + PlayerData.Coins * Modificator")]
+    public float SpeedVerticalModificator;
 }

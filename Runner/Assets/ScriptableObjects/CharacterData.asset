@@ -14,5 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SpeedVertical: 20
   SpeedHorizontal: 30
-  CurrentSpeedVertical: 0
-  VelocitySmoothDamp: {x: 0, y: 0, z: 0}
+  SpeedVerticalModificator: 0.1

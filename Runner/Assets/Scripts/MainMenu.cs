@@ -8,7 +8,7 @@ public class MainMenu : MonoBehaviour
     public GameObject WindowCreateAccount;
     public InputField InputField;
 
-    // info panel
+    [Header("InfoPanel")]
     public Text PlayerName;
     public Text Coins;
     public Text Distance;

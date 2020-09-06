@@ -6,9 +6,9 @@ public class PlayerData : ScriptableObject
 {
     public string PlayerName;
     public int Coins;
-    public float Distance;
+    public int Distance;
 
-    public float CurrentDistance;
+    public int CurrentDistance;
 
     public void Save()
     {
@@ -27,16 +27,16 @@ public class PlayerData : ScriptableObject
         var jsonObject = JSON.Parse(data);
         PlayerName = jsonObject["PlayerName"].Value;
         Coins = int.Parse(jsonObject["Coins"].Value);
-        Distance = float.Parse(jsonObject["Distance"].Value, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-        CurrentDistance = 0f;
+        Distance = int.Parse(jsonObject["Distance"].Value);
+        CurrentDistance = 0;
     }
 
     public void Reset()
     {
         PlayerName = "";
         Coins = 0;
-        Distance = 0f;
-        CurrentDistance = 0f;
+        Distance = 0;
+        CurrentDistance = 0;
 
         Save();
     }

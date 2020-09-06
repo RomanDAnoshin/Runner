@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerInput : MonoBehaviour
 {
-    public enum InputType
+    public enum PlayerActions
     {
         None,
         MoveLeft,
@@ -13,24 +12,24 @@ public class PlayerInput : MonoBehaviour
         Stay
     }
 
-    public InputType Value;
+    public PlayerActions Value;
+    public UnityEvent PlayerActed;
 
-    private void Update()
+    void Update()
     {
-        // TODO: on events.
-        // TODO: Take away control from the player over the character when death.
         if (Input.anyKeyDown) {
             if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)) {
-                Value = InputType.MoveLeft;
+                Value = PlayerActions.MoveLeft;
+                PlayerActed.Invoke();
             } else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)) {
-                Value = InputType.MoveRight;
+                Value = PlayerActions.MoveRight;
+                PlayerActed.Invoke();
             } else if(Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space)) {
-                Value = InputType.Run;
-            } else if (Input.GetKeyDown(KeyCode.DownArrow)) {
-                Value = InputType.Stay;
+                Value = PlayerActions.Run;
+                PlayerActed.Invoke();
             }
         } else {
-            Value = InputType.None;
+            Value = PlayerActions.None;
         }
     }
 }

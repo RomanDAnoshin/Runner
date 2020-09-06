@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class GameGUIController : MonoBehaviour
 {
@@ -15,10 +15,9 @@ public class GameGUIController : MonoBehaviour
         PlayerData.Load();
     }
 
-    void Update()
+    public void OnPlayerActed()
     {
-        // TODO: subscribe on event
-        if (PlayerInput.Value == PlayerInput.InputType.Run) {
+        if (PlayerInput.Value == PlayerInput.PlayerActions.Run) {
             GameMessage.SetActive(false);
         }
     }
@@ -35,8 +34,14 @@ public class GameGUIController : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
-    public void OnDeath()
+    public void OnCharacterDied()
     {
+        StartCoroutine("OpenDeathWindow");
+    }
+
+    private IEnumerator OpenDeathWindow()
+    {
+        yield return new WaitForSeconds(4);
         DeathWindow.SetActive(true);
     }
 }

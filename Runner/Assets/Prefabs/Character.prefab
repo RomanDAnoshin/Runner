@@ -74,17 +74,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   CollisionCoin:
     m_PersistentCalls:
       m_Calls:
@@ -121,6 +110,7 @@ GameObject:
   - component: {fileID: 6914295043546491929}
   - component: {fileID: 6914295043546491928}
   - component: {fileID: 6914295043546491931}
+  - component: {fileID: 4215664253194131476}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -158,7 +148,7 @@ MonoBehaviour:
   PlayerInput: {fileID: 6914295043546491931}
   PlayerData: {fileID: 11400000, guid: e30773def68e1ee4e8ee29b3696da7d2, type: 2}
   CharacterData: {fileID: 11400000, guid: 483ab1b7748f2df4cb1283f9112dafc2, type: 2}
-  Lanes: {fileID: 0}
+  CharacterMovement: {fileID: 4215664253194131476}
   Animator: {fileID: 1241725108266239472}
 --- !u!114 &6914295043546491931
 MonoBehaviour:
@@ -173,6 +163,47 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Value: 0
+  PlayerActed:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6914295043546491928}
+        m_MethodName: OnPlayerActed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8323451647244581148, guid: 08bfa5ca1e5ce2c4c9b771f79374d338,
+          type: 3}
+        m_MethodName: OnPlayerActed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &4215664253194131476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6914295043546491926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb9939299952d804084096b030749b20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Lanes: {fileID: 0}
+  CharacterData: {fileID: 11400000, guid: 483ab1b7748f2df4cb1283f9112dafc2, type: 2}
+  PlayerData: {fileID: 11400000, guid: e30773def68e1ee4e8ee29b3696da7d2, type: 2}
 --- !u!1001 &265679560396395969
 PrefabInstance:
   m_ObjectHideFlags: 0

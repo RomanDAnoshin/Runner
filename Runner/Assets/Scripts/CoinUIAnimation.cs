@@ -6,7 +6,7 @@ public class CoinUIAnimation : MonoBehaviour
 
     private float currentTime;
     private float totalTime;
-    private bool IsRunAnimation;
+    private bool isRunAnimation;
 
     private float scaleX;
     private float scaleY;
@@ -22,29 +22,26 @@ public class CoinUIAnimation : MonoBehaviour
 
     void Update()
     {
-        RunAnimation();
+        if (isRunAnimation) {
+            RunAnimation();
+        }
     }
 
     public void StartAnimation()
     {
-        IsRunAnimation = true;
-        print("Start");
+        isRunAnimation = true;
     }
 
     private void RunAnimation()
     {
-        if (IsRunAnimation) {
-            print("Run");
-            var value = Curve.Evaluate(currentTime);
-            transform.localScale = new Vector3(scaleX * value, scaleY, scaleZ * value);
+        var value = Curve.Evaluate(currentTime);
+        transform.localScale = new Vector3(scaleX * value, scaleY, scaleZ * value);
 
-            currentTime += Time.deltaTime;
+        currentTime += Time.deltaTime;
 
-            if (currentTime >= totalTime) {
-                currentTime = 0f;
-                IsRunAnimation = false;
-                print("Stop");
-            }
+        if (currentTime >= totalTime) {
+            currentTime = 0f;
+            isRunAnimation = false;
         }
     }
 }
