@@ -48,6 +48,7 @@ public class CharacterController : MonoBehaviour
     {
         CharacterMovement.Stay();
         characterState = CharacterState.Died;
+        Animator.speed = 1;
         Animator.SetTrigger("Die");
     }
 

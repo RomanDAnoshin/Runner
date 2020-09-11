@@ -285,7 +285,7 @@ PrefabInstance:
     - target: {fileID: 5997420555293896325, guid: 0c96909ebb4b6ea42a6b8f4891326a00,
         type: 3}
       propertyPath: BarricadeProbability
-      value: 85
+      value: 80
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c96909ebb4b6ea42a6b8f4891326a00, type: 3}
