@@ -2,28 +2,21 @@
 
 public class CharacterController : MonoBehaviour
 {
-    public enum CharacterState
-    {
-        Alive,
-        Died
-    }
-
     public PlayerInput PlayerInput;
     public PlayerData PlayerData;
     public CharacterData CharacterData;
     public CharacterMovement CharacterMovement;
-    public Animator Animator;
-
-    private CharacterState characterState;
+    public CharacterAnimation CharacterAnimation;
 
     void Start()
     {
         CharacterMovement.UpdateCurrentSpeed();
+        CharacterData.State = CharacterData.CharacterState.Alive;
     }
 
     public void OnPlayerActed()
     {
-        if(characterState == CharacterState.Alive) {
+        if(CharacterData.State == CharacterData.CharacterState.Alive) {
             switch (PlayerInput.Value) {
                 case PlayerInput.PlayerActions.None:
                     break;
@@ -35,7 +28,7 @@ public class CharacterController : MonoBehaviour
                     break;
                 case PlayerInput.PlayerActions.Run:
                     CharacterMovement.Run();
-                    Animator.SetTrigger("Run");
+                    CharacterAnimation.Run();
                     break;
                 case PlayerInput.PlayerActions.Stay:
                     CharacterMovement.Stay();
@@ -47,9 +40,8 @@ public class CharacterController : MonoBehaviour
     public void OnCollisionBarricade()
     {
         CharacterMovement.Stay();
-        characterState = CharacterState.Died;
-        Animator.speed = 1;
-        Animator.SetTrigger("Die");
+        CharacterData.State = CharacterData.CharacterState.Died;
+        CharacterAnimation.Die();
     }
 
     public void OnCollisionCoin()

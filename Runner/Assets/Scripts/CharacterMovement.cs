@@ -19,7 +19,6 @@ public class CharacterMovement : MonoBehaviour
 
     public CharacterData CharacterData;
     public PlayerData PlayerData;
-    public Animator CharacterAnimator;
 
     private int targetLane;
     private float currentSpeedVertical;
@@ -62,7 +61,6 @@ public class CharacterMovement : MonoBehaviour
     public void UpdateCurrentSpeed()
     {
         currentSpeedVertical = CharacterData.SpeedVertical + PlayerData.Coins * CharacterData.SpeedVerticalModificator;
-        CharacterAnimator.speed = 1f + (PlayerData.Coins * CharacterData.SpeedVerticalModificator) / 100f;
     }
 
     public void UpdateCurrentDistance()
