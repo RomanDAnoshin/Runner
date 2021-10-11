@@ -12,6 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70de745db2125d441aa6372c2f9b6981, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurveTimer: {fileID: 3020630014098731485}
+--- !u!114 &3020630014098731485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3081385330130570782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77319f69e22c5694cb68bf765b199aea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   Curve:
     serializedVersion: 2
     m_Curve:
@@ -27,30 +40,30 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0.25
       value: 0.5
-      inSlope: 0.036346827
-      outSlope: 0.036346827
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
     - serializedVersion: 3
       time: 0.5
       value: 2
-      inSlope: -0.054081503
-      outSlope: -0.054081503
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
     - serializedVersion: 3
       time: 0.75
       value: 0.5
-      inSlope: -0.34850648
-      outSlope: -0.34850648
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
     - serializedVersion: 3
       time: 1
       value: 1
@@ -63,6 +76,20 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  TimerEnded:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -1750341105219101388}
+        m_MethodName: AnimationCompleted
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &3419367477730593253
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -74,6 +101,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CoinUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 654563518224248053, guid: 11ba9d92c4c7ad94dbba0b00b773c421,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 654563518224248053, guid: 11ba9d92c4c7ad94dbba0b00b773c421,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4586672265318361343, guid: 11ba9d92c4c7ad94dbba0b00b773c421,
         type: 3}
@@ -130,7 +167,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2018104553837670790, guid: 11ba9d92c4c7ad94dbba0b00b773c421, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 11ba9d92c4c7ad94dbba0b00b773c421, type: 3}
 --- !u!1 &3081385330130570782 stripped
 GameObject:

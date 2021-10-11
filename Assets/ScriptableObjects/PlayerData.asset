@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f1ac8d8a8dfcb94d9b1d8a95f6b1c5e, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  PlayerName: 
-  Coins: 0
-  Distance: 0
+  PlayerName: fdsfdsf
+  Coins: 222
+  Distance: 7557
+  CurrentDistance: 59

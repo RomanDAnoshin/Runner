@@ -96,7 +96,7 @@ PrefabInstance:
         type: 3}
       propertyPath: Coins.Array.data[2]
       value: 
-      objectReference: {fileID: 7293895676972603162}
+      objectReference: {fileID: 0}
     - target: {fileID: 5997420555293896325, guid: 0c96909ebb4b6ea42a6b8f4891326a00,
         type: 3}
       propertyPath: Coins.Array.data[0]
@@ -106,7 +106,7 @@ PrefabInstance:
         type: 3}
       propertyPath: Coins.Array.data[1]
       value: 
-      objectReference: {fileID: 7679267492305475435}
+      objectReference: {fileID: 0}
     - target: {fileID: 5997420555293896325, guid: 0c96909ebb4b6ea42a6b8f4891326a00,
         type: 3}
       propertyPath: CoinProbability
@@ -127,6 +127,51 @@ PrefabInstance:
       propertyPath: BarricadeProbability
       value: 80
       objectReference: {fileID: 0}
+    - target: {fileID: 8265176135166972316, guid: 0c96909ebb4b6ea42a6b8f4891326a00,
+        type: 3}
+      propertyPath: coins.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8265176135166972316, guid: 0c96909ebb4b6ea42a6b8f4891326a00,
+        type: 3}
+      propertyPath: barricades.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8265176135166972316, guid: 0c96909ebb4b6ea42a6b8f4891326a00,
+        type: 3}
+      propertyPath: coins.Array.data[2]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8265176135166972316, guid: 0c96909ebb4b6ea42a6b8f4891326a00,
+        type: 3}
+      propertyPath: coins.Array.data[0]
+      value: 
+      objectReference: {fileID: 2501538748193053434}
+    - target: {fileID: 8265176135166972316, guid: 0c96909ebb4b6ea42a6b8f4891326a00,
+        type: 3}
+      propertyPath: coins.Array.data[1]
+      value: 
+      objectReference: {fileID: 2501538748193053434}
+    - target: {fileID: 8265176135166972316, guid: 0c96909ebb4b6ea42a6b8f4891326a00,
+        type: 3}
+      propertyPath: barricadeProbability
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 8265176135166972316, guid: 0c96909ebb4b6ea42a6b8f4891326a00,
+        type: 3}
+      propertyPath: barricades.Array.data[0]
+      value: 
+      objectReference: {fileID: 6741782810166902502}
+    - target: {fileID: 8265176135166972316, guid: 0c96909ebb4b6ea42a6b8f4891326a00,
+        type: 3}
+      propertyPath: barricades.Array.data[1]
+      value: 
+      objectReference: {fileID: 205100121552106987}
+    - target: {fileID: 8265176135166972316, guid: 0c96909ebb4b6ea42a6b8f4891326a00,
+        type: 3}
+      propertyPath: coinProbability
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 8956815015349057141, guid: 0c96909ebb4b6ea42a6b8f4891326a00,
         type: 3}
       propertyPath: m_Name
@@ -137,18 +182,6 @@ PrefabInstance:
 --- !u!4 &4583572743954149640 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2804053254671618151, guid: 0c96909ebb4b6ea42a6b8f4891326a00,
-    type: 3}
-  m_PrefabInstance: {fileID: 1834619487634481519}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &7679267492305475435 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8351887769825768964, guid: 0c96909ebb4b6ea42a6b8f4891326a00,
-    type: 3}
-  m_PrefabInstance: {fileID: 1834619487634481519}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &7293895676972603162 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8956815015349057141, guid: 0c96909ebb4b6ea42a6b8f4891326a00,
     type: 3}
   m_PrefabInstance: {fileID: 1834619487634481519}
   m_PrefabAsset: {fileID: 0}

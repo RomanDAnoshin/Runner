@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35bac5f51961e2b4495202196bbacb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RotationSpeed: 30
+  RotationSpeed: {x: 0, y: 0, z: 30}
 --- !u!1001 &171779695704563449
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -33,7 +33,7 @@ PrefabInstance:
     - target: {fileID: 2018104553837670790, guid: 11ba9d92c4c7ad94dbba0b00b773c421,
         type: 3}
       propertyPath: m_IsTrigger
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4586672265318361343, guid: 11ba9d92c4c7ad94dbba0b00b773c421,
         type: 3}
