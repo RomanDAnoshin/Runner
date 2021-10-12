@@ -8,8 +8,8 @@ namespace Utilities
 {
     public class Timer : MonoBehaviour
     {
-        [SerializeField] public float TargetTime { get; protected set; }
-        [SerializeField] public UnityEvent TimerEnded;
+        public float TargetTime { get; protected set; }
+        public UnityEvent TimerEnded;
 
         private float currentTime;
         private bool isCountDown = false;

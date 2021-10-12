@@ -52,5 +52,10 @@ namespace Player
             result.Add("Distance", Distance);
             return result;
         }
+
+        public void OnCharacterCollisionCoin()
+        {
+            Coins++;
+        }
     }
 }

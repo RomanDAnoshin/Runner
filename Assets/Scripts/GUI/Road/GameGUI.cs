@@ -25,7 +25,7 @@ namespace GUI.Road
             }
         }
 
-        public void OnCharacterDied()
+        public void OnCharacterCollisionBarricade()
         {
             StartCoroutine("OpenDeathWindow");
         }

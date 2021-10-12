@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Road
 {
-    public class RoadGenerator : MonoBehaviour
+    public class RoadGenerator : MonoBehaviour // TODO refactoring and clean, more complex generation
     {
         [SerializeField] private GameObject[] RoadBlockPrefabs;
         [SerializeField] private Transform CharacterTransform;

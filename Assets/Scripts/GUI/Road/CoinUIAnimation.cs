@@ -44,5 +44,10 @@ namespace GUI.Road
             var value = CurveTimer.Curve.Evaluate(CurveTimer.CurrentTime);
             transform.localScale = new Vector3(startLocalScale.x * value, startLocalScale.y, startLocalScale.z * value);
         }
+
+        public void OnCharacterCollisionCoin()
+        {
+            StartAnimation();
+        }
     }
 }

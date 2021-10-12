@@ -4,8 +4,8 @@ namespace Utilities
 {
     public class TargetFollower : MonoBehaviour
     {
-        public Transform Target;
-        public Vector3 PositionRelativeToTarget;
+        [SerializeField] private Transform Target;
+        [SerializeField] private Vector3 PositionRelativeToTarget;
 
         void Update()
         {

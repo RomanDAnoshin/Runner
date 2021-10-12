@@ -27,7 +27,6 @@ namespace GUI.MainMenu
 
         public void Refresh()
         {
-            Debug.Log("Refresh PlayerName: " + PlayerData.PlayerName);
             PlayerName.text = "Player name: " + PlayerData.PlayerName;
             Coins.text = "Coins: " + PlayerData.Coins.ToString();
             Distance.text = "Distance: " + PlayerData.Distance.ToString();

@@ -2,7 +2,7 @@
 
 namespace Road
 {
-    public class RoadBlockGenerator : MonoBehaviour
+    public class RoadBlockGenerator : MonoBehaviour // TODO more complex generation
     {
         [SerializeField] private RoadBlockData RoadBlockData;
 

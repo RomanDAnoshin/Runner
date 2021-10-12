@@ -19,7 +19,6 @@ namespace Character
         {
             if (other.gameObject.tag == "RoadCoin") {
                 CollisionCoin.Invoke();
-                Destroy(other.gameObject);
             }
         }
     }

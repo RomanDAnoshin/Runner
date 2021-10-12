@@ -7,8 +7,8 @@ namespace Utilities
 {
     public class CurveTimer : MonoBehaviour
     {
-        [SerializeField] public AnimationCurve Curve;
-        [SerializeField] public UnityEvent TimerEnded;
+        public AnimationCurve Curve;
+        public UnityEvent TimerEnded;
 
         [HideInInspector] public float CurrentTime { get; protected set; }
         private bool isCountDown = false;

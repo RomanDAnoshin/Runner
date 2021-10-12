@@ -2,8 +2,7 @@
 
 namespace Character
 {
-    [CreateAssetMenu]
-    public class CharacterData : ScriptableObject
+    public class CharacterData : MonoBehaviour
     {
         public enum CharacterState
         {
@@ -11,11 +10,11 @@ namespace Character
             Died
         }
 
-        public CharacterState State;
+        public CharacterState State { get; protected set; }
 
-        public float SpeedVertical;
-        public float SpeedHorizontal;
-        [Range(0f, 1f), Header("CurrentSpeedVertical = SpeedVertical + PlayerData.Coins * Modificator")]
-        public float SpeedVerticalModificator;
+        public void OnCharacterCollisionBarricade()
+        {
+            State = CharacterState.Died;
+        }
     }
 }

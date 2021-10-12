@@ -3,11 +3,11 @@ using Player;
 
 namespace Character
 {
-    public class CharacterAnimation : MonoBehaviour
+    public class CharacterAnimation : MonoBehaviour, IPlayerControllable
     {
         [SerializeField] private Animator Animator;
-        [SerializeField] private PlayerData PlayerData;
         [SerializeField] private CharacterData CharacterData;
+        [SerializeField] private PlayerInput PlayerInput;
 
         public void Run()
         {
@@ -20,9 +20,18 @@ namespace Character
             Animator.SetTrigger("Die");
         }
 
-        public void UpdateSpeed()
+        public void OnPlayerActed()
         {
-            Animator.speed = 1f + (PlayerData.Coins * CharacterData.SpeedVerticalModificator) / 100f;
+            if (CharacterData.State == CharacterData.CharacterState.Alive &&
+                PlayerInput.Value == PlayerInput.PlayerActions.Run
+            ) {
+                Run();
+            }
+        }
+
+        public void OnCharacterCollisionBarricade()
+        {
+            Die();
         }
     }
 }

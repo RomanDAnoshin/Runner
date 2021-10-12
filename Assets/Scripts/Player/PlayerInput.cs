@@ -14,7 +14,7 @@ namespace Player
             Stay
         }
 
-        public PlayerActions Value;
+        public PlayerActions Value { get; protected set; }
         public UnityEvent PlayerActed;
 
         void Update()
