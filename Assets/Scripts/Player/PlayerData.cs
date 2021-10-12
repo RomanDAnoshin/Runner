@@ -50,8 +50,8 @@ namespace Player
             }
         }
 
-        [SerializeField] private int currentDistance;
-        [HideInInspector] public int CurrentDistance
+        [SerializeField] private float currentDistance;
+        [HideInInspector] public float CurrentDistance
         {
             get {
                 return currentDistance;
@@ -91,7 +91,7 @@ namespace Player
             PlayerName = jsonObject["PlayerName"].Value;
             Coins = int.Parse(jsonObject["Coins"].Value);
             Distance = int.Parse(jsonObject["Distance"].Value);
-            CurrentDistance = 0;
+            CurrentDistance = 0f;
         }
 
         public void Reset()
@@ -99,7 +99,7 @@ namespace Player
             PlayerName = "";
             Coins = 0;
             Distance = 0;
-            CurrentDistance = 0;
+            CurrentDistance = 0f;
 
             Save();
         }
@@ -109,7 +109,7 @@ namespace Player
             var result = new JSONObject();
             result.Add("PlayerName", PlayerName);
             result.Add("Coins", Coins);
-            Distance += CurrentDistance;
+            Distance += (int)CurrentDistance;
             result.Add("Distance", Distance);
             return result;
         }

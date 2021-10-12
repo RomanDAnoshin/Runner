@@ -11,6 +11,7 @@ namespace Road
         private GameData gameData;
         private PlayerInput playerInput;
         private PlayerData playerData;
+        private RoadGenerator roadGenerator;
 
         private bool isMoving;
         private float currentSpeed;
@@ -21,6 +22,7 @@ namespace Road
             playerInput = FindObjectOfType<PlayerInput>();
             playerInput.PlayerActed += OnPlayerActed;
             playerData = FindObjectOfType<PlayerData>();
+            roadGenerator = FindObjectOfType<RoadGenerator>();
             currentSpeed = StartSpeed;
             var characterBodyCollision = FindObjectOfType<CharacterBodyCollision>();
             characterBodyCollision.CollisionBarricade += OnCharacterCollisionBarricade;
@@ -29,13 +31,15 @@ namespace Road
         void Update()
         {
             MoveRoad();
-            UpdateCurrentDistance();
         }
 
         private void MoveRoad()
         {
             if (isMoving) {
-                transform.position -= new Vector3(0f, 0f, currentSpeed * Time.deltaTime);
+                foreach(var block in roadGenerator.CurrentRoadBlocks) {
+                    block.transform.position -= new Vector3(0f, 0f, currentSpeed * Time.deltaTime);
+                }
+                UpdateCurrentDistance();
             }
         }
 
@@ -51,7 +55,7 @@ namespace Road
 
         public void UpdateCurrentDistance()
         {
-            playerData.CurrentDistance = (int)Mathf.Abs(transform.position.z); // TODO remove infinite offset, automat of platforms
+            playerData.CurrentDistance += currentSpeed * Time.deltaTime;
         }
 
         public void OnPlayerActed()

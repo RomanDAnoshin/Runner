@@ -24,7 +24,7 @@ namespace GUI.Road
 
         private void OnCurrentDistanceCountChanged()
         {
-            Distance.text = "Current distance: " + playerData.CurrentDistance.ToString();
+            Distance.text = "Current distance: " + ((int)playerData.CurrentDistance).ToString();
         }
     }
 }

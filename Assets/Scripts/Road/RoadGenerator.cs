@@ -1,20 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using Character;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Road
 {
-    public class RoadGenerator : MonoBehaviour // TODO refactoring and clean, more complex generation
+    public class RoadGenerator : MonoBehaviour // TODO more complex generation
     {
+        public LinkedList<GameObject> CurrentRoadBlocks { get; protected set; }
         [SerializeField] private GameObject[] RoadBlockPrefabs;
-        [SerializeField] private Transform CharacterTransform;
-        [SerializeField] private List<GameObject> CurrentRoadBlocks = new List<GameObject>();
-
         [SerializeField, Range(1, 30)] private int BlockCount;
 
+        private Transform characterTransform;
         private float blockLenght;
 
         void Start()
         {
+            CurrentRoadBlocks = new LinkedList<GameObject>();
+            characterTransform = FindObjectOfType<CharacterMovement>().transform;
             AddStartBlockToCollection();
             CollectBlockLenght();
             SpawnStartBlocks();
@@ -30,16 +32,16 @@ namespace Road
 
         private bool IsNecessarySpawn()
         {
-            return CurrentRoadBlocks[0].transform.position.z + blockLenght < CharacterTransform.position.z;
+            return CurrentRoadBlocks.First.Value.transform.position.z + blockLenght < characterTransform.position.z;
         }
 
         private void SpawnBlock()
         {
             var block = Instantiate(RoadBlockPrefabs[GenerateBlockType()], transform);
 
-            var topBlockZPosition = CurrentRoadBlocks[CurrentRoadBlocks.Count - 1].transform.position.z;
+            var topBlockZPosition = CurrentRoadBlocks.Last.Value.transform.position.z;
             block.transform.position = new Vector3(0, 0, topBlockZPosition + blockLenght);
-            CurrentRoadBlocks.Add(block);
+            CurrentRoadBlocks.AddLast(block);
         }
 
         private int GenerateBlockType()
@@ -49,19 +51,19 @@ namespace Road
 
         private void DestroyBottomBlock()
         {
-            Destroy(CurrentRoadBlocks[0]);
-            CurrentRoadBlocks.RemoveAt(0);
+            Destroy(CurrentRoadBlocks.First.Value);
+            CurrentRoadBlocks.RemoveFirst();
         }
 
         private void AddStartBlockToCollection()
         {
-            var startBlock = this.transform.Find("RoadBlockStart").gameObject;
-            CurrentRoadBlocks.Add(startBlock);
+            var startBlock = transform.Find("RoadBlockStart").gameObject;
+            CurrentRoadBlocks.AddFirst(startBlock);
         }
 
         private void CollectBlockLenght()
         {
-            blockLenght = CurrentRoadBlocks[0].transform.Find("Bottom").transform.localScale.z;
+            blockLenght = CurrentRoadBlocks.First.Value.transform.Find("Bottom").transform.localScale.z;
         }
 
         private void SpawnStartBlocks()
