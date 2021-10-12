@@ -608,42 +608,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Target: {fileID: 445133887}
   PositionRelativeToTarget: {x: 0, y: 3, z: -5}
---- !u!114 &1099217048 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4384943852535340734, guid: e617a4320f918384593cf099bd2659d4,
-    type: 3}
-  m_PrefabInstance: {fileID: 445133884}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2887b732cbd6c5408fecafaba0c247b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1099217050 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8545750336597088254, guid: e617a4320f918384593cf099bd2659d4,
-    type: 3}
-  m_PrefabInstance: {fileID: 445133884}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99ed908d079a93f4890d1776e02949dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1099217051 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3657232632940198731, guid: e617a4320f918384593cf099bd2659d4,
-    type: 3}
-  m_PrefabInstance: {fileID: 445133884}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a79d3ead91445f4994ecf8575d9569d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1228781193
 GameObject:
   m_ObjectHideFlags: 0
@@ -698,8 +662,6 @@ MonoBehaviour:
   StartMessage: {fileID: 2055876675}
   DeathWindow: {fileID: 3136545469293811563, guid: 92dd0503afdfe1c43a99d4c060d3e374,
     type: 3}
-  PlayerData: {fileID: 1326373450}
-  PlayerInput: {fileID: 1326373449}
 --- !u!222 &1228781196
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -738,64 +700,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b80c91207a2bd9a4692d74e7336fc0d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerActed:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1099217051}
-        m_MethodName: OnPlayerActed
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1099217050}
-        m_MethodName: OnPlayerActed
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1099217048}
-        m_MethodName: OnPlayerActed
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 208326141}
-        m_MethodName: OnPlayerActed
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1228781195}
-        m_MethodName: OnPlayerActed
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &1326373450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -808,18 +712,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f1ac8d8a8dfcb94d9b1d8a95f6b1c5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerNameChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  CoinsChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  DistanceChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  CurrentDistanceChanged:
-    m_PersistentCalls:
-      m_Calls: []
   playerName: 
   coins: 0
   distance: 0
@@ -924,10 +816,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1024, y: 576}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
