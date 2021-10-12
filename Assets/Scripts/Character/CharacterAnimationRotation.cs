@@ -1,4 +1,5 @@
 ﻿using Player;
+using Road;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,8 +10,8 @@ namespace Character
 {
     public class CharacterAnimationRotation : MonoBehaviour, IPlayerControllable
     {
-        [SerializeField] private CharacterData CharacterData;
-        [SerializeField] private PlayerInput PlayerInput;
+        private GameData gameData;
+        private PlayerInput playerInput;
         [SerializeField] private CurveTimer CurveTimer;
 
         private Quaternion startRotation;
@@ -19,6 +20,10 @@ namespace Character
 
         void Start()
         {
+            gameData = FindObjectOfType<GameData>();
+            playerInput = FindObjectOfType<PlayerInput>();
+            playerInput.PlayerActed += OnPlayerActed;
+            CurveTimer.TimerEnded += OnAnimationCompleted;
             startRotation = transform.localRotation;
         }
 
@@ -29,14 +34,14 @@ namespace Character
             }
         }
 
-        public void StartAnimationRight()
+        private void StartAnimationRight()
         {
             CurveTimer.StartCount();
             isRunAnimation = true;
             isRightRotation = true;
         }
 
-        public void StartAnimationLeft()
+        private void StartAnimationLeft()
         {
             CurveTimer.StartCount();
             isRunAnimation = true;
@@ -50,7 +55,7 @@ namespace Character
             transform.localRotation = startRotation;
         }
 
-        public void AnimationCompleted()
+        public void OnAnimationCompleted()
         {
             isRunAnimation = false;
             transform.localRotation = startRotation;
@@ -68,10 +73,8 @@ namespace Character
 
         public void OnPlayerActed()
         {
-            if (CharacterData.State == CharacterData.CharacterState.Alive) {
-                switch (PlayerInput.Value) {
-                    case PlayerInput.PlayerActions.None:
-                        break;
+            if (gameData.Status == GameData.GameStatus.Play) {
+                switch (playerInput.Value) {
                     case PlayerInput.PlayerActions.MoveLeft:
                         StartAnimationLeft();
                         break;

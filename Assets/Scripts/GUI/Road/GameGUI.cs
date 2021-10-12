@@ -1,4 +1,5 @@
-﻿using Player;
+﻿using Character;
+using Player;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,22 +11,24 @@ namespace GUI.Road
         [SerializeField] private GameObject StartMessage;
         [SerializeField] private GameObject DeathWindow;
 
-        [SerializeField] private PlayerData PlayerData;
-        [SerializeField] private PlayerInput PlayerInput;
+        private PlayerInput playerInput;
 
         void Start()
         {
-            PlayerData.Load();
+            playerInput = FindObjectOfType<PlayerInput>();
+            playerInput.PlayerActed += OnPlayerActed;
+            var characterBodyCollision = FindObjectOfType<CharacterBodyCollision>();
+            characterBodyCollision.CollisionBarricade += OnCharacterCollisionBarricade;
         }
 
-        public void OnPlayerActed()
+        private void OnPlayerActed()
         {
-            if (PlayerInput.Value == PlayerInput.PlayerActions.Run) {
+            if (playerInput.Value == PlayerInput.PlayerActions.Run) {
                 Destroy(StartMessage);
             }
         }
 
-        public void OnCharacterCollisionBarricade()
+        private void OnCharacterCollisionBarricade()
         {
             StartCoroutine("OpenDeathWindow");
         }

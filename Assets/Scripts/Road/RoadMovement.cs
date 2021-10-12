@@ -4,20 +4,26 @@ using UnityEngine;
 
 namespace Road
 {
-    public class RoadMovement : MonoBehaviour, IMovable
+    public class RoadMovement : MonoBehaviour, IMovable, IPlayerControllable
     {
-        [SerializeField] private PlayerInput PlayerInput;
-        [SerializeField] private PlayerData PlayerData;
-        [SerializeField] private CharacterData CharacterData;
-
         [SerializeField] private float StartSpeed;
+
+        private GameData gameData;
+        private PlayerInput playerInput;
+        private PlayerData playerData;
 
         private bool isMoving;
         private float currentSpeed;
 
         void Start()
         {
+            gameData = FindObjectOfType<GameData>();
+            playerInput = FindObjectOfType<PlayerInput>();
+            playerInput.PlayerActed += OnPlayerActed;
+            playerData = FindObjectOfType<PlayerData>();
             currentSpeed = StartSpeed;
+            var characterBodyCollision = FindObjectOfType<CharacterBodyCollision>();
+            characterBodyCollision.CollisionBarricade += OnCharacterCollisionBarricade;
         }
 
         void Update()
@@ -45,26 +51,19 @@ namespace Road
 
         public void UpdateCurrentDistance()
         {
-            PlayerData.CurrentDistance = (int)Mathf.Abs(transform.position.z); // TODO remove infinite offset
+            playerData.CurrentDistance = (int)Mathf.Abs(transform.position.z); // TODO remove infinite offset, automat of platforms
         }
 
         public void OnPlayerActed()
         {
-            if (CharacterData.State == CharacterData.CharacterState.Alive) {
-                switch (PlayerInput.Value) {
-                    case PlayerInput.PlayerActions.None:
-                        break;
-                    case PlayerInput.PlayerActions.Run:
-                        Move();
-                        break;
-                    case PlayerInput.PlayerActions.Stay:
-                        Stay();
-                        break;
-                }
+            if (gameData.Status != GameData.GameStatus.Lose &&
+                playerInput.Value == PlayerInput.PlayerActions.Run
+            ) {
+                Move();
             }
         }
 
-        public void OnCharacterCollisionBarricade()
+        private void OnCharacterCollisionBarricade()
         {
             Stay();
         }

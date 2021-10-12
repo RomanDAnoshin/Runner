@@ -1,4 +1,5 @@
 ﻿using Player;
+using Road;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,27 +8,30 @@ namespace Character
 {
     public class CharacterControls : MonoBehaviour, IPlayerControllable
     {
-        [SerializeField] private PlayerInput PlayerInput;
-        [SerializeField] private CharacterData CharacterData;
-        [SerializeField] private CharacterMovement CharacterMovement;
+        private PlayerInput playerInput;
+        private GameData gameData;
+        private CharacterMovement characterMovement;
+
+        void Start()
+        {
+            playerInput = FindObjectOfType<PlayerInput>();
+            playerInput.PlayerActed += OnPlayerActed;
+            gameData = FindObjectOfType<GameData>();
+            characterMovement = FindObjectOfType<CharacterMovement>();
+        }
 
         public void OnPlayerActed()
         {
-            if (CharacterData.State == CharacterData.CharacterState.Alive) {
-                switch (PlayerInput.Value) {
-                    case PlayerInput.PlayerActions.None:
-                        break;
+            if (gameData.Status != GameData.GameStatus.Lose) {
+                switch (playerInput.Value) {
                     case PlayerInput.PlayerActions.MoveLeft:
-                        CharacterMovement.MoveLeft();
+                        characterMovement.MoveLeft();
                         break;
                     case PlayerInput.PlayerActions.MoveRight:
-                        CharacterMovement.MoveRight();
+                        characterMovement.MoveRight();
                         break;
                     case PlayerInput.PlayerActions.Run:
-                        CharacterMovement.Move();
-                        break;
-                    case PlayerInput.PlayerActions.Stay:
-                        CharacterMovement.Stay();
+                        characterMovement.Move();
                         break;
                 }
             }

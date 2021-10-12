@@ -5,8 +5,7 @@ namespace Road
     public class LanesData : MonoBehaviour
     {
         [SerializeField] private Vector3[] positions;
-        [HideInInspector]
-        public Vector3[] Positions
+        [HideInInspector] public Vector3[] Positions
         {
             get {
                 return positions;
@@ -14,8 +13,7 @@ namespace Road
         }
 
         [SerializeField] private int startLaneIndex;
-        [HideInInspector]
-        public int StartLaneIndex
+        [HideInInspector] public int StartLaneIndex
         {
             get {
                 return startLaneIndex;

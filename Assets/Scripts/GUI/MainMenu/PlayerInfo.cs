@@ -8,7 +8,8 @@ namespace GUI.MainMenu
 {
     public class PlayerInfo : MonoBehaviour
     {
-        [SerializeField] private PlayerData PlayerData;
+        private PlayerData playerData;
+        [SerializeField] private Button ButtonReset;
         [SerializeField] private GameObject CreateAccountWindow;
 
         [SerializeField] private Text PlayerName;
@@ -17,24 +18,44 @@ namespace GUI.MainMenu
 
         void Start()
         {
-            if (!PlayerData.HasSaved()) {
+            playerData = FindObjectOfType<PlayerData>();
+            playerData.PlayerNameChanged += OnPlayerNameChanged;
+            playerData.CoinsChanged += OnCoinsChanged;
+            playerData.DistanceChanged += OnDistanceChanged;
+            ButtonReset.onClick.AddListener(OnClickButtonReset);
+
+            if (!playerData.HasSaved()) {
                 OpenCreateAccountWindow();
             } else {
-                PlayerData.Load();
                 Refresh();
             }
         }
 
         public void Refresh()
         {
-            PlayerName.text = "Player name: " + PlayerData.PlayerName;
-            Coins.text = "Coins: " + PlayerData.Coins.ToString();
-            Distance.text = "Distance: " + PlayerData.Distance.ToString();
+            Distance.text = "Distance: " + playerData.Distance.ToString();
+            Coins.text = "Coins: " + playerData.Coins.ToString();
+            PlayerName.text = "Player name: " + playerData.PlayerName;
         }
 
-        public void OnClickButtonReset()
+        private void OnDistanceChanged()
         {
-            PlayerData.Reset();
+            Distance.text = "Distance: " + playerData.Distance.ToString();
+        }
+
+        private void OnCoinsChanged()
+        {
+            Coins.text = "Coins: " + playerData.Coins.ToString();
+        }
+
+        private void OnPlayerNameChanged()
+        {
+            PlayerName.text = "Player name: " + playerData.PlayerName;
+        }
+
+        private void OnClickButtonReset()
+        {
+            playerData.Reset();
             OpenCreateAccountWindow();
         }
 

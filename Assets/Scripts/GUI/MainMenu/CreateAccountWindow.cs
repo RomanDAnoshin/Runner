@@ -8,18 +8,28 @@ namespace GUI.MainMenu
 {
     public class CreateAccountWindow : MonoBehaviour
     {
-        [SerializeField] private PlayerData PlayerData;
+        private PlayerData playerData;
         [SerializeField] private InputField InputField;
+        [SerializeField] private Button ButtonOk;
 
-        public void OnEndEditInputField(string value)
+        void Start()
         {
-            PlayerData.PlayerName = InputField.text;
-            PlayerData.Save();
+            playerData = FindObjectOfType<PlayerData>();
+            InputField.onEndEdit.AddListener(OnEndEditInputField);
+            ButtonOk.onClick.AddListener(OnClickButtonOk);
         }
 
-        public void OnClickButtonOk()
+        private void OnEndEditInputField(string value)
         {
-            gameObject.GetComponentInParent<PlayerInfo>()?.Refresh();
+            if (!string.IsNullOrWhiteSpace(InputField.text)) {
+                ButtonOk.interactable = true;
+                playerData.PlayerName = InputField.text;
+                playerData.Save();
+            }
+        }
+
+        private void OnClickButtonOk()
+        {
             Destroy(gameObject);
         }
     }

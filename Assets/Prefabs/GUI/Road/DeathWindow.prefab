@@ -352,18 +352,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3136545468010249526}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2469663653170597995}
-        m_MethodName: OnClickButtonQuit
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &3136545468751882967
 GameObject:
   m_ObjectHideFlags: 0
@@ -556,18 +545,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3136545469214279685}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2469663653170597995}
-        m_MethodName: OnClickButtonRestart
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &3136545469293811563
 GameObject:
   m_ObjectHideFlags: 0
@@ -620,4 +598,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca090b7343cc10744b6032db31b30107, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerData: {fileID: 11400000, guid: e30773def68e1ee4e8ee29b3696da7d2, type: 2}
+  ButtonRestart: {fileID: 3136545469214279706}
+  ButtonQuit: {fileID: 3136545468010249527}

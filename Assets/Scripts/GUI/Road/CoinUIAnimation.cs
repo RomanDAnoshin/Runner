@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Character;
+using UnityEngine;
 using Utilities;
 
 namespace GUI.Road
@@ -13,6 +14,9 @@ namespace GUI.Road
         void Start()
         {
             startLocalScale = transform.localScale;
+            CurveTimer.TimerEnded += OnAnimationCompleted;
+            var characterBodyCollision = FindObjectOfType<CharacterBodyCollision>();
+            characterBodyCollision.CollisionCoin += OnCharacterCollisionCoin;
         }
 
         void Update()
@@ -34,7 +38,7 @@ namespace GUI.Road
             isRunAnimation = false;
         }
 
-        public void AnimationCompleted()
+        private void OnAnimationCompleted()
         {
             isRunAnimation = false;
         }

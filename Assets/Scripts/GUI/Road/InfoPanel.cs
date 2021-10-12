@@ -6,14 +6,25 @@ namespace GUI.Road
 {
     public class InfoPanel : MonoBehaviour
     {
-        [SerializeField] private PlayerData PlayerData;
+        private PlayerData playerData;
         [SerializeField] private Text Coins;
         [SerializeField] private Text Distance;
 
-        void Update()
+        void Start()
         {
-            Coins.text = "Total coins: " + PlayerData.Coins.ToString();
-            Distance.text = "Current distance: " + PlayerData.CurrentDistance.ToString();
+            playerData = FindObjectOfType<PlayerData>();
+            playerData.CoinsChanged += OnCoinsCountChanged;
+            playerData.CurrentDistanceChanged += OnCurrentDistanceCountChanged;
+        }
+
+        private void OnCoinsCountChanged()
+        {
+            Coins.text = "Total coins: " + playerData.Coins.ToString();
+        }
+
+        private void OnCurrentDistanceCountChanged()
+        {
+            Distance.text = "Current distance: " + playerData.CurrentDistance.ToString();
         }
     }
 }

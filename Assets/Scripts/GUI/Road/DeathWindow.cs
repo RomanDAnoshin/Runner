@@ -3,22 +3,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace GUI.Road
 {
     public class DeathWindow : MonoBehaviour
     {
-        [SerializeField] private PlayerData PlayerData;
+        private PlayerData playerData;
+        [SerializeField] private Button ButtonRestart;
+        [SerializeField] private Button ButtonQuit;
 
-        public void OnClickButtonRestart()
+        void Start()
         {
-            PlayerData.Save();
+            playerData = FindObjectOfType<PlayerData>();
+            ButtonRestart.onClick.AddListener(OnClickButtonRestart);
+            ButtonQuit.onClick.AddListener(OnClickButtonQuit);
+        }
+
+        private void OnClickButtonRestart()
+        {
+            playerData.Save();
             SceneManager.LoadScene("Road");
         }
 
-        public void OnClickButtonQuit()
+        private void OnClickButtonQuit()
         {
-            PlayerData.Save();
+            playerData.Save();
             SceneManager.LoadScene("MainMenu");
         }
     }

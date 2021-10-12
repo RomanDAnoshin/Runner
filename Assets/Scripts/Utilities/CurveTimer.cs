@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -8,7 +9,7 @@ namespace Utilities
     public class CurveTimer : MonoBehaviour
     {
         public AnimationCurve Curve;
-        public UnityEvent TimerEnded;
+        public Action TimerEnded;
 
         [HideInInspector] public float CurrentTime { get; protected set; }
         private bool isCountDown = false;

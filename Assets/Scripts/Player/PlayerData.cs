@@ -1,16 +1,77 @@
-﻿using UnityEngine;
+﻿using Character;
+using System;
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using Utilities.SimpleJSON;
 
 namespace Player
 {
-    [CreateAssetMenu]
-    public class PlayerData : ScriptableObject
+    public class PlayerData : MonoBehaviour
     {
-        public string PlayerName;
-        public int Coins;
-        public int Distance;
+        public Action PlayerNameChanged;
+        public Action CoinsChanged;
+        public Action DistanceChanged;
+        public Action CurrentDistanceChanged;
 
-        public int CurrentDistance;
+        [SerializeField] private string playerName;
+        [HideInInspector] public string PlayerName
+        {
+            get {
+                return playerName;
+            }
+            set {
+                playerName = value;
+                PlayerNameChanged?.Invoke();
+            }
+        }
+
+        [SerializeField] private int coins;
+        [HideInInspector] public int Coins
+        {
+            get {
+                return coins;
+            }
+            set {
+                coins = value;
+                CoinsChanged?.Invoke();
+            }
+        }
+
+        [SerializeField] private int distance;
+        [HideInInspector] public int Distance
+        {
+            get {
+                return distance;
+            }
+            set {
+                distance = value;
+                DistanceChanged?.Invoke();
+            }
+        }
+
+        [SerializeField] private int currentDistance;
+        [HideInInspector] public int CurrentDistance
+        {
+            get {
+                return currentDistance;
+            }
+            set {
+                currentDistance = value;
+                CurrentDistanceChanged?.Invoke();
+            }
+        }
+
+        void Start()
+        {
+            if (SceneManager.GetActiveScene().name == "Road") {
+                var characterBodyCollision = FindObjectOfType<CharacterBodyCollision>();
+                characterBodyCollision.CollisionCoin += OnCharacterCollisionCoin;
+            }
+            if (HasSaved()) {
+                Load();
+            }
+        }
 
         public void Save()
         {
@@ -53,7 +114,7 @@ namespace Player
             return result;
         }
 
-        public void OnCharacterCollisionCoin()
+        private void OnCharacterCollisionCoin()
         {
             Coins++;
         }

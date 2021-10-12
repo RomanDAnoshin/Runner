@@ -1,13 +1,23 @@
 ﻿using UnityEngine;
 using Player;
+using Road;
 
 namespace Character
 {
     public class CharacterAnimation : MonoBehaviour, IPlayerControllable
     {
         [SerializeField] private Animator Animator;
-        [SerializeField] private CharacterData CharacterData;
-        [SerializeField] private PlayerInput PlayerInput;
+        private GameData gameData;
+        private PlayerInput playerInput;
+
+        void Start()
+        {
+            gameData = FindObjectOfType<GameData>();
+            playerInput = FindObjectOfType<PlayerInput>();
+            playerInput.PlayerActed += OnPlayerActed;
+            var characterBodyCollision = FindObjectOfType<CharacterBodyCollision>();
+            characterBodyCollision.CollisionBarricade += OnCharacterCollisionBarricade;
+        }
 
         public void Run()
         {
@@ -22,14 +32,14 @@ namespace Character
 
         public void OnPlayerActed()
         {
-            if (CharacterData.State == CharacterData.CharacterState.Alive &&
-                PlayerInput.Value == PlayerInput.PlayerActions.Run
+            if (gameData.Status != GameData.GameStatus.Lose &&
+                playerInput.Value == PlayerInput.PlayerActions.Run
             ) {
                 Run();
             }
         }
 
-        public void OnCharacterCollisionBarricade()
+        private void OnCharacterCollisionBarricade()
         {
             Die();
         }

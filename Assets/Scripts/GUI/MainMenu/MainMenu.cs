@@ -7,12 +7,21 @@ namespace GUI.MainMenu
 {
     public class MainMenu : MonoBehaviour
     {
-        public void OnClickButtonStartGame()
+        [SerializeField] private Button ButtonStartGame;
+        [SerializeField] private Button ButtonQuit;
+
+        void Start()
+        {
+            ButtonStartGame.onClick.AddListener(OnClickButtonStartGame);
+            ButtonQuit.onClick.AddListener(OnClickButtonQuit);
+        }
+
+        private void OnClickButtonStartGame()
         {
             SceneManager.LoadScene("Road");
         }
 
-        public void OnClickButtonQuit()
+        private void OnClickButtonQuit()
         {
             Application.Quit();
         }

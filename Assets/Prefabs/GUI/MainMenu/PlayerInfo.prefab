@@ -196,18 +196,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5655511434023057423}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3055031362790771495}
-        m_MethodName: OnClickButtonReset
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &7658514083730299680
 GameObject:
   m_ObjectHideFlags: 0
@@ -417,7 +406,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f7180dd5c3bed54b88d062b514b27cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerData: {fileID: 11400000, guid: e30773def68e1ee4e8ee29b3696da7d2, type: 2}
+  ButtonReset: {fileID: 70793709426757785}
   CreateAccountWindow: {fileID: 1666356819076641632, guid: e0b28a4a80fc7a849893d28f6b995661,
     type: 3}
   PlayerName: {fileID: 7658514084915949719}

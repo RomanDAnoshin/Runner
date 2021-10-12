@@ -9,7 +9,7 @@ namespace Utilities
     public class Timer : MonoBehaviour
     {
         public float TargetTime { get; protected set; }
-        public UnityEvent TimerEnded;
+        public Action TimerEnded;
 
         private float currentTime;
         private bool isCountDown = false;

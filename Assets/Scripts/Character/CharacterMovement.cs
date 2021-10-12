@@ -2,6 +2,7 @@
 using Road;
 using Player;
 using Utilities;
+using System;
 
 namespace Character
 {
@@ -13,11 +14,11 @@ namespace Character
             Left,
             Right
         }
-
-        [SerializeField] private LanesData Lanes;
+        public Action PositionChanged;
 
         [SerializeField] private float HorizontalSpeed;
 
+        private LanesData lanes;
         private bool isMoving;
         private int targetLane;
         private HorizontalMove horizontalMove;
@@ -25,7 +26,10 @@ namespace Character
 
         void Start()
         {
-            targetLane = Lanes.StartLaneIndex;
+            lanes = FindObjectOfType<LanesData>();
+            var characterBodyCollision = FindObjectOfType<CharacterBodyCollision>();
+            characterBodyCollision.CollisionBarricade += OnCharacterCollisionBarricade;
+            targetLane = lanes.StartLaneIndex;
         }
 
         void Update()
@@ -37,10 +41,11 @@ namespace Character
         {
             if (
                 horizontalMove != HorizontalMove.None &&
-                transform.position.x != Lanes.Positions[targetLane].x
+                transform.position.x != lanes.Positions[targetLane].x
             ) {
-                var lanePos = new Vector3(Lanes.Positions[targetLane].x, transform.position.y, transform.position.z);
+                var lanePos = new Vector3(lanes.Positions[targetLane].x, transform.position.y, transform.position.z);
                 transform.position = Vector3.SmoothDamp(transform.position, lanePos, ref velocitySmoothDamp, HorizontalSpeed / 100f);
+                PositionChanged?.Invoke();
             }
         }
 
@@ -58,7 +63,7 @@ namespace Character
         public void MoveRight()
         {
             if (
-                targetLane != Lanes.Positions.Length - 1 &&
+                targetLane != lanes.Positions.Length - 1 &&
                 isMoving != false
             ) {
                 targetLane++;
@@ -77,7 +82,7 @@ namespace Character
             isMoving = true;
         }
 
-        public void OnCharacterCollisionBarricade()
+        private void OnCharacterCollisionBarricade()
         {
             Stay();
         }

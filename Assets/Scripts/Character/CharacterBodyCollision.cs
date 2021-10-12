@@ -1,24 +1,25 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace Character
 {
     public class CharacterBodyCollision : MonoBehaviour
     {
-        [SerializeField] private UnityEvent CollisionBarricade;
-        [SerializeField] private UnityEvent CollisionCoin;
+        public Action CollisionBarricade;
+        public Action CollisionCoin;
 
         private void OnCollisionEnter(Collision collision)
         {
             if (collision.collider.gameObject.tag == "RoadBarricade") {
-                CollisionBarricade.Invoke();
+                CollisionBarricade?.Invoke();
             }
         }
 
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.tag == "RoadCoin") {
-                CollisionCoin.Invoke();
+                CollisionCoin?.Invoke();
             }
         }
     }
