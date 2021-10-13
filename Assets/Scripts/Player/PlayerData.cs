@@ -11,6 +11,7 @@ namespace Player
     {
         public Action PlayerNameChanged;
         public Action CoinsChanged;
+        public Action CurrentCoinsChanged;
         public Action DistanceChanged;
         public Action CurrentDistanceChanged;
 
@@ -23,6 +24,18 @@ namespace Player
             set {
                 playerName = value;
                 PlayerNameChanged?.Invoke();
+            }
+        }
+
+        [SerializeField] private int currentCoins;
+        [HideInInspector] public int CurrentCoins
+        {
+            get {
+                return currentCoins;
+            }
+            set {
+                currentCoins = value;
+                CurrentCoinsChanged?.Invoke();
             }
         }
 
@@ -117,6 +130,7 @@ namespace Player
         private void OnCharacterCollisionCoin()
         {
             Coins++;
+            CurrentCoins++;
         }
     }
 }
