@@ -34,7 +34,12 @@ namespace GUI.Road
 
         private void OnSpeedModificatorChanged()
         {
-            SpeedModificator.text = "Speed Modificator: x" + roadMovement.SpeedModificator.ToString().Substring(0, 3);
+            var speedModstring = roadMovement.SpeedModificator.ToString();
+            if (speedModstring.Length >= 3) {
+                SpeedModificator.text = "Speed Modificator: x" + speedModstring.Substring(0, 3);
+            } else {
+                SpeedModificator.text = "Speed Modificator: x" + speedModstring;
+            }
         }
     }
 }

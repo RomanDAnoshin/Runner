@@ -71,7 +71,7 @@ namespace Road
 
         public void UpdateCurrentDistance()
         {
-            playerData.CurrentDistance += currentSpeed * Time.deltaTime;
+            playerData.CurrentDistance += currentSpeed * Time.deltaTime * SpeedModificator;
         }
 
         public void OnPlayerActed()
