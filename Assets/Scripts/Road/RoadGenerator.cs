@@ -72,5 +72,15 @@ namespace Road
                 SpawnBlock();
             }
         }
+
+        void OnDestroy()
+        {
+            foreach(var block in CurrentRoadBlocks) {
+                Destroy(block);
+            }
+            CurrentRoadBlocks = null;
+            RoadBlockPrefabs = null;
+            characterTransform = null;
+        }
     }
 }

@@ -63,5 +63,19 @@ namespace GUI.MainMenu
         {
             Instantiate(CreateAccountWindow, transform);
         }
+
+        void OnDestroy()
+        {
+            playerData.PlayerNameChanged -= OnPlayerNameChanged;
+            playerData.CoinsChanged -= OnCoinsChanged;
+            playerData.DistanceChanged -= OnDistanceChanged;
+            playerData = null;
+            ButtonReset.onClick.RemoveListener(OnClickButtonReset);
+            ButtonReset = null;
+            CreateAccountWindow = null;
+            PlayerName = null;
+            Coins = null;
+            Distance = null;
+        }
     }
 }

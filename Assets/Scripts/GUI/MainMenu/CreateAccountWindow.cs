@@ -32,5 +32,14 @@ namespace GUI.MainMenu
         {
             Destroy(gameObject);
         }
+
+        void OnDestroy()
+        {
+            playerData = null;
+            InputField.onEndEdit.RemoveListener(OnEndEditInputField);
+            InputField = null;
+            ButtonOk.onClick.RemoveListener(OnClickButtonOk);
+            ButtonOk = null;
+        }
     }
 }

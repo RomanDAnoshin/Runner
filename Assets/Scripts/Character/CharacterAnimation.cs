@@ -9,13 +9,14 @@ namespace Character
         [SerializeField] private Animator Animator;
         private GameData gameData;
         private PlayerInput playerInput;
+        private CharacterBodyCollision characterBodyCollision;
 
         void Start()
         {
             gameData = FindObjectOfType<GameData>();
             playerInput = FindObjectOfType<PlayerInput>();
             playerInput.PlayerActed += OnPlayerActed;
-            var characterBodyCollision = FindObjectOfType<CharacterBodyCollision>();
+            characterBodyCollision = FindObjectOfType<CharacterBodyCollision>();
             characterBodyCollision.CollisionBarricade += OnCharacterCollisionBarricade;
         }
 
@@ -42,6 +43,16 @@ namespace Character
         private void OnCharacterCollisionBarricade()
         {
             Die();
+        }
+
+        void OnDestroy()
+        {
+            gameData = null;
+            playerInput.PlayerActed -= OnPlayerActed;
+            playerInput = null;
+            characterBodyCollision.CollisionBarricade -= OnCharacterCollisionBarricade;
+            characterBodyCollision = null;
+            Animator = null;
         }
     }
 }

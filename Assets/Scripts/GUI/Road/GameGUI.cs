@@ -10,14 +10,14 @@ namespace GUI.Road
     {
         [SerializeField] private GameObject StartMessage;
         [SerializeField] private GameObject DeathWindow;
-
+        private CharacterBodyCollision characterBodyCollision;
         private PlayerInput playerInput;
 
         void Start()
         {
             playerInput = FindObjectOfType<PlayerInput>();
             playerInput.PlayerActed += OnPlayerActed;
-            var characterBodyCollision = FindObjectOfType<CharacterBodyCollision>();
+            characterBodyCollision = FindObjectOfType<CharacterBodyCollision>();
             characterBodyCollision.CollisionBarricade += OnCharacterCollisionBarricade;
         }
 
@@ -37,6 +37,16 @@ namespace GUI.Road
         {
             yield return new WaitForSeconds(4);
             Instantiate(DeathWindow, transform);
+        }
+
+        void OnDestroy()
+        {
+            playerInput.PlayerActed -= OnPlayerActed;
+            playerInput = null;
+            characterBodyCollision.CollisionBarricade -= OnCharacterCollisionBarricade;
+            characterBodyCollision = null;
+            StartMessage = null;
+            DeathWindow = null;
         }
     }
 }

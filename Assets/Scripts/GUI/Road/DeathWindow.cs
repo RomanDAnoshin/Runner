@@ -31,5 +31,14 @@ namespace GUI.Road
             playerData.Save();
             SceneManager.LoadScene("MainMenu");
         }
+
+        void OnDestroy()
+        {
+            playerData = null;
+            ButtonRestart.onClick.RemoveListener(OnClickButtonRestart);
+            ButtonRestart = null;
+            ButtonQuit.onClick.RemoveListener(OnClickButtonQuit);
+            ButtonQuit = null;
+        }
     }
 }

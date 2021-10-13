@@ -15,6 +15,7 @@ namespace Road
         private PlayerInput playerInput;
         private PlayerData playerData;
         private RoadGenerator roadGenerator;
+        private CharacterBodyCollision characterBodyCollision;
 
         public float SpeedModificator
         {
@@ -40,7 +41,7 @@ namespace Road
             roadGenerator = FindObjectOfType<RoadGenerator>();
             currentSpeed = StartSpeed;
             speedModificator = 1;
-            var characterBodyCollision = FindObjectOfType<CharacterBodyCollision>();
+            characterBodyCollision = FindObjectOfType<CharacterBodyCollision>();
             characterBodyCollision.CollisionBarricade += OnCharacterCollisionBarricade;
         }
 
@@ -90,10 +91,10 @@ namespace Road
 
         private void OnCurrentCoinsChanged()
         {
-            UpdateCurrentSpeed();
+            UpdateSpeedModificator();
         }
 
-        private void UpdateCurrentSpeed()
+        private void UpdateSpeedModificator()
         {
             if (playerData.CurrentCoins > 100) {
                 SpeedModificator = 2f;
@@ -101,6 +102,19 @@ namespace Road
             } else {
                 SpeedModificator = 1f + playerData.CurrentCoins / 100f;
             }
+        }
+
+        void OnDestroy()
+        {
+            Stay();
+            gameData = null;
+            playerInput.PlayerActed -= OnPlayerActed;
+            playerInput = null;
+            playerData.CurrentCoinsChanged -= OnCurrentCoinsChanged;
+            playerData = null;
+            roadGenerator = null;
+            characterBodyCollision.CollisionBarricade -= OnCharacterCollisionBarricade;
+            characterBodyCollision = null;
         }
     }
 }

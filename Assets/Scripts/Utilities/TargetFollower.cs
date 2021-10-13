@@ -15,11 +15,7 @@ namespace Utilities
         private void UpdatePosition()
         {
             if (!IsOnPosition()) {
-                transform.position = new Vector3(
-                    Target.position.x + PositionRelativeToTarget.x,
-                    Target.position.y + PositionRelativeToTarget.y, 
-                    Target.position.z + PositionRelativeToTarget.z
-                    );
+                transform.position = Target.position + PositionRelativeToTarget;
             }
         }
 

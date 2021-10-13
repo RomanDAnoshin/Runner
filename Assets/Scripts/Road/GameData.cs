@@ -29,10 +29,11 @@ namespace Road
         }
 
         private PlayerInput playerInput;
+        private CharacterBodyCollision characterBodyCollision;
 
         void Start()
         {
-            var characterBodyCollision = FindObjectOfType<CharacterBodyCollision>();
+            characterBodyCollision = FindObjectOfType<CharacterBodyCollision>();
             characterBodyCollision.CollisionBarricade += OnCharacterCollisionBarricade;
             playerInput = FindObjectOfType<PlayerInput>();
             playerInput.PlayerActed += OnPlayerActed;
@@ -60,6 +61,14 @@ namespace Road
             ) {
                 Play();
             }
+        }
+
+        void OnDestroy()
+        {
+            characterBodyCollision.CollisionBarricade -= OnCharacterCollisionBarricade;
+            characterBodyCollision = null;
+            playerInput.PlayerActed -= OnPlayerActed;
+            playerInput = null;
         }
     }
 }

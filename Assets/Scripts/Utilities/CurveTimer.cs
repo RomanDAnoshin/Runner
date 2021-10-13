@@ -48,5 +48,10 @@ namespace Utilities
             }
         }
 
+        void OnDestroy()
+        {
+            StopCount();
+            Curve = null;
+        }
     }
 }

@@ -25,5 +25,13 @@ namespace GUI.MainMenu
         {
             Application.Quit();
         }
+
+        void OnDestroy()
+        {
+            ButtonStartGame.onClick.RemoveListener(OnClickButtonStartGame);
+            ButtonStartGame = null;
+            ButtonQuit.onClick.RemoveListener(OnClickButtonQuit);
+            ButtonQuit = null;
+        }
     }
 }

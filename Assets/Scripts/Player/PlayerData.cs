@@ -75,10 +75,12 @@ namespace Player
             }
         }
 
+        private CharacterBodyCollision characterBodyCollision;
+
         void Start()
         {
             if (SceneManager.GetActiveScene().name == "Road") {
-                var characterBodyCollision = FindObjectOfType<CharacterBodyCollision>();
+                characterBodyCollision = FindObjectOfType<CharacterBodyCollision>();
                 characterBodyCollision.CollisionCoin += OnCharacterCollisionCoin;
             }
             if (HasSaved()) {
@@ -131,6 +133,14 @@ namespace Player
         {
             Coins++;
             CurrentCoins++;
+        }
+
+        void OnDestroy()
+        {
+            if (characterBodyCollision != null) {
+                characterBodyCollision.CollisionCoin -= OnCharacterCollisionCoin;
+                characterBodyCollision = null;
+            }
         }
     }
 }

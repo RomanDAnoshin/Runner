@@ -36,5 +36,13 @@ namespace Character
                 }
             }
         }
+
+        void OnDestroy()
+        {
+            playerInput.PlayerActed -= OnPlayerActed;
+            playerInput = null;
+            gameData = null;
+            characterMovement = null;
+        }
     }
 }

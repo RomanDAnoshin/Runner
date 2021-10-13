@@ -84,5 +84,15 @@ namespace Character
                 }
             }
         }
+
+        void OnDestroy()
+        {
+            isRunAnimation = false;
+            gameData = null;
+            playerInput.PlayerActed -= OnPlayerActed;
+            playerInput = null;
+            CurveTimer.TimerEnded -= OnAnimationCompleted;
+            CurveTimer = null;
+        }
     }
 }

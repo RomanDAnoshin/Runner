@@ -37,5 +37,17 @@ namespace Road
             }
         }
         [SerializeField] private GameObject[] barricades;
+
+        void OnDestroy()
+        {
+            foreach(var coin in coins) {
+                Destroy(coin);
+            }
+            coins = null;
+            foreach (var barricade in barricades) {
+                Destroy(barricade);
+            }
+            barricades = null;
+        }
     }
 }

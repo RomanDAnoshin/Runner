@@ -12,15 +12,23 @@ namespace Character
 
         public CharacterState State { get; protected set; }
 
+        private CharacterBodyCollision characterBodyCollision;
+
         void Start()
         {
-            var characterBodyCollision = FindObjectOfType<CharacterBodyCollision>();
+            characterBodyCollision = FindObjectOfType<CharacterBodyCollision>();
             characterBodyCollision.CollisionBarricade += OnCharacterCollisionBarricade;
         }
 
         private void OnCharacterCollisionBarricade()
         {
             State = CharacterState.Died;
+        }
+
+        void OnDestroy()
+        {
+            characterBodyCollision.CollisionBarricade -= OnCharacterCollisionBarricade;
+            characterBodyCollision = null;
         }
     }
 }

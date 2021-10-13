@@ -41,5 +41,17 @@ namespace GUI.Road
                 SpeedModificator.text = "Speed Modificator: x" + speedModstring;
             }
         }
+
+        void OnDestroy()
+        {
+            playerData.CoinsChanged -= OnCoinsCountChanged;
+            playerData.CurrentDistanceChanged -= OnCurrentDistanceCountChanged;
+            playerData = null;
+            roadMovement.SpeedModificatorChanged -= OnSpeedModificatorChanged;
+            roadMovement = null;
+            Coins = null;
+            Distance = null;
+            SpeedModificator = null;
+        }
     }
 }

@@ -29,5 +29,10 @@ namespace Road
                 }
             }
         }
+
+        void OnDestroy()
+        {
+            RoadBlockData = null;
+        }
     }
 }

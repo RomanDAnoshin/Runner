@@ -19,6 +19,7 @@ namespace Character
         [SerializeField] private float HorizontalSpeed;
 
         private LanesData lanes;
+        private CharacterBodyCollision characterBodyCollision;
         private bool isMoving;
         private int targetLane;
         private HorizontalMove horizontalMove;
@@ -27,7 +28,7 @@ namespace Character
         void Start()
         {
             lanes = FindObjectOfType<LanesData>();
-            var characterBodyCollision = FindObjectOfType<CharacterBodyCollision>();
+            characterBodyCollision = FindObjectOfType<CharacterBodyCollision>();
             characterBodyCollision.CollisionBarricade += OnCharacterCollisionBarricade;
             targetLane = lanes.StartLaneIndex;
         }
@@ -85,6 +86,14 @@ namespace Character
         private void OnCharacterCollisionBarricade()
         {
             Stay();
+        }
+
+        void OnDestroy()
+        {
+            Stay();
+            lanes = null;
+            characterBodyCollision.CollisionBarricade -= OnCharacterCollisionBarricade;
+            characterBodyCollision = null;
         }
     }
 }
