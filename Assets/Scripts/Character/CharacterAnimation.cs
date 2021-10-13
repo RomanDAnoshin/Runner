@@ -10,6 +10,7 @@ namespace Character
         private GameData gameData;
         private PlayerInput playerInput;
         private CharacterBodyCollision characterBodyCollision;
+        private PlayerData playerData;
 
         void Start()
         {
@@ -18,6 +19,8 @@ namespace Character
             playerInput.PlayerActed += OnPlayerActed;
             characterBodyCollision = FindObjectOfType<CharacterBodyCollision>();
             characterBodyCollision.CollisionBarricade += OnCharacterCollisionBarricade;
+            playerData = FindObjectOfType<PlayerData>();
+            playerData.CurrentCoinsChanged += OnCurrentCoinsChanged;
         }
 
         public void Run()
@@ -45,6 +48,21 @@ namespace Character
             Die();
         }
 
+        private void OnCurrentCoinsChanged()
+        {
+            UpdateSpeedModificator();
+        }
+
+        private void UpdateSpeedModificator()
+        {
+            if (playerData.CurrentCoins > 100) {
+                Animator.speed = 1.5f;
+                playerData.CurrentCoinsChanged -= OnCurrentCoinsChanged;
+            } else {
+                Animator.speed = 1f + playerData.CurrentCoins / 200f;
+            }
+        }
+
         void OnDestroy()
         {
             gameData = null;
@@ -53,6 +71,8 @@ namespace Character
             characterBodyCollision.CollisionBarricade -= OnCharacterCollisionBarricade;
             characterBodyCollision = null;
             Animator = null;
+            playerData.CurrentCoinsChanged -= OnCurrentCoinsChanged;
+            playerData = null;
         }
     }
 }

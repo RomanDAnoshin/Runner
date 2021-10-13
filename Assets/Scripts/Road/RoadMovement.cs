@@ -27,7 +27,7 @@ namespace Road
                 SpeedModificatorChanged?.Invoke();
             }
         }
-        [Range(1, 2)] private float speedModificator;
+        [Range(1f, 2f)] private float speedModificator;
         private bool isMoving;
         private float currentSpeed;
 
