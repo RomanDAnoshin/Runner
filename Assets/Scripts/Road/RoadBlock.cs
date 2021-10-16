@@ -4,23 +4,15 @@ using UnityEngine;
 
 namespace Road
 {
-    public class RoadBlockData : MonoBehaviour
+    public class RoadBlock : MonoBehaviour
     {
-        [HideInInspector] public int BarricadeProbability
+        [HideInInspector] public int Difficult
         {
             get {
-                return barricadeProbability;
+                return difficult;
             }
         }
-        [SerializeField, Range(0, 100)] private int barricadeProbability;
-
-        [HideInInspector] public int CoinProbability
-        {
-            get {
-                return coinProbability;
-            }
-        }
-        [SerializeField, Range(0, 100)] private int coinProbability;
+        [SerializeField, Range(0, 100)] private int difficult;
 
         [HideInInspector] public GameObject[] Coins
         {

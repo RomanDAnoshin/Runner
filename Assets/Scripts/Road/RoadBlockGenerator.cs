@@ -4,35 +4,16 @@ namespace Road
 {
     public class RoadBlockGenerator : MonoBehaviour // TODO more complex generation
     {
-        [SerializeField] private RoadBlockData RoadBlockData;
+        private RoadBlock RoadBlock;
 
         void Start()
         {
-            GenerateCoins();
-            GenerateBarricades();
-        }
-
-        private void GenerateCoins()
-        {
-            if (Random.Range(0, 101) > RoadBlockData.CoinProbability) {
-                for (var i = 0; i < RoadBlockData.Coins.Length; i++) {
-                    Destroy(RoadBlockData.Coins[i]);
-                }
-            }
-        }
-
-        private void GenerateBarricades()
-        {
-            if (Random.Range(0, 101) > RoadBlockData.BarricadeProbability) {
-                for (var i = 0; i < RoadBlockData.Barricades.Length; i++) {
-                    Destroy(RoadBlockData.Barricades[i]);
-                }
-            }
+            RoadBlock = gameObject.GetComponent<RoadBlock>();
         }
 
         void OnDestroy()
         {
-            RoadBlockData = null;
+            RoadBlock = null;
         }
     }
 }

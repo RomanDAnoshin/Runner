@@ -53,7 +53,7 @@ namespace Character
             UpdateSpeedModificator();
         }
 
-        private void UpdateSpeedModificator()
+        private void UpdateSpeedModificator() // TODO bring animation speed control to a higher level
         {
             if (playerData.CurrentCoins > 100) {
                 Animator.speed = 1.5f;

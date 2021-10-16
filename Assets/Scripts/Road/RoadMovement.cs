@@ -94,14 +94,14 @@ namespace Road
             UpdateSpeedModificator();
         }
 
-        private void UpdateSpeedModificator()
+        private void UpdateSpeedModificator() // TODO bring speed control to a higher level
         {
-            if (playerData.CurrentCoins > 100) {
-                SpeedModificator = 2f;
-                playerData.CurrentCoinsChanged -= OnCurrentCoinsChanged;
-            } else {
-                SpeedModificator = 1f + playerData.CurrentCoins / 100f;
-            }
+            //if (playerData.CurrentCoins > 100) {
+            //    SpeedModificator = 2f;
+            //    playerData.CurrentCoinsChanged -= OnCurrentCoinsChanged;
+            //} else {
+            //    SpeedModificator = 1f + playerData.CurrentCoins / 100f;
+            //}
         }
 
         void OnDestroy()
