@@ -14,6 +14,16 @@ namespace Road
         }
         [SerializeField, Range(0, 100)] private int difficult;
 
+        [HideInInspector]
+        public int MaxCoinsCanBeCollected
+        {
+            get {
+                return maxCoinsCanBeCollected;
+            }
+        }
+        [SerializeField, Range(0, 6)] 
+        private int maxCoinsCanBeCollected;
+
         [HideInInspector] public GameObject[] Coins
         {
             get {

@@ -65,7 +65,7 @@ MonoBehaviour:
   - {fileID: 1771689082042926237, guid: d4ed584e7e0bbed44b8eb88853a6c336, type: 3}
   - {fileID: 6597907986085042561, guid: a7780363825daed43a992d087d69a7e3, type: 3}
   - {fileID: 6411549377888102780, guid: 72ca1f2d734062b43833468af5e7a0e9, type: 3}
-  BlockCount: 15
+  BlockCount: 10
   DifficultyCurve:
     serializedVersion: 2
     m_Curve:
@@ -81,21 +81,21 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 50
       value: 25
-      inSlope: 0
-      outSlope: 0
+      inSlope: 0.25978923
+      outSlope: 0.25978923
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.123087235
     - serializedVersion: 3
       time: 100
       value: 50
-      inSlope: 0
-      outSlope: 0
+      inSlope: -0.07363785
+      outSlope: -0.07363785
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.118430026
     - serializedVersion: 3
       time: 150
       value: 75

@@ -117,6 +117,16 @@ PrefabInstance:
       propertyPath: difficult
       value: 70
       objectReference: {fileID: 0}
+    - target: {fileID: 8265176135166972316, guid: 0c96909ebb4b6ea42a6b8f4891326a00,
+        type: 3}
+      propertyPath: coinsCanBeCollected
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8265176135166972316, guid: 0c96909ebb4b6ea42a6b8f4891326a00,
+        type: 3}
+      propertyPath: maxCoinsCanBeCollected
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c96909ebb4b6ea42a6b8f4891326a00, type: 3}
 --- !u!4 &373611539289188128 stripped

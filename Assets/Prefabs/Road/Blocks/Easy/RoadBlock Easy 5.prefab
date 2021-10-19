@@ -390,7 +390,7 @@ PrefabInstance:
     - target: {fileID: 2804053254671618150, guid: 0c96909ebb4b6ea42a6b8f4891326a00,
         type: 3}
       propertyPath: m_Name
-      value: RoadBlock Easy 1
+      value: RoadBlock Easy 5
       objectReference: {fileID: 0}
     - target: {fileID: 2804053254671618151, guid: 0c96909ebb4b6ea42a6b8f4891326a00,
         type: 3}
@@ -491,6 +491,16 @@ PrefabInstance:
         type: 3}
       propertyPath: difficult
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8265176135166972316, guid: 0c96909ebb4b6ea42a6b8f4891326a00,
+        type: 3}
+      propertyPath: coinsCanBeCollected
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8265176135166972316, guid: 0c96909ebb4b6ea42a6b8f4891326a00,
+        type: 3}
+      propertyPath: maxCoinsCanBeCollected
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c96909ebb4b6ea42a6b8f4891326a00, type: 3}

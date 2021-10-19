@@ -20,6 +20,8 @@ namespace Road
         [SerializeField] private AnimationCurve DifficultyCurve;
         private PlayerData playerData;
 
+        private int CoinsCanBeCollectedOnStart;
+
         void Start()
         {
             playerData = FindObjectOfType<PlayerData>();
@@ -33,7 +35,7 @@ namespace Road
         void Update()
         {
             if (IsNecessarySpawn()) {
-                SpawnBlock();
+                SpawnBlockByCoins(playerData.CurrentCoins + CoinsCanBeCollectedOnStart);
                 DestroyBottomBlock();
             }
         }
@@ -43,22 +45,25 @@ namespace Road
             return CurrentRoadBlocks.First.Value.transform.position.z + blockLenght < characterTransform.position.z;
         }
 
-        private void SpawnBlock()
+        private void SpawnBlockByCoins(int coins)
         {
-            var block = Instantiate(GenerateBlockPrefab(), transform);
+            var difficult = DifficultyCurve.Evaluate(coins);
+            var block = Instantiate(GenerateBlockByDifficult(difficult), transform);
+            AddBlockToTop(block);
+        }
 
+        private void AddBlockToTop(GameObject block)
+        {
             var topBlockZPosition = CurrentRoadBlocks.Last.Value.transform.position.z;
             block.transform.position = new Vector3(0, 0, topBlockZPosition + blockLenght);
             CurrentRoadBlocks.AddLast(block);
         }
 
-        private GameObject GenerateBlockPrefab()
+        private GameObject GenerateBlockByDifficult(float difficult)
         {
             if(playerData.CurrentCoins > 200) { // TODO finish
                 return EasyPrefabs[0];
             }
-
-            var difficult = DifficultyCurve.Evaluate(playerData.CurrentCoins);
 
             if (difficult > 50f) {
                 if (difficult > 75f) {
@@ -81,32 +86,21 @@ namespace Road
                 return prefabs[0];
             }
 
-            var leftBorderIndex = 0;
-            var rightBorderIndex = 0;
-            for(var i = 0; i < prefabs.Length - 1; i++) {
-                if(
-                    prefabs[i].GetComponent<RoadBlock>().Difficult <= difficult && // TODO may be several blocks with the same difficulty value
-                    prefabs[i + 1].GetComponent<RoadBlock>().Difficult > difficult
-                ) {
-                    leftBorderIndex = i;
-                    rightBorderIndex = i + 1;
+            var index = 0;
+            var difference = float.MaxValue;
+            for(var i = 0; i < prefabs.Length; i++) {
+                var prefabDifficult = prefabs[i].GetComponent<RoadBlock>().Difficult;
+                if (prefabDifficult > difficult) {
                     break;
                 }
-            }
-            if(rightBorderIndex != 0) {
-                var leftDifficult = prefabs[leftBorderIndex].GetComponent<RoadBlock>().Difficult;
-                var rightDifficult = prefabs[rightBorderIndex].GetComponent<RoadBlock>().Difficult;
-                if(difficult - leftDifficult < rightDifficult - difficult) {
-                    Debug.Log("difficult: " + difficult.ToString() + "\n name: " + prefabs[leftBorderIndex].GetComponent<RoadBlock>().name);
-                    return prefabs[leftBorderIndex];
-                } else {
-                    Debug.Log("difficult: " + difficult.ToString() + "\n name: " + prefabs[rightBorderIndex].GetComponent<RoadBlock>().name);
-                    return prefabs[rightBorderIndex];
+                if(difficult - prefabDifficult < difference) {
+                    index = i;
+                    difference = difficult - prefabDifficult;
                 }
-            } else {
-                Debug.Log("difficult: " + difficult.ToString() + "\n name: " + prefabs[leftBorderIndex].GetComponent<RoadBlock>().name);
-                return prefabs[leftBorderIndex];
             }
+
+            Debug.Log("difficult: " + difficult.ToString() + "\n name: " + prefabs[index].GetComponent<RoadBlock>().name);
+            return prefabs[index];
         }
 
         private void DestroyBottomBlock()
@@ -119,6 +113,7 @@ namespace Road
         {
             var startBlock = transform.Find("RoadBlockStart").gameObject;
             CurrentRoadBlocks.AddFirst(startBlock);
+            CoinsCanBeCollectedOnStart += startBlock.GetComponent<RoadBlock>().MaxCoinsCanBeCollected;
         }
 
         private void CollectBlockLenght()
@@ -128,8 +123,9 @@ namespace Road
 
         private void SpawnStartBlocks() // TODO generation in advance by the average received number of coins on the block
         {
-            for (var i = 1; i < BlockCount; i++) {
-                SpawnBlock();
+            for (var i = CurrentRoadBlocks.Count; i < BlockCount; i++) {
+                SpawnBlockByCoins(CoinsCanBeCollectedOnStart);
+                CoinsCanBeCollectedOnStart += CurrentRoadBlocks.Last.Value.GetComponent<RoadBlock>().MaxCoinsCanBeCollected;
             }
         }
 

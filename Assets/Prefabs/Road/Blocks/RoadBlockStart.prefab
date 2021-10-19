@@ -157,6 +157,16 @@ PrefabInstance:
       propertyPath: coins.Array.data[1]
       value: 
       objectReference: {fileID: 617305614331418388}
+    - target: {fileID: 8265176135166972316, guid: 0c96909ebb4b6ea42a6b8f4891326a00,
+        type: 3}
+      propertyPath: coinsCanBeCollected
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8265176135166972316, guid: 0c96909ebb4b6ea42a6b8f4891326a00,
+        type: 3}
+      propertyPath: maxCoinsCanBeCollected
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c96909ebb4b6ea42a6b8f4891326a00, type: 3}
 --- !u!4 &8774224310814008868 stripped
