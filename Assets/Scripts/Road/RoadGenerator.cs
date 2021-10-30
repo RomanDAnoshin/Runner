@@ -1,17 +1,22 @@
 ﻿using Character;
 using Player;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Road
 {
-    public class RoadGenerator : MonoBehaviour // TODO more complex generation
+    public class RoadGenerator : MonoBehaviour
     {
         public LinkedList<GameObject> CurrentRoadBlocks { get; protected set; }
-        [SerializeField] private GameObject[] VeryHardPrefabs;
-        [SerializeField] private GameObject[] HardPrefabs;
-        [SerializeField] private GameObject[] MediumPrefabs;
-        [SerializeField] private GameObject[] EasyPrefabs;
+
+        [SerializeField]
+        private List<GameObject> RoadBlocksPrefabs;
+
+        private GameObject[][] PrefabsWithSegments;
+        private int[] PrefabsDifficultWithSegments;
+        private int[][] RepetitionCountsMap;
+
         [SerializeField, Range(1, 30)] private int BlockCount;
 
         private Transform characterTransform;
@@ -27,6 +32,8 @@ namespace Road
             playerData = FindObjectOfType<PlayerData>();
             CurrentRoadBlocks = new LinkedList<GameObject>();
             characterTransform = FindObjectOfType<CharacterMovement>().transform;
+            SortPrefabsByDifficult();
+            PrepareSegmentsMap();
             AddStartBlockToCollection();
             CollectBlockLenght();
             SpawnStartBlocks();
@@ -61,46 +68,44 @@ namespace Road
 
         private GameObject GenerateBlockByDifficult(float difficult)
         {
-            if(playerData.CurrentCoins > 200) { // TODO finish
-                return EasyPrefabs[0];
-            }
-
-            if (difficult > 50f) {
-                if (difficult > 75f) {
-                    return GetBlockByDifficulty(difficult, VeryHardPrefabs);
-                } else {
-                    return GetBlockByDifficulty(difficult, HardPrefabs);
-                }
-            } else {
-                if (difficult > 25f) {
-                    return GetBlockByDifficulty(difficult, MediumPrefabs);
-                } else {
-                    return GetBlockByDifficulty(difficult, EasyPrefabs);
-                }
-            }
+            return GetBlockByDifficulty(difficult); //TODO Clean code
         }
 
-        private GameObject GetBlockByDifficulty(float difficult, GameObject[] prefabs)
+        private GameObject GetBlockByDifficulty(float difficult)
         {
-            if(prefabs.Length == 1) {
-                return prefabs[0];
-            }
-
-            var index = 0;
+            var indexInFirstRow = 0;
             var difference = float.MaxValue;
-            for(var i = 0; i < prefabs.Length; i++) {
-                var prefabDifficult = prefabs[i].GetComponent<RoadBlock>().Difficult;
-                if (prefabDifficult > difficult) {
+            for(var i = 0; i < PrefabsDifficultWithSegments.Length; i++) {
+                if(PrefabsDifficultWithSegments[i] > difficult) {
                     break;
                 }
-                if(difficult - prefabDifficult < difference) {
-                    index = i;
-                    difference = difficult - prefabDifficult;
+                if(difficult - PrefabsDifficultWithSegments[i] < difference) {
+                    indexInFirstRow = i;
+                    difference = difficult - PrefabsDifficultWithSegments[i];
                 }
             }
 
-            Debug.Log("difficult: " + difficult.ToString() + "\n name: " + prefabs[index].GetComponent<RoadBlock>().name);
-            return prefabs[index];
+            return GetBlockWithFewerRepetitions(indexInFirstRow);
+        }
+
+        private GameObject GetBlockWithFewerRepetitions(int indexInFirstRow)
+        {
+            if(RepetitionCountsMap[indexInFirstRow].Length > 1) {
+                var minValue = RepetitionCountsMap[indexInFirstRow][0];
+                var indexOfMin = 0;
+                for(var i = 1; i < RepetitionCountsMap[indexInFirstRow].Length; i++) {
+                    if(RepetitionCountsMap[indexInFirstRow][i] < minValue) {
+                        minValue = RepetitionCountsMap[indexInFirstRow][i];
+                        indexOfMin = i;
+                    }
+                }
+
+                RepetitionCountsMap[indexInFirstRow][indexOfMin]++;
+                return PrefabsWithSegments[indexInFirstRow][indexOfMin];
+            } else {
+                RepetitionCountsMap[indexInFirstRow][0]++;
+                return PrefabsWithSegments[indexInFirstRow][0];
+            }
         }
 
         private void DestroyBottomBlock()
@@ -121,11 +126,57 @@ namespace Road
             blockLenght = CurrentRoadBlocks.First.Value.transform.Find("Bottom").transform.localScale.z;
         }
 
-        private void SpawnStartBlocks() // TODO generation in advance by the average received number of coins on the block
+        private void SpawnStartBlocks()
         {
             for (var i = CurrentRoadBlocks.Count; i < BlockCount; i++) {
                 SpawnBlockByCoins(CoinsCanBeCollectedOnStart);
                 CoinsCanBeCollectedOnStart += CurrentRoadBlocks.Last.Value.GetComponent<RoadBlock>().MaxCoinsCanBeCollected;
+            }
+        }
+
+        private void SortPrefabsByDifficult()
+        {
+            RoadBlocksPrefabs.Sort(
+                (prefab1, prefab2) => { 
+                    return prefab1.GetComponent<RoadBlock>().Difficult.CompareTo(prefab2.GetComponent<RoadBlock>().Difficult); 
+                }
+            );
+        }
+
+        private void PrepareSegmentsMap()
+        {
+            List<int> uniqueDifficults = new List<int>();
+            List<int> uniqueItemIndices = new List<int>();
+
+            uniqueDifficults.Add(RoadBlocksPrefabs[0].GetComponent<RoadBlock>().Difficult);
+            uniqueItemIndices.Add(0);
+
+            for (var i = 1; i < RoadBlocksPrefabs.Count; i++) {
+                var difficult = RoadBlocksPrefabs[i].GetComponent<RoadBlock>().Difficult;
+                if (uniqueDifficults[uniqueDifficults.Count - 1] != difficult) {
+                    uniqueDifficults.Add(difficult);
+                    uniqueItemIndices.Add(i);
+                }
+            }
+            uniqueItemIndices.Add(RoadBlocksPrefabs.Count); // add end
+
+            PrefabsDifficultWithSegments = new int[uniqueDifficults.Count];
+            for (var i = 0; i < uniqueDifficults.Count; i++) {
+                PrefabsDifficultWithSegments[i] = uniqueDifficults[i];
+            }
+
+            PrefabsWithSegments = new GameObject[uniqueDifficults.Count][];
+            for (var i = 0; i < uniqueDifficults.Count; i++) {
+                var dimension = uniqueItemIndices[i + 1] - uniqueItemIndices[i];
+                PrefabsWithSegments[i] = new GameObject[dimension];
+                for (var j = 0; j < dimension; j++) {
+                    PrefabsWithSegments[i][j] = RoadBlocksPrefabs[uniqueItemIndices[i] + j];
+                }
+            }
+
+            RepetitionCountsMap = new int[PrefabsWithSegments.Length][];
+            for(var i = 0; i < RepetitionCountsMap.Length; i++) {
+                RepetitionCountsMap[i] = new int[PrefabsWithSegments[i].Length];
             }
         }
 

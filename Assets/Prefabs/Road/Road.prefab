@@ -47,24 +47,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2c6b963840b5dd4686d8c754793cbd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VeryHardPrefabs:
-  - {fileID: 8691273673577381877, guid: 5f631c0ff2be7304b90e54cb9a22b226, type: 3}
-  - {fileID: 4583572743954149641, guid: 3299bea4676ef7f488a952f09c57721a, type: 3}
-  - {fileID: 4297994896770171932, guid: 6d37e9613d6c0cb44984d24933f7476b, type: 3}
-  - {fileID: 5399341022868909257, guid: 767e563b1b2e03248ace3895b38fa195, type: 3}
-  HardPrefabs:
-  - {fileID: 7473925391583858131, guid: 4c46d02126bf44244bfba57d0016c831, type: 3}
-  - {fileID: 373611539289188129, guid: b590c74b0447cc3438673da29c265975, type: 3}
-  MediumPrefabs:
-  - {fileID: 6742020211644607254, guid: bd109e80971e01249a6f84267c3abf92, type: 3}
-  - {fileID: 202168247792292433, guid: 536427bc451ef3946acfd15fd7405eba, type: 3}
-  - {fileID: 2815853598379791950, guid: e753b355351f2ba4eb4b076abc6c2ffb, type: 3}
-  EasyPrefabs:
+  RoadBlocksPrefabs:
   - {fileID: 7898903877056832902, guid: 3dc3c3f551d7619468cacd284a619ff5, type: 3}
+  - {fileID: 7473925391583858131, guid: 4c46d02126bf44244bfba57d0016c831, type: 3}
   - {fileID: 3545278559077628165, guid: 5847570f2b4333041a62aaa1d69de0c2, type: 3}
+  - {fileID: 373611539289188129, guid: b590c74b0447cc3438673da29c265975, type: 3}
   - {fileID: 1771689082042926237, guid: d4ed584e7e0bbed44b8eb88853a6c336, type: 3}
   - {fileID: 6597907986085042561, guid: a7780363825daed43a992d087d69a7e3, type: 3}
   - {fileID: 6411549377888102780, guid: 72ca1f2d734062b43833468af5e7a0e9, type: 3}
+  - {fileID: 6742020211644607254, guid: bd109e80971e01249a6f84267c3abf92, type: 3}
+  - {fileID: 8691273673577381877, guid: 5f631c0ff2be7304b90e54cb9a22b226, type: 3}
+  - {fileID: 202168247792292433, guid: 536427bc451ef3946acfd15fd7405eba, type: 3}
+  - {fileID: 4583572743954149641, guid: 3299bea4676ef7f488a952f09c57721a, type: 3}
+  - {fileID: 2815853598379791950, guid: e753b355351f2ba4eb4b076abc6c2ffb, type: 3}
+  - {fileID: 4297994896770171932, guid: 6d37e9613d6c0cb44984d24933f7476b, type: 3}
+  - {fileID: 5399341022868909257, guid: 767e563b1b2e03248ace3895b38fa195, type: 3}
   BlockCount: 10
   DifficultyCurve:
     serializedVersion: 2
@@ -114,8 +111,17 @@ MonoBehaviour:
       weightedMode: 0
       inWeight: 0
       outWeight: 0
+    - serializedVersion: 3
+      time: 220
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
-    m_PostInfinity: 2
+    m_PostInfinity: 1
     m_RotationOrder: 4
 --- !u!114 &6690994098010257031
 MonoBehaviour:
