@@ -6,6 +6,8 @@ namespace Player
 {
     public class PlayerInput : MonoBehaviour
     {
+        public static PlayerInput Instance;
+
         public enum PlayerActions
         {
             None,
@@ -16,6 +18,11 @@ namespace Player
 
         public PlayerActions Value { get; protected set; }
         public Action PlayerActed;
+
+        void Awake()
+        {
+            Instance = this;
+        }
 
         void Update()
         {

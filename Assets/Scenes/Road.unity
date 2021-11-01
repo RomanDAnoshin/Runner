@@ -286,7 +286,7 @@ PrefabInstance:
         type: 3}
       propertyPath: CollisionCoin.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1326373450}
+      objectReference: {fileID: 0}
     - target: {fileID: 2204195736718954459, guid: e617a4320f918384593cf099bd2659d4,
         type: 3}
       propertyPath: CollisionCoin.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -837,7 +837,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1326373451}
-  - component: {fileID: 1326373450}
   - component: {fileID: 1326373449}
   m_Layer: 0
   m_Name: Player
@@ -858,23 +857,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b80c91207a2bd9a4692d74e7336fc0d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1326373450
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1326373448}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f1ac8d8a8dfcb94d9b1d8a95f6b1c5e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerName: 
-  currentCoins: 0
-  coins: 0
-  distance: 0
-  currentDistance: 0
 --- !u!4 &1326373451
 Transform:
   m_ObjectHideFlags: 0

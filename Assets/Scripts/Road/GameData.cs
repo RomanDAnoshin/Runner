@@ -7,6 +7,8 @@ namespace Road
 {
     public class GameData : MonoBehaviour, IPlayerControllable
     {
+        public static GameData Instance;
+
         public enum GameStatus
         {
             PrepareToStart,
@@ -28,15 +30,15 @@ namespace Road
             }
         }
 
-        private PlayerInput playerInput;
-        private CharacterBodyCollision characterBodyCollision;
+        void Awake()
+        {
+            Instance = this;
+        }
 
         void Start()
         {
-            characterBodyCollision = FindObjectOfType<CharacterBodyCollision>();
-            characterBodyCollision.CollisionBarricade += OnCharacterCollisionBarricade;
-            playerInput = FindObjectOfType<PlayerInput>();
-            playerInput.PlayerActed += OnPlayerActed;
+            PlayerInput.Instance.PlayerActed += OnPlayerActed;
+            CharacterBodyCollision.Instance.CollisionBarricade += OnCharacterBodyCollisionBarricade;
         }
 
         public void Play()
@@ -49,26 +51,20 @@ namespace Road
             Status = GameStatus.Lose;
         }
 
-        private void OnCharacterCollisionBarricade()
+        private void OnCharacterBodyCollisionBarricade()
         {
             Lose();
+            CharacterBodyCollision.Instance.CollisionBarricade -= OnCharacterBodyCollisionBarricade;
         }
 
         public void OnPlayerActed()
         {
             if (Status != GameStatus.Lose &&
-                playerInput.Value == PlayerInput.PlayerActions.Run
+                PlayerInput.Instance.Value == PlayerInput.PlayerActions.Run
             ) {
                 Play();
+                PlayerInput.Instance.PlayerActed -= OnPlayerActed;
             }
-        }
-
-        void OnDestroy()
-        {
-            characterBodyCollision.CollisionBarricade -= OnCharacterCollisionBarricade;
-            characterBodyCollision = null;
-            playerInput.PlayerActed -= OnPlayerActed;
-            playerInput = null;
         }
     }
 }

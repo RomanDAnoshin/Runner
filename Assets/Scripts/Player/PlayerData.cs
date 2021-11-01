@@ -7,8 +7,19 @@ using Utilities.SimpleJSON;
 
 namespace Player
 {
-    public class PlayerData : MonoBehaviour
+    public class PlayerData // TODO Reset CurrentCoins and CurrentDistance on Game Restart
     {
+        public static PlayerData Instance
+        {
+            get {
+                if(instance == null) {
+                    instance = new PlayerData();
+                }
+                return instance;
+            }
+        }
+        private static PlayerData instance;
+
         public Action PlayerNameChanged;
         public Action CoinsChanged;
         public Action CurrentCoinsChanged;
@@ -75,23 +86,17 @@ namespace Player
             }
         }
 
-        private CharacterBodyCollision characterBodyCollision;
-
-        void Start()
+        private PlayerData()
         {
-            if (SceneManager.GetActiveScene().name == "Road") {
-                characterBodyCollision = FindObjectOfType<CharacterBodyCollision>();
-                characterBodyCollision.CollisionCoin += OnCharacterCollisionCoin;
-            }
             if (HasSaved()) {
                 Load();
             }
+            SceneManager.activeSceneChanged += RebindOnCharacterBodyCollisionCoin;
         }
 
         public void Save()
         {
-            var jsonObject = ToJSONObject();
-            PlayerPrefs.SetString("PlayerData", jsonObject.ToString());
+            PlayerPrefs.SetString("PlayerData", ToJSONObject().ToString());
         }
 
         public bool HasSaved()
@@ -129,18 +134,25 @@ namespace Player
             return result;
         }
 
-        private void OnCharacterCollisionCoin()
+        public void UpCoins()
         {
             Coins++;
             CurrentCoins++;
         }
 
-        void OnDestroy()
+        private void RebindOnCharacterBodyCollisionCoin(Scene oldScene, Scene newScene)
         {
-            if (characterBodyCollision != null) {
-                characterBodyCollision.CollisionCoin -= OnCharacterCollisionCoin;
-                characterBodyCollision = null;
+            if (newScene.name == "Road") {
+                CharacterBodyCollision.Instance.CollisionCoin += OnCharacterBodyCollisionCoin;
+                CharacterBodyCollision.Instance.Destroying += () => {
+                    CharacterBodyCollision.Instance.CollisionCoin -= OnCharacterBodyCollisionCoin;
+                };
             }
+        }
+
+        private void OnCharacterBodyCollisionCoin()
+        {
+            UpCoins();
         }
     }
 }

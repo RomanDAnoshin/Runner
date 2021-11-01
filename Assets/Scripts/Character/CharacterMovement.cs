@@ -8,6 +8,8 @@ namespace Character
 {
     public class CharacterMovement : MonoBehaviour, IMovable
     {
+        public static CharacterMovement Instance;
+
         public enum HorizontalMove
         {
             None,
@@ -18,19 +20,20 @@ namespace Character
 
         [SerializeField] private float HorizontalSpeed;
 
-        private LanesData lanes;
-        private CharacterBodyCollision characterBodyCollision;
         private bool isMoving;
         private int targetLane;
         private HorizontalMove horizontalMove;
         private Vector3 velocitySmoothDamp = Vector3.zero;
 
+        void Awake()
+        {
+            Instance = this;
+        }
+
         void Start()
         {
-            lanes = FindObjectOfType<LanesData>();
-            characterBodyCollision = FindObjectOfType<CharacterBodyCollision>();
-            characterBodyCollision.CollisionBarricade += OnCharacterCollisionBarricade;
-            targetLane = lanes.StartLaneIndex;
+            CharacterBodyCollision.Instance.CollisionBarricade += OnCharacterCollisionBarricade;
+            targetLane = LanesData.Instance.StartLaneIndex;
         }
 
         void Update()
@@ -42,9 +45,9 @@ namespace Character
         {
             if (
                 horizontalMove != HorizontalMove.None &&
-                transform.position.x != lanes.Positions[targetLane].x
+                transform.position.x != LanesData.Instance.Positions[targetLane].x
             ) {
-                var lanePos = new Vector3(lanes.Positions[targetLane].x, transform.position.y, transform.position.z);
+                var lanePos = new Vector3(LanesData.Instance.Positions[targetLane].x, transform.position.y, transform.position.z);
                 transform.position = Vector3.SmoothDamp(transform.position, lanePos, ref velocitySmoothDamp, HorizontalSpeed / 100f);
                 PositionChanged?.Invoke();
             }
@@ -64,7 +67,7 @@ namespace Character
         public void MoveRight()
         {
             if (
-                targetLane != lanes.Positions.Length - 1 &&
+                targetLane != LanesData.Instance.Positions.Length - 1 &&
                 isMoving != false
             ) {
                 targetLane++;
@@ -91,9 +94,7 @@ namespace Character
         void OnDestroy()
         {
             Stay();
-            lanes = null;
-            characterBodyCollision.CollisionBarricade -= OnCharacterCollisionBarricade;
-            characterBodyCollision = null;
+            CharacterBodyCollision.Instance.CollisionBarricade -= OnCharacterCollisionBarricade;
         }
     }
 }

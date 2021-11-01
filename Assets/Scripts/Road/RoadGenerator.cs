@@ -23,15 +23,13 @@ namespace Road
         private float blockLenght;
 
         [SerializeField] private AnimationCurve DifficultyCurve;
-        private PlayerData playerData;
 
         private int CoinsCanBeCollectedOnStart;
 
         void Start()
         {
-            playerData = FindObjectOfType<PlayerData>();
             CurrentRoadBlocks = new LinkedList<GameObject>();
-            characterTransform = FindObjectOfType<CharacterMovement>().transform;
+            characterTransform = CharacterMovement.Instance.transform;
             SortPrefabsByDifficult();
             PrepareSegmentsMap();
             AddStartBlockToCollection();
@@ -42,7 +40,7 @@ namespace Road
         void Update()
         {
             if (IsNecessarySpawn()) {
-                SpawnBlockByCoins(playerData.CurrentCoins + CoinsCanBeCollectedOnStart);
+                SpawnBlockByCoins(PlayerData.Instance.CurrentCoins + CoinsCanBeCollectedOnStart);
                 DestroyBottomBlock();
             }
         }

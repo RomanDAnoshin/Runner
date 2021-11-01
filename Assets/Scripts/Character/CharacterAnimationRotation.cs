@@ -10,8 +10,6 @@ namespace Character
 {
     public class CharacterAnimationRotation : MonoBehaviour, IPlayerControllable
     {
-        private GameData gameData;
-        private PlayerInput playerInput;
         [SerializeField] private CurveTimer CurveTimer;
 
         private Quaternion startRotation;
@@ -20,9 +18,7 @@ namespace Character
 
         void Start()
         {
-            gameData = FindObjectOfType<GameData>();
-            playerInput = FindObjectOfType<PlayerInput>();
-            playerInput.PlayerActed += OnPlayerActed;
+            PlayerInput.Instance.PlayerActed += OnPlayerActed;
             CurveTimer.TimerEnded += OnAnimationCompleted;
             startRotation = transform.localRotation;
         }
@@ -73,8 +69,8 @@ namespace Character
 
         public void OnPlayerActed()
         {
-            if (gameData.Status == GameData.GameStatus.Play) {
-                switch (playerInput.Value) {
+            if (GameData.Instance.Status == GameData.GameStatus.Play) {
+                switch (PlayerInput.Instance.Value) {
                     case PlayerInput.PlayerActions.MoveLeft:
                         StartAnimationLeft();
                         break;
@@ -88,9 +84,7 @@ namespace Character
         void OnDestroy()
         {
             isRunAnimation = false;
-            gameData = null;
-            playerInput.PlayerActed -= OnPlayerActed;
-            playerInput = null;
+            PlayerInput.Instance.PlayerActed -= OnPlayerActed;
             CurveTimer.TimerEnded -= OnAnimationCompleted;
             CurveTimer = null;
         }

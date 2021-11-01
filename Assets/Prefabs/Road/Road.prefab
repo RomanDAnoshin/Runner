@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6690994098010257025}
   - component: {fileID: 6690994098010257030}
   - component: {fileID: 6690994098010257031}
-  - component: {fileID: 5962297701789968149}
+  - component: {fileID: 8149684786900492359}
   m_Layer: 0
   m_Name: Road
   m_TagString: Untagged
@@ -136,7 +136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StartSpeed: 12.5
---- !u!114 &5962297701789968149
+--- !u!114 &8149684786900492359
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

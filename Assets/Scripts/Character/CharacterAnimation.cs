@@ -7,20 +7,12 @@ namespace Character
     public class CharacterAnimation : MonoBehaviour, IPlayerControllable
     {
         [SerializeField] private Animator Animator;
-        private GameData gameData;
-        private PlayerInput playerInput;
-        private CharacterBodyCollision characterBodyCollision;
-        private PlayerData playerData;
 
         void Start()
         {
-            gameData = FindObjectOfType<GameData>();
-            playerInput = FindObjectOfType<PlayerInput>();
-            playerInput.PlayerActed += OnPlayerActed;
-            characterBodyCollision = FindObjectOfType<CharacterBodyCollision>();
-            characterBodyCollision.CollisionBarricade += OnCharacterCollisionBarricade;
-            playerData = FindObjectOfType<PlayerData>();
-            playerData.CurrentCoinsChanged += OnCurrentCoinsChanged;
+            PlayerInput.Instance.PlayerActed += OnPlayerActed;
+            CharacterBodyCollision.Instance.CollisionBarricade += OnCharacterCollisionBarricade;
+            PlayerData.Instance.CurrentCoinsChanged += OnCurrentCoinsChanged;
         }
 
         public void Run()
@@ -36,8 +28,8 @@ namespace Character
 
         public void OnPlayerActed()
         {
-            if (gameData.Status != GameData.GameStatus.Lose &&
-                playerInput.Value == PlayerInput.PlayerActions.Run
+            if (GameData.Instance.Status != GameData.GameStatus.Lose &&
+                PlayerInput.Instance.Value == PlayerInput.PlayerActions.Run
             ) {
                 Run();
             }
@@ -55,24 +47,20 @@ namespace Character
 
         private void UpdateSpeedModificator() // TODO bring animation speed control to a higher level
         {
-            if (playerData.CurrentCoins > 100) {
+            if (PlayerData.Instance.CurrentCoins > 100) {
                 Animator.speed = 1.5f;
-                playerData.CurrentCoinsChanged -= OnCurrentCoinsChanged;
+                PlayerData.Instance.CurrentCoinsChanged -= OnCurrentCoinsChanged;
             } else {
-                Animator.speed = 1f + playerData.CurrentCoins / 200f;
+                Animator.speed = 1f + PlayerData.Instance.CurrentCoins / 200f;
             }
         }
 
         void OnDestroy()
         {
-            gameData = null;
-            playerInput.PlayerActed -= OnPlayerActed;
-            playerInput = null;
-            characterBodyCollision.CollisionBarricade -= OnCharacterCollisionBarricade;
-            characterBodyCollision = null;
+            PlayerInput.Instance.PlayerActed -= OnPlayerActed;
+            CharacterBodyCollision.Instance.CollisionBarricade -= OnCharacterCollisionBarricade;
             Animator = null;
-            playerData.CurrentCoinsChanged -= OnCurrentCoinsChanged;
-            playerData = null;
+            PlayerData.Instance.CurrentCoinsChanged -= OnCurrentCoinsChanged;
         }
     }
 }

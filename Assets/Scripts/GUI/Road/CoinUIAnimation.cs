@@ -7,7 +7,6 @@ namespace GUI.Road
     public class CoinUIAnimation : MonoBehaviour
     {
         [SerializeField] private CurveTimer CurveTimer;
-        private CharacterBodyCollision characterBodyCollision;
         private bool isRunAnimation;
         private Vector3 startLocalScale;
 
@@ -15,8 +14,7 @@ namespace GUI.Road
         {
             startLocalScale = transform.localScale;
             CurveTimer.TimerEnded += OnAnimationCompleted;
-            characterBodyCollision = FindObjectOfType<CharacterBodyCollision>();
-            characterBodyCollision.CollisionCoin += OnCharacterCollisionCoin;
+            CharacterBodyCollision.Instance.CollisionCoin += OnCharacterCollisionCoin;
         }
 
         void Update()
@@ -59,8 +57,7 @@ namespace GUI.Road
             isRunAnimation = false;
             CurveTimer.TimerEnded -= OnAnimationCompleted;
             CurveTimer = null;
-            characterBodyCollision.CollisionCoin -= OnCharacterCollisionCoin;
-            characterBodyCollision = null;
+            CharacterBodyCollision.Instance.CollisionCoin -= OnCharacterCollisionCoin;
         }
     }
 }

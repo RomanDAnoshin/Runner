@@ -7,34 +7,31 @@ namespace GUI.Road
 {
     public class InfoPanel : MonoBehaviour
     {
-        private PlayerData playerData;
-        private RoadMovement roadMovement;
         [SerializeField] private Text Coins;
         [SerializeField] private Text Distance;
         [SerializeField] private Text SpeedModificator;
 
         void Start()
         {
-            playerData = FindObjectOfType<PlayerData>();
-            playerData.CoinsChanged += OnCoinsCountChanged;
-            playerData.CurrentDistanceChanged += OnCurrentDistanceCountChanged;
-            roadMovement = FindObjectOfType<RoadMovement>();
-            roadMovement.SpeedModificatorChanged += OnSpeedModificatorChanged;
+            PlayerData.Instance.CoinsChanged += OnCoinsCountChanged;
+            PlayerData.Instance.CurrentDistanceChanged += OnCurrentDistanceCountChanged;
+            RoadMovement.Instance.SpeedModificatorChanged += OnSpeedModificatorChanged;
+            Refresh();
         }
 
         private void OnCoinsCountChanged()
         {
-            Coins.text = "Total coins: " + playerData.Coins.ToString();
+            Coins.text = "Total coins: " + PlayerData.Instance.Coins.ToString();
         }
 
         private void OnCurrentDistanceCountChanged()
         {
-            Distance.text = "Current distance: " + ((int)playerData.CurrentDistance).ToString();
+            Distance.text = "Current distance: " + ((int)PlayerData.Instance.CurrentDistance).ToString();
         }
 
         private void OnSpeedModificatorChanged()
         {
-            var speedModstring = roadMovement.SpeedModificator.ToString();
+            var speedModstring = RoadMovement.Instance.SpeedModificator.ToString();
             if (speedModstring.Length >= 3) {
                 SpeedModificator.text = "Speed Modificator: x" + speedModstring.Substring(0, 3);
             } else {
@@ -42,13 +39,17 @@ namespace GUI.Road
             }
         }
 
+        private void Refresh()
+        {
+            OnCoinsCountChanged();
+            OnCurrentDistanceCountChanged();
+        }
+
         void OnDestroy()
         {
-            playerData.CoinsChanged -= OnCoinsCountChanged;
-            playerData.CurrentDistanceChanged -= OnCurrentDistanceCountChanged;
-            playerData = null;
-            roadMovement.SpeedModificatorChanged -= OnSpeedModificatorChanged;
-            roadMovement = null;
+            PlayerData.Instance.CoinsChanged -= OnCoinsCountChanged;
+            PlayerData.Instance.CurrentDistanceChanged -= OnCurrentDistanceCountChanged;
+            RoadMovement.Instance.SpeedModificatorChanged -= OnSpeedModificatorChanged;
             Coins = null;
             Distance = null;
             SpeedModificator = null;

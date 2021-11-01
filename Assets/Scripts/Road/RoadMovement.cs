@@ -7,15 +7,13 @@ namespace Road
 {
     public class RoadMovement : MonoBehaviour, IMovable, IPlayerControllable
     {
+        public static RoadMovement Instance;
+
         public Action SpeedModificatorChanged;
 
         [SerializeField] private float StartSpeed;
 
-        private GameData gameData;
-        private PlayerInput playerInput;
-        private PlayerData playerData;
         private RoadGenerator roadGenerator;
-        private CharacterBodyCollision characterBodyCollision;
 
         public float SpeedModificator
         {
@@ -31,18 +29,19 @@ namespace Road
         private bool isMoving;
         private float currentSpeed;
 
+        void Awake()
+        {
+            Instance = this;
+        }
+
         void Start()
         {
-            gameData = FindObjectOfType<GameData>();
-            playerInput = FindObjectOfType<PlayerInput>();
-            playerInput.PlayerActed += OnPlayerActed;
-            playerData = FindObjectOfType<PlayerData>();
-            playerData.CurrentCoinsChanged += OnCurrentCoinsChanged;
-            roadGenerator = FindObjectOfType<RoadGenerator>();
+            PlayerInput.Instance.PlayerActed += OnPlayerActed;
+            PlayerData.Instance.CurrentCoinsChanged += OnCurrentCoinsChanged;
+            roadGenerator = gameObject.GetComponent<RoadGenerator>();
             currentSpeed = StartSpeed;
             speedModificator = 1;
-            characterBodyCollision = FindObjectOfType<CharacterBodyCollision>();
-            characterBodyCollision.CollisionBarricade += OnCharacterCollisionBarricade;
+            CharacterBodyCollision.Instance.CollisionBarricade += OnCharacterCollisionBarricade;
         }
 
         void Update()
@@ -72,13 +71,13 @@ namespace Road
 
         public void UpdateCurrentDistance()
         {
-            playerData.CurrentDistance += currentSpeed * Time.deltaTime * SpeedModificator;
+            PlayerData.Instance.CurrentDistance += currentSpeed * Time.deltaTime * SpeedModificator;
         }
 
         public void OnPlayerActed()
         {
-            if (gameData.Status != GameData.GameStatus.Lose &&
-                playerInput.Value == PlayerInput.PlayerActions.Run
+            if (GameData.Instance.Status != GameData.GameStatus.Lose &&
+                PlayerInput.Instance.Value == PlayerInput.PlayerActions.Run
             ) {
                 Move();
             }
@@ -107,14 +106,10 @@ namespace Road
         void OnDestroy()
         {
             Stay();
-            gameData = null;
-            playerInput.PlayerActed -= OnPlayerActed;
-            playerInput = null;
-            playerData.CurrentCoinsChanged -= OnCurrentCoinsChanged;
-            playerData = null;
+            PlayerInput.Instance.PlayerActed -= OnPlayerActed;
+            PlayerData.Instance.CurrentCoinsChanged -= OnCurrentCoinsChanged;
             roadGenerator = null;
-            characterBodyCollision.CollisionBarricade -= OnCharacterCollisionBarricade;
-            characterBodyCollision = null;
+            CharacterBodyCollision.Instance.CollisionBarricade -= OnCharacterCollisionBarricade;
         }
     }
 }

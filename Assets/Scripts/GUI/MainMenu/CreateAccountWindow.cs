@@ -8,13 +8,11 @@ namespace GUI.MainMenu
 {
     public class CreateAccountWindow : MonoBehaviour
     {
-        private PlayerData playerData;
         [SerializeField] private InputField InputField;
         [SerializeField] private Button ButtonOk;
 
         void Start()
         {
-            playerData = FindObjectOfType<PlayerData>();
             InputField.onEndEdit.AddListener(OnEndEditInputField);
             ButtonOk.onClick.AddListener(OnClickButtonOk);
         }
@@ -23,8 +21,8 @@ namespace GUI.MainMenu
         {
             if (!string.IsNullOrWhiteSpace(InputField.text)) {
                 ButtonOk.interactable = true;
-                playerData.PlayerName = InputField.text;
-                playerData.Save();
+                PlayerData.Instance.PlayerName = InputField.text;
+                PlayerData.Instance.Save();
             }
         }
 
@@ -35,7 +33,6 @@ namespace GUI.MainMenu
 
         void OnDestroy()
         {
-            playerData = null;
             InputField.onEndEdit.RemoveListener(OnEndEditInputField);
             InputField = null;
             ButtonOk.onClick.RemoveListener(OnClickButtonOk);

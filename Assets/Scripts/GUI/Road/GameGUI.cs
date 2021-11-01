@@ -10,20 +10,16 @@ namespace GUI.Road
     {
         [SerializeField] private GameObject StartMessage;
         [SerializeField] private GameObject DeathWindow;
-        private CharacterBodyCollision characterBodyCollision;
-        private PlayerInput playerInput;
 
         void Start()
         {
-            playerInput = FindObjectOfType<PlayerInput>();
-            playerInput.PlayerActed += OnPlayerActed;
-            characterBodyCollision = FindObjectOfType<CharacterBodyCollision>();
-            characterBodyCollision.CollisionBarricade += OnCharacterCollisionBarricade;
+            PlayerInput.Instance.PlayerActed += OnPlayerActed;
+            CharacterBodyCollision.Instance.CollisionBarricade += OnCharacterCollisionBarricade;
         }
 
         private void OnPlayerActed()
         {
-            if (playerInput.Value == PlayerInput.PlayerActions.Run) {
+            if (PlayerInput.Instance.Value == PlayerInput.PlayerActions.Run) {
                 Destroy(StartMessage);
             }
         }
@@ -41,10 +37,8 @@ namespace GUI.Road
 
         void OnDestroy()
         {
-            playerInput.PlayerActed -= OnPlayerActed;
-            playerInput = null;
-            characterBodyCollision.CollisionBarricade -= OnCharacterCollisionBarricade;
-            characterBodyCollision = null;
+            PlayerInput.Instance.PlayerActed -= OnPlayerActed;
+            CharacterBodyCollision.Instance.CollisionBarricade -= OnCharacterCollisionBarricade;
             StartMessage = null;
             DeathWindow = null;
         }
