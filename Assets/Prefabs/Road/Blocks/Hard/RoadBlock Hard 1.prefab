@@ -490,7 +490,7 @@ PrefabInstance:
     - target: {fileID: 8265176135166972316, guid: 0c96909ebb4b6ea42a6b8f4891326a00,
         type: 3}
       propertyPath: difficult
-      value: 60
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 8265176135166972316, guid: 0c96909ebb4b6ea42a6b8f4891326a00,
         type: 3}

@@ -9,8 +9,8 @@ namespace Road
 {
     public class RoadGenerator : MonoBehaviour
     {
-        [SerializeField] private List<GameObject> RoadBlocksPrefabs;
         [SerializeField] private GameObject StartBlockPrefab;
+        [SerializeField] private List<GameObject> RoadBlocksPrefabs;
         [SerializeField] private AnimationCurve DifficultyCurve;
 
         private GenerationMap generationMap;

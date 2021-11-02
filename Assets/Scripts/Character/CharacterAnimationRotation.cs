@@ -15,10 +15,10 @@ namespace Character
         private Quaternion startRotation;
         private bool isRunAnimation;
         private bool isRightRotation;
+        private int previousCoins;
 
         void Start()
         {
-            PlayerData.Instance.CurrentCoinsChanged += OnCurrentCoinsChanged;
             PlayerInput.Instance.PlayerActed += OnPlayerActed;
             CurveTimer.TimerEnded += OnAnimationCompleted;
             startRotation = transform.localRotation;
@@ -37,6 +37,7 @@ namespace Character
             CurveTimer.StartCount();
             isRunAnimation = true;
             isRightRotation = true;
+            UpdateRotationSpeed();
         }
 
         private void StartAnimationLeft()
@@ -44,6 +45,7 @@ namespace Character
             CurveTimer.StartCount();
             isRunAnimation = true;
             isRightRotation = false;
+            UpdateRotationSpeed();
         }
 
         public void StopAnimation()
@@ -82,25 +84,26 @@ namespace Character
             }
         }
 
-        private void OnCurrentCoinsChanged()
+        private void UpdateRotationSpeed()
         {
-            UpdateSpeedModificator();
-        }
+            if (previousCoins < FinalCoinsToStopReduce) {
+                var coinsDifference = 1;
+                if (PlayerData.Instance.CurrentCoins <= FinalCoinsToStopReduce) {
+                    coinsDifference = PlayerData.Instance.CurrentCoins - previousCoins;
+                } else {
+                    coinsDifference = FinalCoinsToStopReduce - previousCoins;
+                }
 
-        private void UpdateSpeedModificator()
-        {
-            for(var i = 0; i < CurveTimer.Curve.keys.Length; i++) { // TODO One recalculation when pressed
-                CurveTimer.Curve.MoveKey(i, new Keyframe(CurveTimer.Curve.keys[i].time - CurveTimer.Curve.keys[i].time * reduceModifier, CurveTimer.Curve.keys[i].value));
-            }
-            if (PlayerData.Instance.CurrentCoins == FinalCoinsToStopReduce) {
-                PlayerData.Instance.CurrentCoinsChanged -= OnCurrentCoinsChanged;
+                for (var i = 0; i < CurveTimer.Curve.keys.Length; i++) {
+                    CurveTimer.Curve.MoveKey(i, new Keyframe(CurveTimer.Curve.keys[i].time - CurveTimer.Curve.keys[i].time * reduceModifier * coinsDifference, CurveTimer.Curve.keys[i].value));
+                }
+                previousCoins = PlayerData.Instance.CurrentCoins;
             }
         }
 
         void OnDestroy()
         {
             isRunAnimation = false;
-            PlayerData.Instance.CurrentCoinsChanged -= OnCurrentCoinsChanged;
             PlayerInput.Instance.PlayerActed -= OnPlayerActed;
             CurveTimer.TimerEnded -= OnAnimationCompleted;
             CurveTimer = null;

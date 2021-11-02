@@ -58,6 +58,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2c6b963840b5dd4686d8c754793cbd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StartBlockPrefab: {fileID: 8774224310814008869, guid: 5e1f86cfd27bdd34c86c94120e835149,
+    type: 3}
   RoadBlocksPrefabs:
   - {fileID: 7898903877056832902, guid: 3dc3c3f551d7619468cacd284a619ff5, type: 3}
   - {fileID: 7473925391583858131, guid: 4c46d02126bf44244bfba57d0016c831, type: 3}
@@ -73,8 +75,14 @@ MonoBehaviour:
   - {fileID: 2815853598379791950, guid: e753b355351f2ba4eb4b076abc6c2ffb, type: 3}
   - {fileID: 4297994896770171932, guid: 6d37e9613d6c0cb44984d24933f7476b, type: 3}
   - {fileID: 5399341022868909257, guid: 767e563b1b2e03248ace3895b38fa195, type: 3}
-  StartBlockPrefab: {fileID: 8774224310814008869, guid: 5e1f86cfd27bdd34c86c94120e835149,
-    type: 3}
+  - {fileID: 3277140130107955335, guid: efad20bb56a701645bef3e6f9d895fba, type: 3}
+  - {fileID: 1275475938460730355, guid: e916d375ee43e7246982f8aae04d74be, type: 3}
+  - {fileID: 9043461817013461261, guid: 2846417cd7d9fcf46805967cb6e354b4, type: 3}
+  - {fileID: 3464341287808631500, guid: 0ed5f228aa4ab804193ea7814fc7455a, type: 3}
+  - {fileID: 5621212301936709706, guid: af72cae25b5116e4592f34540cba8fc4, type: 3}
+  - {fileID: 4409665206463050210, guid: e3f5600858e1f0f48a28514b950e4f5e, type: 3}
+  - {fileID: 8117806518655240833, guid: bfc88c73d1c11f04080d44d3342b6e0d, type: 3}
+  - {fileID: 4468756637425616838, guid: 2f335da2417ab884bad8916540ea1788, type: 3}
   DifficultyCurve:
     serializedVersion: 2
     m_Curve:

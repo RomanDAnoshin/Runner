@@ -72,7 +72,6 @@ GameObject:
   - component: {fileID: 3657232632940198731}
   - component: {fileID: 8545750336597088254}
   - component: {fileID: 4215664253194131476}
-  - component: {fileID: 8018232647898855879}
   - component: {fileID: 4384943852535340734}
   - component: {fileID: 7534669802385902742}
   m_Layer: 0
@@ -138,18 +137,6 @@ MonoBehaviour:
   StartTimeForChangeLane: 0.3
   FinalReducedTimeForChangeLane: 0.225
   FinalCoinsToStopReduce: 200
---- !u!114 &8018232647898855879
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6914295043546491926}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d22de04028765b14891a426c858ebf1a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &4384943852535340734
 MonoBehaviour:
   m_ObjectHideFlags: 0
