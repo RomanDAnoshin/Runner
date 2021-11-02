@@ -8,22 +8,18 @@ namespace Character
 {
     public class CharacterControls : MonoBehaviour, IPlayerControllable
     {
-        private PlayerInput playerInput;
-        private GameData gameData;
         private CharacterMovement characterMovement;
 
         void Start()
         {
-            playerInput = FindObjectOfType<PlayerInput>();
-            playerInput.PlayerActed += OnPlayerActed;
-            gameData = FindObjectOfType<GameData>();
-            characterMovement = FindObjectOfType<CharacterMovement>();
+            PlayerInput.Instance.PlayerActed += OnPlayerActed;
+            characterMovement = gameObject.GetComponent<CharacterMovement>();
         }
 
         public void OnPlayerActed()
         {
-            if (gameData.Status != GameData.GameStatus.Lose) {
-                switch (playerInput.Value) {
+            if (GameData.Instance.Status != GameStatus.Lose) {
+                switch (PlayerInput.Instance.Value) {
                     case PlayerInput.PlayerActions.MoveLeft:
                         characterMovement.MoveLeft();
                         break;
@@ -39,9 +35,7 @@ namespace Character
 
         void OnDestroy()
         {
-            playerInput.PlayerActed -= OnPlayerActed;
-            playerInput = null;
-            gameData = null;
+            PlayerInput.Instance.PlayerActed -= OnPlayerActed;
             characterMovement = null;
         }
     }

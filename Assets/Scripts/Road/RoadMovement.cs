@@ -10,12 +10,10 @@ namespace Road
         public Action SpeedModificatorChanged;
 
         [SerializeField] private float StartSpeed;
+        [SerializeField] private int FinalValueOfCoins;
+        [SerializeField] private float SpeedGainModifier;
 
-        private GameData gameData;
-        private PlayerInput playerInput;
-        private PlayerData playerData;
         private RoadGenerator roadGenerator;
-        private CharacterBodyCollision characterBodyCollision;
 
         public float SpeedModificator
         {
@@ -24,7 +22,7 @@ namespace Road
             }
             protected set {
                 speedModificator = value;
-                SpeedModificatorChanged?.Invoke();
+                PlayerData.Instance.CurrentSpeedModificator = value;
             }
         }
         [Range(1f, 2f)] private float speedModificator;
@@ -33,16 +31,12 @@ namespace Road
 
         void Start()
         {
-            gameData = FindObjectOfType<GameData>();
-            playerInput = FindObjectOfType<PlayerInput>();
-            playerInput.PlayerActed += OnPlayerActed;
-            playerData = FindObjectOfType<PlayerData>();
-            playerData.CurrentCoinsChanged += OnCurrentCoinsChanged;
-            roadGenerator = FindObjectOfType<RoadGenerator>();
+            PlayerInput.Instance.PlayerActed += OnPlayerActed;
+            PlayerData.Instance.CurrentCoinsChanged += OnCurrentCoinsChanged;
+            roadGenerator = gameObject.GetComponent<RoadGenerator>();
             currentSpeed = StartSpeed;
             speedModificator = 1;
-            characterBodyCollision = FindObjectOfType<CharacterBodyCollision>();
-            characterBodyCollision.CollisionBarricade += OnCharacterCollisionBarricade;
+            GameData.Instance.StatusChanged += OnGameStatusChanged;
         }
 
         void Update()
@@ -72,21 +66,23 @@ namespace Road
 
         public void UpdateCurrentDistance()
         {
-            playerData.CurrentDistance += currentSpeed * Time.deltaTime * SpeedModificator;
+            PlayerData.Instance.CurrentDistance += currentSpeed * Time.deltaTime * SpeedModificator;
         }
 
         public void OnPlayerActed()
         {
-            if (gameData.Status != GameData.GameStatus.Lose &&
-                playerInput.Value == PlayerInput.PlayerActions.Run
+            if (GameData.Instance.Status != GameStatus.Lose &&
+                PlayerInput.Instance.Value == PlayerInput.PlayerActions.Run
             ) {
                 Move();
             }
         }
 
-        private void OnCharacterCollisionBarricade()
+        private void OnGameStatusChanged(GameStatus gameStatus)
         {
-            Stay();
+            if (gameStatus == GameStatus.Lose) {
+                Stay();
+            }
         }
 
         private void OnCurrentCoinsChanged()
@@ -96,25 +92,19 @@ namespace Road
 
         private void UpdateSpeedModificator()
         {
-            if (playerData.CurrentCoins > 100) {
-                SpeedModificator = 2f;
-                playerData.CurrentCoinsChanged -= OnCurrentCoinsChanged;
-            } else {
-                SpeedModificator = 1f + playerData.CurrentCoins / 100f;
+            SpeedModificator = 1f + PlayerData.Instance.CurrentCoins * SpeedGainModifier;
+            if (PlayerData.Instance.CurrentCoins == FinalValueOfCoins) {
+                PlayerData.Instance.CurrentCoinsChanged -= OnCurrentCoinsChanged;
             }
         }
 
         void OnDestroy()
         {
             Stay();
-            gameData = null;
-            playerInput.PlayerActed -= OnPlayerActed;
-            playerInput = null;
-            playerData.CurrentCoinsChanged -= OnCurrentCoinsChanged;
-            playerData = null;
+            PlayerInput.Instance.PlayerActed -= OnPlayerActed;
+            PlayerData.Instance.CurrentCoinsChanged -= OnCurrentCoinsChanged;
             roadGenerator = null;
-            characterBodyCollision.CollisionBarricade -= OnCharacterCollisionBarricade;
-            characterBodyCollision = null;
+            GameData.Instance.StatusChanged -= OnGameStatusChanged;
         }
     }
 }

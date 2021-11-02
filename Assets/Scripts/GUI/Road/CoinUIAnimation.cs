@@ -1,4 +1,5 @@
 ﻿using Character;
+using Player;
 using UnityEngine;
 using Utilities;
 
@@ -7,7 +8,6 @@ namespace GUI.Road
     public class CoinUIAnimation : MonoBehaviour
     {
         [SerializeField] private CurveTimer CurveTimer;
-        private CharacterBodyCollision characterBodyCollision;
         private bool isRunAnimation;
         private Vector3 startLocalScale;
 
@@ -15,8 +15,7 @@ namespace GUI.Road
         {
             startLocalScale = transform.localScale;
             CurveTimer.TimerEnded += OnAnimationCompleted;
-            characterBodyCollision = FindObjectOfType<CharacterBodyCollision>();
-            characterBodyCollision.CollisionCoin += OnCharacterCollisionCoin;
+            PlayerData.Instance.CurrentCoinsChanged += OnCurrentCoinsChanged;
         }
 
         void Update()
@@ -49,7 +48,7 @@ namespace GUI.Road
             transform.localScale = new Vector3(startLocalScale.x * value, startLocalScale.y, startLocalScale.z * value);
         }
 
-        public void OnCharacterCollisionCoin()
+        public void OnCurrentCoinsChanged()
         {
             StartAnimation();
         }
@@ -59,8 +58,7 @@ namespace GUI.Road
             isRunAnimation = false;
             CurveTimer.TimerEnded -= OnAnimationCompleted;
             CurveTimer = null;
-            characterBodyCollision.CollisionCoin -= OnCharacterCollisionCoin;
-            characterBodyCollision = null;
+            PlayerData.Instance.CurrentCoinsChanged -= OnCurrentCoinsChanged;
         }
     }
 }

@@ -8,7 +8,6 @@ namespace GUI.MainMenu
 {
     public class PlayerInfo : MonoBehaviour
     {
-        private PlayerData playerData;
         [SerializeField] private Button ButtonReset;
         [SerializeField] private GameObject CreateAccountWindow;
 
@@ -18,13 +17,12 @@ namespace GUI.MainMenu
 
         void Start()
         {
-            playerData = FindObjectOfType<PlayerData>();
-            playerData.PlayerNameChanged += OnPlayerNameChanged;
-            playerData.CoinsChanged += OnCoinsChanged;
-            playerData.DistanceChanged += OnDistanceChanged;
+            PlayerData.Instance.PlayerNameChanged += OnPlayerNameChanged;
+            PlayerData.Instance.CoinsChanged += OnCoinsChanged;
+            PlayerData.Instance.DistanceChanged += OnDistanceChanged;
             ButtonReset.onClick.AddListener(OnClickButtonReset);
 
-            if (!playerData.HasSaved()) {
+            if (!PlayerData.Instance.HasSaved()) {
                 OpenCreateAccountWindow();
             } else {
                 Refresh();
@@ -33,29 +31,29 @@ namespace GUI.MainMenu
 
         public void Refresh()
         {
-            Distance.text = "Distance: " + playerData.Distance.ToString();
-            Coins.text = "Coins: " + playerData.Coins.ToString();
-            PlayerName.text = "Player name: " + playerData.PlayerName;
+            Distance.text = "Distance: " + PlayerData.Instance.Distance.ToString();
+            Coins.text = "Coins: " + PlayerData.Instance.Coins.ToString();
+            PlayerName.text = "Player name: " + PlayerData.Instance.PlayerName;
         }
 
         private void OnDistanceChanged()
         {
-            Distance.text = "Distance: " + playerData.Distance.ToString();
+            Distance.text = "Distance: " + PlayerData.Instance.Distance.ToString();
         }
 
         private void OnCoinsChanged()
         {
-            Coins.text = "Coins: " + playerData.Coins.ToString();
+            Coins.text = "Coins: " + PlayerData.Instance.Coins.ToString();
         }
 
         private void OnPlayerNameChanged()
         {
-            PlayerName.text = "Player name: " + playerData.PlayerName;
+            PlayerName.text = "Player name: " + PlayerData.Instance.PlayerName;
         }
 
         private void OnClickButtonReset()
         {
-            playerData.Reset();
+            PlayerData.Instance.Reset();
             OpenCreateAccountWindow();
         }
 
@@ -66,10 +64,9 @@ namespace GUI.MainMenu
 
         void OnDestroy()
         {
-            playerData.PlayerNameChanged -= OnPlayerNameChanged;
-            playerData.CoinsChanged -= OnCoinsChanged;
-            playerData.DistanceChanged -= OnDistanceChanged;
-            playerData = null;
+            PlayerData.Instance.PlayerNameChanged -= OnPlayerNameChanged;
+            PlayerData.Instance.CoinsChanged -= OnCoinsChanged;
+            PlayerData.Instance.DistanceChanged -= OnDistanceChanged;
             ButtonReset.onClick.RemoveListener(OnClickButtonReset);
             ButtonReset = null;
             CreateAccountWindow = null;

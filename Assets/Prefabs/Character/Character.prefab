@@ -60,45 +60,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c27ddd843899aca4082c16fd9f41d17a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CollisionBarricade:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3657232632940198731}
-        m_MethodName: OnCharacterCollisionBarricade
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 8018232647898855879}
-        m_MethodName: OnCharacterCollisionBarricade
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 4215664253194131476}
-        m_MethodName: OnCharacterCollisionBarricade
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  CollisionCoin:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &6914295043546491926
 GameObject:
   m_ObjectHideFlags: 0
@@ -148,9 +109,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a79d3ead91445f4994ecf8575d9569d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Animator: {fileID: 1241725108266239472}
-  CharacterData: {fileID: 8018232647898855879}
-  PlayerInput: {fileID: 0}
+  FinalValueOfCoins: 200
+  SpeedGainModifier: 0.0025
 --- !u!114 &8545750336597088254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,9 +123,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99ed908d079a93f4890d1776e02949dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerInput: {fileID: 0}
-  CharacterData: {fileID: 8018232647898855879}
-  CharacterMovement: {fileID: 4215664253194131476}
 --- !u!114 &4215664253194131476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,8 +135,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb9939299952d804084096b030749b20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Lanes: {fileID: 0}
-  HorizontalSpeed: 30
+  StartHorizontalSpeed: 0.3
+  FinalValueOfCoins: 200
+  SpeedGainModifier: 0.00125
 --- !u!114 &8018232647898855879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,9 +162,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2887b732cbd6c5408fecafaba0c247b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharacterData: {fileID: 8018232647898855879}
-  PlayerInput: {fileID: 0}
   CurveTimer: {fileID: 7534669802385902742}
+  FinalValueOfCoins: 200
+  SpeedGainModifier: 0.00125
 --- !u!114 &7534669802385902742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,20 +210,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  TimerEnded:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4384943852535340734}
-        m_MethodName: StopAnimation
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1001 &265679560396395969
 PrefabInstance:
   m_ObjectHideFlags: 0

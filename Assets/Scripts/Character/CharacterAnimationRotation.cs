@@ -10,9 +10,9 @@ namespace Character
 {
     public class CharacterAnimationRotation : MonoBehaviour, IPlayerControllable
     {
-        private GameData gameData;
-        private PlayerInput playerInput;
         [SerializeField] private CurveTimer CurveTimer;
+        [SerializeField] private int FinalValueOfCoins;
+        [SerializeField] private float SpeedGainModifier;
 
         private Quaternion startRotation;
         private bool isRunAnimation;
@@ -20,9 +20,8 @@ namespace Character
 
         void Start()
         {
-            gameData = FindObjectOfType<GameData>();
-            playerInput = FindObjectOfType<PlayerInput>();
-            playerInput.PlayerActed += OnPlayerActed;
+            PlayerData.Instance.CurrentCoinsChanged += OnCurrentCoinsChanged;
+            PlayerInput.Instance.PlayerActed += OnPlayerActed;
             CurveTimer.TimerEnded += OnAnimationCompleted;
             startRotation = transform.localRotation;
         }
@@ -64,17 +63,16 @@ namespace Character
         private void RunAnimation()
         {
             var value = CurveTimer.Curve.Evaluate(CurveTimer.CurrentTime);
-            if (isRightRotation) {
-                transform.localRotation = new Quaternion(startRotation.x, value, startRotation.z, startRotation.w);
-            } else {
-                transform.localRotation = new Quaternion(startRotation.x, -value, startRotation.z, startRotation.w);
-            }            
+            if (!isRightRotation) {
+                value = -value;
+            }
+            transform.localRotation = new Quaternion(startRotation.x, value, startRotation.z, startRotation.w);
         }
 
         public void OnPlayerActed()
         {
-            if (gameData.Status == GameData.GameStatus.Play) {
-                switch (playerInput.Value) {
+            if (GameData.Instance.Status == GameStatus.Play) {
+                switch (PlayerInput.Instance.Value) {
                     case PlayerInput.PlayerActions.MoveLeft:
                         StartAnimationLeft();
                         break;
@@ -85,12 +83,26 @@ namespace Character
             }
         }
 
+        private void OnCurrentCoinsChanged()
+        {
+            UpdateSpeedModificator();
+        }
+
+        private void UpdateSpeedModificator()
+        {
+            for(var i = 0; i < CurveTimer.Curve.keys.Length; i++) { // TODO One recalculation when pressed
+                CurveTimer.Curve.MoveKey(i, new Keyframe(CurveTimer.Curve.keys[i].time - CurveTimer.Curve.keys[i].time * SpeedGainModifier, CurveTimer.Curve.keys[i].value));
+            }
+            if (PlayerData.Instance.CurrentCoins == FinalValueOfCoins) {
+                PlayerData.Instance.CurrentCoinsChanged -= OnCurrentCoinsChanged;
+            }
+        }
+
         void OnDestroy()
         {
             isRunAnimation = false;
-            gameData = null;
-            playerInput.PlayerActed -= OnPlayerActed;
-            playerInput = null;
+            PlayerData.Instance.CurrentCoinsChanged -= OnCurrentCoinsChanged;
+            PlayerInput.Instance.PlayerActed -= OnPlayerActed;
             CurveTimer.TimerEnded -= OnAnimationCompleted;
             CurveTimer = null;
         }

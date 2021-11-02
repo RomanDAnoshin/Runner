@@ -9,32 +9,29 @@ namespace GUI.Road
 {
     public class DeathWindow : MonoBehaviour
     {
-        private PlayerData playerData;
         [SerializeField] private Button ButtonRestart;
         [SerializeField] private Button ButtonQuit;
 
         void Start()
         {
-            playerData = FindObjectOfType<PlayerData>();
             ButtonRestart.onClick.AddListener(OnClickButtonRestart);
             ButtonQuit.onClick.AddListener(OnClickButtonQuit);
         }
 
         private void OnClickButtonRestart()
         {
-            playerData.Save();
+            PlayerData.Instance.Save();
             SceneManager.LoadScene("Road");
         }
 
         private void OnClickButtonQuit()
         {
-            playerData.Save();
+            PlayerData.Instance.Save();
             SceneManager.LoadScene("MainMenu");
         }
 
         void OnDestroy()
         {
-            playerData = null;
             ButtonRestart.onClick.RemoveListener(OnClickButtonRestart);
             ButtonRestart = null;
             ButtonQuit.onClick.RemoveListener(OnClickButtonQuit);

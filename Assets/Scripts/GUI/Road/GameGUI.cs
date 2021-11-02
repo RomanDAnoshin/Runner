@@ -1,5 +1,6 @@
 ﻿using Character;
 using Player;
+using Road;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,27 +11,25 @@ namespace GUI.Road
     {
         [SerializeField] private GameObject StartMessage;
         [SerializeField] private GameObject DeathWindow;
-        private CharacterBodyCollision characterBodyCollision;
-        private PlayerInput playerInput;
 
         void Start()
         {
-            playerInput = FindObjectOfType<PlayerInput>();
-            playerInput.PlayerActed += OnPlayerActed;
-            characterBodyCollision = FindObjectOfType<CharacterBodyCollision>();
-            characterBodyCollision.CollisionBarricade += OnCharacterCollisionBarricade;
+            PlayerInput.Instance.PlayerActed += OnPlayerActed;
+            GameData.Instance.StatusChanged += OnGameStatusChanged;
         }
 
         private void OnPlayerActed()
         {
-            if (playerInput.Value == PlayerInput.PlayerActions.Run) {
+            if (PlayerInput.Instance.Value == PlayerInput.PlayerActions.Run) {
                 Destroy(StartMessage);
             }
         }
 
-        private void OnCharacterCollisionBarricade()
+        private void OnGameStatusChanged(GameStatus gameStatus)
         {
-            StartCoroutine("OpenDeathWindow");
+            if(gameStatus == GameStatus.Lose) {
+                StartCoroutine("OpenDeathWindow");
+            }
         }
 
         private IEnumerator OpenDeathWindow()
@@ -41,10 +40,8 @@ namespace GUI.Road
 
         void OnDestroy()
         {
-            playerInput.PlayerActed -= OnPlayerActed;
-            playerInput = null;
-            characterBodyCollision.CollisionBarricade -= OnCharacterCollisionBarricade;
-            characterBodyCollision = null;
+            PlayerInput.Instance.PlayerActed -= OnPlayerActed;
+            GameData.Instance.StatusChanged -= OnGameStatusChanged;
             StartMessage = null;
             DeathWindow = null;
         }

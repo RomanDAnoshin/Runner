@@ -7,16 +7,28 @@ using Utilities.SimpleJSON;
 
 namespace Player
 {
-    public class PlayerData : MonoBehaviour
+    public class PlayerData
     {
+        public static PlayerData Instance
+        {
+            get {
+                if(instance == null) {
+                    instance = new PlayerData();
+                }
+                return instance;
+            }
+        }
+        private static PlayerData instance;
+
         public Action PlayerNameChanged;
         public Action CoinsChanged;
         public Action CurrentCoinsChanged;
         public Action DistanceChanged;
         public Action CurrentDistanceChanged;
+        public Action CurrentSpeedModificatorChanged;
 
-        [SerializeField] private string playerName;
-        [HideInInspector] public string PlayerName
+        private string playerName;
+        public string PlayerName
         {
             get {
                 return playerName;
@@ -27,8 +39,8 @@ namespace Player
             }
         }
 
-        [SerializeField] private int currentCoins;
-        [HideInInspector] public int CurrentCoins
+        private int currentCoins;
+        public int CurrentCoins
         {
             get {
                 return currentCoins;
@@ -39,8 +51,8 @@ namespace Player
             }
         }
 
-        [SerializeField] private int coins;
-        [HideInInspector] public int Coins
+        private int coins;
+        public int Coins
         {
             get {
                 return coins;
@@ -51,8 +63,8 @@ namespace Player
             }
         }
 
-        [SerializeField] private int distance;
-        [HideInInspector] public int Distance
+        private int distance;
+        public int Distance
         {
             get {
                 return distance;
@@ -63,8 +75,8 @@ namespace Player
             }
         }
 
-        [SerializeField] private float currentDistance;
-        [HideInInspector] public float CurrentDistance
+        private float currentDistance;
+        public float CurrentDistance
         {
             get {
                 return currentDistance;
@@ -75,23 +87,29 @@ namespace Player
             }
         }
 
-        private CharacterBodyCollision characterBodyCollision;
-
-        void Start()
+        private float currentSpeedModificator;
+        public float CurrentSpeedModificator
         {
-            if (SceneManager.GetActiveScene().name == "Road") {
-                characterBodyCollision = FindObjectOfType<CharacterBodyCollision>();
-                characterBodyCollision.CollisionCoin += OnCharacterCollisionCoin;
+            get {
+                return currentSpeedModificator;
             }
+            set {
+                currentSpeedModificator = value;
+                CurrentSpeedModificatorChanged?.Invoke();
+            }
+        }
+
+        private PlayerData()
+        {
             if (HasSaved()) {
                 Load();
             }
+            SceneManager.activeSceneChanged += OnActiveSceneChanged;
         }
 
         public void Save()
         {
-            var jsonObject = ToJSONObject();
-            PlayerPrefs.SetString("PlayerData", jsonObject.ToString());
+            PlayerPrefs.SetString("PlayerData", ToJSONObject().ToString());
         }
 
         public bool HasSaved()
@@ -113,10 +131,19 @@ namespace Player
         {
             PlayerName = "";
             Coins = 0;
+            CurrentCoins = 0;
             Distance = 0;
             CurrentDistance = 0f;
+            CurrentSpeedModificator = 0f;
 
             Save();
+        }
+
+        private void ResetCurrentFields()
+        {
+            CurrentCoins = 0;
+            CurrentDistance = 0f;
+            CurrentSpeedModificator = 0f;
         }
 
         private JSONNode ToJSONObject()
@@ -129,18 +156,31 @@ namespace Player
             return result;
         }
 
-        private void OnCharacterCollisionCoin()
+        public void UpCoins()
         {
             Coins++;
             CurrentCoins++;
         }
 
-        void OnDestroy()
+        private void OnActiveSceneChanged(Scene oldScene, Scene newScene)
         {
-            if (characterBodyCollision != null) {
-                characterBodyCollision.CollisionCoin -= OnCharacterCollisionCoin;
-                characterBodyCollision = null;
+            RebindCharacterBodyCollision(newScene);
+            ResetCurrentFields();
+        }
+
+        private void RebindCharacterBodyCollision(Scene newScene)
+        {
+            if (newScene.name == "Road") {
+                CharacterBodyCollision.Instance.CollisionCoin += OnCharacterBodyCollisionCoin;
+                CharacterBodyCollision.Instance.Destroying += () => {
+                    CharacterBodyCollision.Instance.CollisionCoin -= OnCharacterBodyCollisionCoin;
+                };
             }
+        }
+
+        private void OnCharacterBodyCollisionCoin()
+        {
+            UpCoins();
         }
     }
 }

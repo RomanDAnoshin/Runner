@@ -16,21 +16,22 @@ namespace Character
         }
         public Action PositionChanged;
 
-        [SerializeField] private float HorizontalSpeed;
+        [SerializeField] private float StartHorizontalSpeed;
+        [SerializeField] private int FinalValueOfCoins;
+        [SerializeField] private float SpeedGainModifier;
 
-        private LanesData lanes;
-        private CharacterBodyCollision characterBodyCollision;
+        private float currentHorizontalSpeed;
         private bool isMoving;
         private int targetLane;
         private HorizontalMove horizontalMove;
-        private Vector3 velocitySmoothDamp = Vector3.zero;
+        private Vector3 velocitySmoothDamp;
 
         void Start()
         {
-            lanes = FindObjectOfType<LanesData>();
-            characterBodyCollision = FindObjectOfType<CharacterBodyCollision>();
-            characterBodyCollision.CollisionBarricade += OnCharacterCollisionBarricade;
-            targetLane = lanes.StartLaneIndex;
+            GameData.Instance.StatusChanged += OnGameStatusChanged;
+            targetLane = LanesData.Instance.StartLaneIndex;
+            PlayerData.Instance.CurrentCoinsChanged += OnCurrentCoinsChanged;
+            currentHorizontalSpeed = StartHorizontalSpeed;
         }
 
         void Update()
@@ -42,10 +43,10 @@ namespace Character
         {
             if (
                 horizontalMove != HorizontalMove.None &&
-                transform.position.x != lanes.Positions[targetLane].x
+                transform.position.x != LanesData.Instance.Positions[targetLane].x
             ) {
-                var lanePos = new Vector3(lanes.Positions[targetLane].x, transform.position.y, transform.position.z);
-                transform.position = Vector3.SmoothDamp(transform.position, lanePos, ref velocitySmoothDamp, HorizontalSpeed / 100f);
+                var lanePos = new Vector3(LanesData.Instance.Positions[targetLane].x, transform.position.y, transform.position.z);
+                transform.position = Vector3.SmoothDamp(transform.position, lanePos, ref velocitySmoothDamp, currentHorizontalSpeed);
                 PositionChanged?.Invoke();
             }
         }
@@ -64,7 +65,7 @@ namespace Character
         public void MoveRight()
         {
             if (
-                targetLane != lanes.Positions.Length - 1 &&
+                targetLane != LanesData.Instance.Positions.Length - 1 &&
                 isMoving != false
             ) {
                 targetLane++;
@@ -83,17 +84,30 @@ namespace Character
             isMoving = true;
         }
 
-        private void OnCharacterCollisionBarricade()
+        private void OnGameStatusChanged(GameStatus gameStatus)
         {
-            Stay();
+            if(gameStatus == GameStatus.Lose) {
+                Stay();
+            }
+        }
+
+        private void OnCurrentCoinsChanged()
+        {
+            UpdateSpeedModificator();
+        }
+
+        private void UpdateSpeedModificator()
+        {
+            currentHorizontalSpeed = StartHorizontalSpeed - StartHorizontalSpeed * PlayerData.Instance.CurrentCoins * SpeedGainModifier;
+            if (PlayerData.Instance.CurrentCoins == FinalValueOfCoins) {
+                PlayerData.Instance.CurrentCoinsChanged -= OnCurrentCoinsChanged;
+            }
         }
 
         void OnDestroy()
         {
             Stay();
-            lanes = null;
-            characterBodyCollision.CollisionBarricade -= OnCharacterCollisionBarricade;
-            characterBodyCollision = null;
+            GameData.Instance.StatusChanged -= OnGameStatusChanged;
         }
     }
 }
