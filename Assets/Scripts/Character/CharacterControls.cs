@@ -1,4 +1,5 @@
-﻿using Player;
+﻿using Game;
+using Player;
 using Road;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using UnityEngine;
 
 namespace Character
 {
-    public class CharacterControls : MonoBehaviour, IPlayerControllable
+    public class CharacterControls : MonoBehaviour
     {
         private CharacterMovement characterMovement;
 
@@ -16,17 +17,17 @@ namespace Character
             characterMovement = gameObject.GetComponent<CharacterMovement>();
         }
 
-        public void OnPlayerActed()
+        public void OnPlayerActed(PlayerActions playerAction)
         {
             if (GameData.Instance.Status != GameStatus.Lose) {
-                switch (PlayerInput.Instance.Value) {
-                    case PlayerInput.PlayerActions.MoveLeft:
+                switch (playerAction) {
+                    case PlayerActions.MoveLeft:
                         characterMovement.MoveLeft();
                         break;
-                    case PlayerInput.PlayerActions.MoveRight:
+                    case PlayerActions.MoveRight:
                         characterMovement.MoveRight();
                         break;
-                    case PlayerInput.PlayerActions.Run:
+                    case PlayerActions.Run:
                         characterMovement.Move();
                         break;
                 }

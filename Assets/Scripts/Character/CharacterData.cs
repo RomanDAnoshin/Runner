@@ -1,4 +1,5 @@
-﻿using Road;
+﻿using Game;
+using Road;
 using UnityEngine;
 
 namespace Character
@@ -15,19 +16,17 @@ namespace Character
 
         void Start()
         {
-            GameData.Instance.StatusChanged += OnGameStatusChanged;
+            GameData.Instance.Lost += OnGameLost;
         }
 
-        private void OnGameStatusChanged(GameStatus gameStatus)
+        private void OnGameLost()
         {
-            if(gameStatus == GameStatus.Lose) {
-                State = CharacterState.Died;
-            }
+            State = CharacterState.Died;
         }
 
         void OnDestroy()
         {
-            GameData.Instance.StatusChanged -= OnGameStatusChanged;
+            GameData.Instance.Lost -= OnGameLost;
         }
     }
 }

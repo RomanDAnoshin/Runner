@@ -109,8 +109,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a79d3ead91445f4994ecf8575d9569d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FinalValueOfCoins: 200
-  SpeedGainModifier: 0.0025
+  FinalGainedSpeed: 1.5
+  FinalCoinsToStopGain: 200
 --- !u!114 &8545750336597088254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,9 +135,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb9939299952d804084096b030749b20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartHorizontalSpeed: 0.3
-  FinalValueOfCoins: 200
-  SpeedGainModifier: 0.00125
+  StartTimeForChangeLane: 0.3
+  FinalReducedTimeForChangeLane: 0.225
+  FinalCoinsToStopReduce: 200
 --- !u!114 &8018232647898855879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,8 +163,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurveTimer: {fileID: 7534669802385902742}
-  FinalValueOfCoins: 200
-  SpeedGainModifier: 0.00125
+  FinalCoinsToStopReduce: 200
+  FinalReducedSpeed: 0.75
 --- !u!114 &7534669802385902742
 MonoBehaviour:
   m_ObjectHideFlags: 0

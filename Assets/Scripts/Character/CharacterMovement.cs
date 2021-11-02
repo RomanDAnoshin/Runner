@@ -3,6 +3,7 @@ using Road;
 using Player;
 using Utilities;
 using System;
+using Game;
 
 namespace Character
 {
@@ -16,11 +17,12 @@ namespace Character
         }
         public Action PositionChanged;
 
-        [SerializeField] private float StartHorizontalSpeed;
-        [SerializeField] private int FinalValueOfCoins;
-        [SerializeField] private float SpeedGainModifier;
+        [SerializeField] private float StartTimeForChangeLane;
+        [SerializeField] private float FinalReducedTimeForChangeLane;
+        [SerializeField] private int FinalCoinsToStopReduce;
 
-        private float currentHorizontalSpeed;
+        private float currentTimeForChangeLane;
+        private float reduceModifier;
         private bool isMoving;
         private int targetLane;
         private HorizontalMove horizontalMove;
@@ -28,10 +30,11 @@ namespace Character
 
         void Start()
         {
-            GameData.Instance.StatusChanged += OnGameStatusChanged;
-            targetLane = LanesData.Instance.StartLaneIndex;
+            GameData.Instance.Lost += OnGameLost;
+            targetLane = GameGenerator.Instance.LanesData.StartLaneIndex;
             PlayerData.Instance.CurrentCoinsChanged += OnCurrentCoinsChanged;
-            currentHorizontalSpeed = StartHorizontalSpeed;
+            currentTimeForChangeLane = StartTimeForChangeLane;
+            reduceModifier = (StartTimeForChangeLane - FinalReducedTimeForChangeLane) / FinalCoinsToStopReduce;
         }
 
         void Update()
@@ -43,10 +46,10 @@ namespace Character
         {
             if (
                 horizontalMove != HorizontalMove.None &&
-                transform.position.x != LanesData.Instance.Positions[targetLane].x
+                transform.position.x != GameGenerator.Instance.LanesData.Positions[targetLane].x
             ) {
-                var lanePos = new Vector3(LanesData.Instance.Positions[targetLane].x, transform.position.y, transform.position.z);
-                transform.position = Vector3.SmoothDamp(transform.position, lanePos, ref velocitySmoothDamp, currentHorizontalSpeed);
+                var lanePos = new Vector3(GameGenerator.Instance.LanesData.Positions[targetLane].x, transform.position.y, transform.position.z);
+                transform.position = Vector3.SmoothDamp(transform.position, lanePos, ref velocitySmoothDamp, currentTimeForChangeLane);
                 PositionChanged?.Invoke();
             }
         }
@@ -65,7 +68,7 @@ namespace Character
         public void MoveRight()
         {
             if (
-                targetLane != LanesData.Instance.Positions.Length - 1 &&
+                targetLane != GameGenerator.Instance.LanesData.Positions.Length - 1 &&
                 isMoving != false
             ) {
                 targetLane++;
@@ -84,11 +87,9 @@ namespace Character
             isMoving = true;
         }
 
-        private void OnGameStatusChanged(GameStatus gameStatus)
+        private void OnGameLost()
         {
-            if(gameStatus == GameStatus.Lose) {
-                Stay();
-            }
+            Stay();
         }
 
         private void OnCurrentCoinsChanged()
@@ -98,8 +99,8 @@ namespace Character
 
         private void UpdateSpeedModificator()
         {
-            currentHorizontalSpeed = StartHorizontalSpeed - StartHorizontalSpeed * PlayerData.Instance.CurrentCoins * SpeedGainModifier;
-            if (PlayerData.Instance.CurrentCoins == FinalValueOfCoins) {
+            currentTimeForChangeLane = StartTimeForChangeLane - PlayerData.Instance.CurrentCoins * reduceModifier;
+            if (PlayerData.Instance.CurrentCoins == FinalCoinsToStopReduce) {
                 PlayerData.Instance.CurrentCoinsChanged -= OnCurrentCoinsChanged;
             }
         }
@@ -107,7 +108,7 @@ namespace Character
         void OnDestroy()
         {
             Stay();
-            GameData.Instance.StatusChanged -= OnGameStatusChanged;
+            GameData.Instance.Lost -= OnGameLost;
         }
     }
 }

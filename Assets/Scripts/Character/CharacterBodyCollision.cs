@@ -8,16 +8,9 @@ namespace Character
 {
     public class CharacterBodyCollision : MonoBehaviour
     {
-        public static CharacterBodyCollision Instance;
-
         public Action CollisionBarricade;
         public Action CollisionCoin;
         public Action Destroying;
-
-        void Awake()
-        {
-            Instance = this;
-        }
 
         private void OnCollisionEnter(Collision collision)
         {

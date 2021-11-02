@@ -1,4 +1,5 @@
 ﻿using Character;
+using Game;
 using System;
 using UnityEngine;
 using UnityEngine.Events;
@@ -26,6 +27,8 @@ namespace Player
         public Action DistanceChanged;
         public Action CurrentDistanceChanged;
         public Action CurrentSpeedModificatorChanged;
+
+        private CharacterBodyCollision characterBodyCollision;
 
         private string playerName;
         public string PlayerName
@@ -171,9 +174,10 @@ namespace Player
         private void RebindCharacterBodyCollision(Scene newScene)
         {
             if (newScene.name == "Road") {
-                CharacterBodyCollision.Instance.CollisionCoin += OnCharacterBodyCollisionCoin;
-                CharacterBodyCollision.Instance.Destroying += () => {
-                    CharacterBodyCollision.Instance.CollisionCoin -= OnCharacterBodyCollisionCoin;
+                characterBodyCollision = GameGenerator.Instance.Character.GetComponentInChildren<CharacterBodyCollision>();
+                characterBodyCollision.CollisionCoin += OnCharacterBodyCollisionCoin;
+                characterBodyCollision.Destroying += () => {
+                    characterBodyCollision.CollisionCoin -= OnCharacterBodyCollisionCoin;
                 };
             }
         }

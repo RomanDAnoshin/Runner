@@ -1,19 +1,20 @@
 ﻿using Character;
+using Game;
 using Player;
 using System;
 using UnityEngine;
 
 namespace Road
 {
-    public class RoadMovement : MonoBehaviour, IMovable, IPlayerControllable
+    public class RoadMovement : MonoBehaviour, IMovable
     {
         public Action SpeedModificatorChanged;
 
         [SerializeField] private float StartSpeed;
-        [SerializeField] private int FinalValueOfCoins;
-        [SerializeField] private float SpeedGainModifier;
+        [SerializeField] private int FinalCoinsToStopGain;
+        [SerializeField] private float FinalGainedSpeedModificator;
 
-        private RoadGenerator roadGenerator;
+        private RoadBuffer roadBuffer;
 
         public float SpeedModificator
         {
@@ -25,18 +26,22 @@ namespace Road
                 PlayerData.Instance.CurrentSpeedModificator = value;
             }
         }
-        [Range(1f, 2f)] private float speedModificator;
+        private float startSpeedModificator;
+        private float speedModificator;
+        private float gainSpeedModificator;
         private bool isMoving;
         private float currentSpeed;
 
         void Start()
         {
-            PlayerInput.Instance.PlayerActed += OnPlayerActed;
+            PlayerInput.Instance.Ran += OnPlayerRan;
             PlayerData.Instance.CurrentCoinsChanged += OnCurrentCoinsChanged;
-            roadGenerator = gameObject.GetComponent<RoadGenerator>();
+            roadBuffer = gameObject.GetComponent<RoadBuffer>();
             currentSpeed = StartSpeed;
-            speedModificator = 1;
-            GameData.Instance.StatusChanged += OnGameStatusChanged;
+            startSpeedModificator = 1f;
+            speedModificator = startSpeedModificator;
+            gainSpeedModificator = (FinalGainedSpeedModificator - startSpeedModificator) / FinalCoinsToStopGain;
+            GameData.Instance.Lost += OnGameLost;
         }
 
         void Update()
@@ -47,7 +52,7 @@ namespace Road
         private void MoveRoad()
         {
             if (isMoving) {
-                foreach(var block in roadGenerator.CurrentRoadBlocks) {
+                foreach(var block in roadBuffer.CurrentBlocks) {
                     block.transform.position -= new Vector3(0f, 0f, currentSpeed * Time.deltaTime * SpeedModificator);
                 }
                 UpdateCurrentDistance();
@@ -69,20 +74,16 @@ namespace Road
             PlayerData.Instance.CurrentDistance += currentSpeed * Time.deltaTime * SpeedModificator;
         }
 
-        public void OnPlayerActed()
+        public void OnPlayerRan()
         {
-            if (GameData.Instance.Status != GameStatus.Lose &&
-                PlayerInput.Instance.Value == PlayerInput.PlayerActions.Run
-            ) {
+            if (GameData.Instance.Status != GameStatus.Lose) {
                 Move();
             }
         }
 
-        private void OnGameStatusChanged(GameStatus gameStatus)
+        private void OnGameLost()
         {
-            if (gameStatus == GameStatus.Lose) {
-                Stay();
-            }
+            Stay();
         }
 
         private void OnCurrentCoinsChanged()
@@ -92,8 +93,8 @@ namespace Road
 
         private void UpdateSpeedModificator()
         {
-            SpeedModificator = 1f + PlayerData.Instance.CurrentCoins * SpeedGainModifier;
-            if (PlayerData.Instance.CurrentCoins == FinalValueOfCoins) {
+            SpeedModificator = startSpeedModificator + PlayerData.Instance.CurrentCoins * gainSpeedModificator;
+            if (PlayerData.Instance.CurrentCoins == FinalCoinsToStopGain) {
                 PlayerData.Instance.CurrentCoinsChanged -= OnCurrentCoinsChanged;
             }
         }
@@ -101,10 +102,10 @@ namespace Road
         void OnDestroy()
         {
             Stay();
-            PlayerInput.Instance.PlayerActed -= OnPlayerActed;
+            PlayerInput.Instance.Ran -= OnPlayerRan;
             PlayerData.Instance.CurrentCoinsChanged -= OnCurrentCoinsChanged;
-            roadGenerator = null;
-            GameData.Instance.StatusChanged -= OnGameStatusChanged;
+            roadBuffer = null;
+            GameData.Instance.Lost -= OnGameLost;
         }
     }
 }

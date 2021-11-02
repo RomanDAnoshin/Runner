@@ -1,4 +1,5 @@
 ﻿using Character;
+using Game;
 using Player;
 using Road;
 using System.Collections;
@@ -14,22 +15,18 @@ namespace GUI.Road
 
         void Start()
         {
-            PlayerInput.Instance.PlayerActed += OnPlayerActed;
-            GameData.Instance.StatusChanged += OnGameStatusChanged;
+            PlayerInput.Instance.Ran += OnPlayerRan;
+            GameData.Instance.Lost += OnGameLost;
         }
 
-        private void OnPlayerActed()
+        private void OnPlayerRan()
         {
-            if (PlayerInput.Instance.Value == PlayerInput.PlayerActions.Run) {
-                Destroy(StartMessage);
-            }
+            Destroy(StartMessage);
         }
 
-        private void OnGameStatusChanged(GameStatus gameStatus)
+        private void OnGameLost()
         {
-            if(gameStatus == GameStatus.Lose) {
-                StartCoroutine("OpenDeathWindow");
-            }
+            StartCoroutine("OpenDeathWindow");
         }
 
         private IEnumerator OpenDeathWindow()
@@ -40,8 +37,8 @@ namespace GUI.Road
 
         void OnDestroy()
         {
-            PlayerInput.Instance.PlayerActed -= OnPlayerActed;
-            GameData.Instance.StatusChanged -= OnGameStatusChanged;
+            PlayerInput.Instance.Ran -= OnPlayerRan;
+            GameData.Instance.Lost -= OnGameLost;
             StartMessage = null;
             DeathWindow = null;
         }

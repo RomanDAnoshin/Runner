@@ -1,25 +1,28 @@
 ﻿using UnityEngine;
 using Player;
-using Road;
-using System;
+using Game;
 
 namespace Character
 {
-    public class CharacterAnimation : MonoBehaviour, IPlayerControllable
+    public class CharacterAnimation : MonoBehaviour
     {
-        [SerializeField] private int FinalValueOfCoins;
-        [SerializeField] private float SpeedGainModifier;
+        [SerializeField] private float FinalGainedSpeed;
+        [SerializeField] private int FinalCoinsToStopGain;
 
+        private float speedGainModifier;
+        private float startAnimationSpeed;
         private Animator animator;
-        private CharacterBodyCollision сharacterBodyCollision;
+        private CharacterBodyCollision characterBodyCollision;
 
         void Start()
         {
             animator = gameObject.GetComponentInChildren<Animator>();
-            сharacterBodyCollision = gameObject.GetComponentInChildren<CharacterBodyCollision>();
-            сharacterBodyCollision.CollisionBarricade += OnCharacterCollisionBarricade;
-            PlayerInput.Instance.PlayerActed += OnPlayerActed;
+            characterBodyCollision = gameObject.GetComponentInChildren<CharacterBodyCollision>();
+            characterBodyCollision.CollisionBarricade += OnCharacterCollisionBarricade;
+            PlayerInput.Instance.Ran += OnPlayerRan;
             PlayerData.Instance.CurrentCoinsChanged += OnCurrentCoinsChanged;
+            startAnimationSpeed = animator.speed;
+            speedGainModifier = (FinalGainedSpeed - startAnimationSpeed) / FinalCoinsToStopGain;
         }
 
         public void Run()
@@ -33,20 +36,18 @@ namespace Character
             animator.SetTrigger("Die");
         }
 
-        public void OnPlayerActed()
+        public void OnPlayerRan()
         {
-            if (GameData.Instance.Status != GameStatus.Lose &&
-                PlayerInput.Instance.Value == PlayerInput.PlayerActions.Run
-            ) {
+            if (GameData.Instance.Status != GameStatus.Lose) {
                 Run();
-                PlayerInput.Instance.PlayerActed -= OnPlayerActed;
+                PlayerInput.Instance.Ran -= OnPlayerRan;
             }
         }
 
         private void OnCharacterCollisionBarricade()
         {
             Die();
-            сharacterBodyCollision.CollisionBarricade -= OnCharacterCollisionBarricade;
+            characterBodyCollision.CollisionBarricade -= OnCharacterCollisionBarricade;
         }
 
         private void OnCurrentCoinsChanged()
@@ -56,8 +57,8 @@ namespace Character
 
         private void UpdateSpeedModificator()
         {
-            animator.speed = 1f + PlayerData.Instance.CurrentCoins * SpeedGainModifier;
-            if (PlayerData.Instance.CurrentCoins == FinalValueOfCoins) {
+            animator.speed = startAnimationSpeed + PlayerData.Instance.CurrentCoins * speedGainModifier;
+            if (PlayerData.Instance.CurrentCoins == FinalCoinsToStopGain) {
                 PlayerData.Instance.CurrentCoinsChanged -= OnCurrentCoinsChanged;
             }
         }
@@ -66,8 +67,8 @@ namespace Character
         {
             animator = null;
             PlayerData.Instance.CurrentCoinsChanged -= OnCurrentCoinsChanged;
-            сharacterBodyCollision.CollisionBarricade -= OnCharacterCollisionBarricade;
-            сharacterBodyCollision = null;
+            characterBodyCollision.CollisionBarricade -= OnCharacterCollisionBarricade;
+            characterBodyCollision = null;
         }
     }
 }

@@ -1,19 +1,17 @@
-﻿using Player;
-using Road;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Game;
+using Player;
 using UnityEngine;
 using Utilities;
 
 namespace Character
 {
-    public class CharacterAnimationRotation : MonoBehaviour, IPlayerControllable
+    public class CharacterAnimationRotation : MonoBehaviour
     {
         [SerializeField] private CurveTimer CurveTimer;
-        [SerializeField] private int FinalValueOfCoins;
-        [SerializeField] private float SpeedGainModifier;
+        [SerializeField] private int FinalCoinsToStopReduce;
+        [SerializeField] private float FinalReducedSpeed;
 
+        private float reduceModifier;
         private Quaternion startRotation;
         private bool isRunAnimation;
         private bool isRightRotation;
@@ -24,6 +22,7 @@ namespace Character
             PlayerInput.Instance.PlayerActed += OnPlayerActed;
             CurveTimer.TimerEnded += OnAnimationCompleted;
             startRotation = transform.localRotation;
+            reduceModifier = (1f - FinalReducedSpeed) / FinalCoinsToStopReduce;
         }
 
         void Update()
@@ -69,14 +68,14 @@ namespace Character
             transform.localRotation = new Quaternion(startRotation.x, value, startRotation.z, startRotation.w);
         }
 
-        public void OnPlayerActed()
+        public void OnPlayerActed(PlayerActions playerAction)
         {
             if (GameData.Instance.Status == GameStatus.Play) {
-                switch (PlayerInput.Instance.Value) {
-                    case PlayerInput.PlayerActions.MoveLeft:
+                switch (playerAction) {
+                    case PlayerActions.MoveLeft:
                         StartAnimationLeft();
                         break;
-                    case PlayerInput.PlayerActions.MoveRight:
+                    case PlayerActions.MoveRight:
                         StartAnimationRight();
                         break;
                 }
@@ -91,9 +90,9 @@ namespace Character
         private void UpdateSpeedModificator()
         {
             for(var i = 0; i < CurveTimer.Curve.keys.Length; i++) { // TODO One recalculation when pressed
-                CurveTimer.Curve.MoveKey(i, new Keyframe(CurveTimer.Curve.keys[i].time - CurveTimer.Curve.keys[i].time * SpeedGainModifier, CurveTimer.Curve.keys[i].value));
+                CurveTimer.Curve.MoveKey(i, new Keyframe(CurveTimer.Curve.keys[i].time - CurveTimer.Curve.keys[i].time * reduceModifier, CurveTimer.Curve.keys[i].value));
             }
-            if (PlayerData.Instance.CurrentCoins == FinalValueOfCoins) {
+            if (PlayerData.Instance.CurrentCoins == FinalCoinsToStopReduce) {
                 PlayerData.Instance.CurrentCoinsChanged -= OnCurrentCoinsChanged;
             }
         }

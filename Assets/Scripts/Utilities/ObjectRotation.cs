@@ -8,7 +8,7 @@ namespace Utilities
 
         void Update()
         {
-            transform.Rotate(RotationSpeed.x * Time.deltaTime, RotationSpeed.y * Time.deltaTime, RotationSpeed.z * Time.deltaTime);
+            transform.Rotate(RotationSpeed * Time.deltaTime);
         }
     }
 }
