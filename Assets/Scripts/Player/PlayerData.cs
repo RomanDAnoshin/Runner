@@ -7,7 +7,7 @@ using Utilities.SimpleJSON;
 
 namespace Player
 {
-    public class PlayerData // TODO Reset CurrentCoins and CurrentDistance on Game Restart
+    public class PlayerData
     {
         public static PlayerData Instance
         {
@@ -25,9 +25,10 @@ namespace Player
         public Action CurrentCoinsChanged;
         public Action DistanceChanged;
         public Action CurrentDistanceChanged;
+        public Action CurrentSpeedModificatorChanged;
 
-        [SerializeField] private string playerName;
-        [HideInInspector] public string PlayerName
+        private string playerName;
+        public string PlayerName
         {
             get {
                 return playerName;
@@ -38,8 +39,8 @@ namespace Player
             }
         }
 
-        [SerializeField] private int currentCoins;
-        [HideInInspector] public int CurrentCoins
+        private int currentCoins;
+        public int CurrentCoins
         {
             get {
                 return currentCoins;
@@ -50,8 +51,8 @@ namespace Player
             }
         }
 
-        [SerializeField] private int coins;
-        [HideInInspector] public int Coins
+        private int coins;
+        public int Coins
         {
             get {
                 return coins;
@@ -62,8 +63,8 @@ namespace Player
             }
         }
 
-        [SerializeField] private int distance;
-        [HideInInspector] public int Distance
+        private int distance;
+        public int Distance
         {
             get {
                 return distance;
@@ -74,8 +75,8 @@ namespace Player
             }
         }
 
-        [SerializeField] private float currentDistance;
-        [HideInInspector] public float CurrentDistance
+        private float currentDistance;
+        public float CurrentDistance
         {
             get {
                 return currentDistance;
@@ -86,12 +87,24 @@ namespace Player
             }
         }
 
+        private float currentSpeedModificator;
+        public float CurrentSpeedModificator
+        {
+            get {
+                return currentSpeedModificator;
+            }
+            set {
+                currentSpeedModificator = value;
+                CurrentSpeedModificatorChanged?.Invoke();
+            }
+        }
+
         private PlayerData()
         {
             if (HasSaved()) {
                 Load();
             }
-            SceneManager.activeSceneChanged += RebindOnCharacterBodyCollisionCoin;
+            SceneManager.activeSceneChanged += OnActiveSceneChanged;
         }
 
         public void Save()
@@ -118,10 +131,19 @@ namespace Player
         {
             PlayerName = "";
             Coins = 0;
+            CurrentCoins = 0;
             Distance = 0;
             CurrentDistance = 0f;
+            CurrentSpeedModificator = 0f;
 
             Save();
+        }
+
+        private void ResetCurrentFields()
+        {
+            CurrentCoins = 0;
+            CurrentDistance = 0f;
+            CurrentSpeedModificator = 0f;
         }
 
         private JSONNode ToJSONObject()
@@ -140,7 +162,13 @@ namespace Player
             CurrentCoins++;
         }
 
-        private void RebindOnCharacterBodyCollisionCoin(Scene oldScene, Scene newScene)
+        private void OnActiveSceneChanged(Scene oldScene, Scene newScene)
+        {
+            RebindCharacterBodyCollision(newScene);
+            ResetCurrentFields();
+        }
+
+        private void RebindCharacterBodyCollision(Scene newScene)
         {
             if (newScene.name == "Road") {
                 CharacterBodyCollision.Instance.CollisionCoin += OnCharacterBodyCollisionCoin;

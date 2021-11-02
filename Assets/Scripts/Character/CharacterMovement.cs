@@ -8,8 +8,6 @@ namespace Character
 {
     public class CharacterMovement : MonoBehaviour, IMovable
     {
-        public static CharacterMovement Instance;
-
         public enum HorizontalMove
         {
             None,
@@ -18,22 +16,22 @@ namespace Character
         }
         public Action PositionChanged;
 
-        [SerializeField] private float HorizontalSpeed;
+        [SerializeField] private float StartHorizontalSpeed;
+        [SerializeField] private int FinalValueOfCoins;
+        [SerializeField] private float SpeedGainModifier;
 
+        private float currentHorizontalSpeed;
         private bool isMoving;
         private int targetLane;
         private HorizontalMove horizontalMove;
-        private Vector3 velocitySmoothDamp = Vector3.zero;
-
-        void Awake()
-        {
-            Instance = this;
-        }
+        private Vector3 velocitySmoothDamp;
 
         void Start()
         {
-            CharacterBodyCollision.Instance.CollisionBarricade += OnCharacterCollisionBarricade;
+            GameData.Instance.StatusChanged += OnGameStatusChanged;
             targetLane = LanesData.Instance.StartLaneIndex;
+            PlayerData.Instance.CurrentCoinsChanged += OnCurrentCoinsChanged;
+            currentHorizontalSpeed = StartHorizontalSpeed;
         }
 
         void Update()
@@ -48,7 +46,7 @@ namespace Character
                 transform.position.x != LanesData.Instance.Positions[targetLane].x
             ) {
                 var lanePos = new Vector3(LanesData.Instance.Positions[targetLane].x, transform.position.y, transform.position.z);
-                transform.position = Vector3.SmoothDamp(transform.position, lanePos, ref velocitySmoothDamp, HorizontalSpeed / 100f);
+                transform.position = Vector3.SmoothDamp(transform.position, lanePos, ref velocitySmoothDamp, currentHorizontalSpeed);
                 PositionChanged?.Invoke();
             }
         }
@@ -86,15 +84,30 @@ namespace Character
             isMoving = true;
         }
 
-        private void OnCharacterCollisionBarricade()
+        private void OnGameStatusChanged(GameStatus gameStatus)
         {
-            Stay();
+            if(gameStatus == GameStatus.Lose) {
+                Stay();
+            }
+        }
+
+        private void OnCurrentCoinsChanged()
+        {
+            UpdateSpeedModificator();
+        }
+
+        private void UpdateSpeedModificator()
+        {
+            currentHorizontalSpeed = StartHorizontalSpeed - StartHorizontalSpeed * PlayerData.Instance.CurrentCoins * SpeedGainModifier;
+            if (PlayerData.Instance.CurrentCoins == FinalValueOfCoins) {
+                PlayerData.Instance.CurrentCoinsChanged -= OnCurrentCoinsChanged;
+            }
         }
 
         void OnDestroy()
         {
             Stay();
-            CharacterBodyCollision.Instance.CollisionBarricade -= OnCharacterCollisionBarricade;
+            GameData.Instance.StatusChanged -= OnGameStatusChanged;
         }
     }
 }

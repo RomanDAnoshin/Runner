@@ -7,11 +7,11 @@ namespace Road
 {
     public class RoadMovement : MonoBehaviour, IMovable, IPlayerControllable
     {
-        public static RoadMovement Instance;
-
         public Action SpeedModificatorChanged;
 
         [SerializeField] private float StartSpeed;
+        [SerializeField] private int FinalValueOfCoins;
+        [SerializeField] private float SpeedGainModifier;
 
         private RoadGenerator roadGenerator;
 
@@ -22,17 +22,12 @@ namespace Road
             }
             protected set {
                 speedModificator = value;
-                SpeedModificatorChanged?.Invoke();
+                PlayerData.Instance.CurrentSpeedModificator = value;
             }
         }
         [Range(1f, 2f)] private float speedModificator;
         private bool isMoving;
         private float currentSpeed;
-
-        void Awake()
-        {
-            Instance = this;
-        }
 
         void Start()
         {
@@ -41,7 +36,7 @@ namespace Road
             roadGenerator = gameObject.GetComponent<RoadGenerator>();
             currentSpeed = StartSpeed;
             speedModificator = 1;
-            CharacterBodyCollision.Instance.CollisionBarricade += OnCharacterCollisionBarricade;
+            GameData.Instance.StatusChanged += OnGameStatusChanged;
         }
 
         void Update()
@@ -76,16 +71,18 @@ namespace Road
 
         public void OnPlayerActed()
         {
-            if (GameData.Instance.Status != GameData.GameStatus.Lose &&
+            if (GameData.Instance.Status != GameStatus.Lose &&
                 PlayerInput.Instance.Value == PlayerInput.PlayerActions.Run
             ) {
                 Move();
             }
         }
 
-        private void OnCharacterCollisionBarricade()
+        private void OnGameStatusChanged(GameStatus gameStatus)
         {
-            Stay();
+            if (gameStatus == GameStatus.Lose) {
+                Stay();
+            }
         }
 
         private void OnCurrentCoinsChanged()
@@ -93,14 +90,12 @@ namespace Road
             UpdateSpeedModificator();
         }
 
-        private void UpdateSpeedModificator() // TODO bring speed control to a higher level
+        private void UpdateSpeedModificator()
         {
-            //if (playerData.CurrentCoins > 100) {
-            //    SpeedModificator = 2f;
-            //    playerData.CurrentCoinsChanged -= OnCurrentCoinsChanged;
-            //} else {
-            //    SpeedModificator = 1f + playerData.CurrentCoins / 100f;
-            //}
+            SpeedModificator = 1f + PlayerData.Instance.CurrentCoins * SpeedGainModifier;
+            if (PlayerData.Instance.CurrentCoins == FinalValueOfCoins) {
+                PlayerData.Instance.CurrentCoinsChanged -= OnCurrentCoinsChanged;
+            }
         }
 
         void OnDestroy()
@@ -109,7 +104,7 @@ namespace Road
             PlayerInput.Instance.PlayerActed -= OnPlayerActed;
             PlayerData.Instance.CurrentCoinsChanged -= OnCurrentCoinsChanged;
             roadGenerator = null;
-            CharacterBodyCollision.Instance.CollisionBarricade -= OnCharacterCollisionBarricade;
+            GameData.Instance.StatusChanged -= OnGameStatusChanged;
         }
     }
 }

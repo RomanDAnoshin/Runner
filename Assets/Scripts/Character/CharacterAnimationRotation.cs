@@ -11,6 +11,8 @@ namespace Character
     public class CharacterAnimationRotation : MonoBehaviour, IPlayerControllable
     {
         [SerializeField] private CurveTimer CurveTimer;
+        [SerializeField] private int FinalValueOfCoins;
+        [SerializeField] private float SpeedGainModifier;
 
         private Quaternion startRotation;
         private bool isRunAnimation;
@@ -18,6 +20,7 @@ namespace Character
 
         void Start()
         {
+            PlayerData.Instance.CurrentCoinsChanged += OnCurrentCoinsChanged;
             PlayerInput.Instance.PlayerActed += OnPlayerActed;
             CurveTimer.TimerEnded += OnAnimationCompleted;
             startRotation = transform.localRotation;
@@ -60,16 +63,15 @@ namespace Character
         private void RunAnimation()
         {
             var value = CurveTimer.Curve.Evaluate(CurveTimer.CurrentTime);
-            if (isRightRotation) {
-                transform.localRotation = new Quaternion(startRotation.x, value, startRotation.z, startRotation.w);
-            } else {
-                transform.localRotation = new Quaternion(startRotation.x, -value, startRotation.z, startRotation.w);
-            }            
+            if (!isRightRotation) {
+                value = -value;
+            }
+            transform.localRotation = new Quaternion(startRotation.x, value, startRotation.z, startRotation.w);
         }
 
         public void OnPlayerActed()
         {
-            if (GameData.Instance.Status == GameData.GameStatus.Play) {
+            if (GameData.Instance.Status == GameStatus.Play) {
                 switch (PlayerInput.Instance.Value) {
                     case PlayerInput.PlayerActions.MoveLeft:
                         StartAnimationLeft();
@@ -81,9 +83,25 @@ namespace Character
             }
         }
 
+        private void OnCurrentCoinsChanged()
+        {
+            UpdateSpeedModificator();
+        }
+
+        private void UpdateSpeedModificator()
+        {
+            for(var i = 0; i < CurveTimer.Curve.keys.Length; i++) { // TODO One recalculation when pressed
+                CurveTimer.Curve.MoveKey(i, new Keyframe(CurveTimer.Curve.keys[i].time - CurveTimer.Curve.keys[i].time * SpeedGainModifier, CurveTimer.Curve.keys[i].value));
+            }
+            if (PlayerData.Instance.CurrentCoins == FinalValueOfCoins) {
+                PlayerData.Instance.CurrentCoinsChanged -= OnCurrentCoinsChanged;
+            }
+        }
+
         void OnDestroy()
         {
             isRunAnimation = false;
+            PlayerData.Instance.CurrentCoinsChanged -= OnCurrentCoinsChanged;
             PlayerInput.Instance.PlayerActed -= OnPlayerActed;
             CurveTimer.TimerEnded -= OnAnimationCompleted;
             CurveTimer = null;

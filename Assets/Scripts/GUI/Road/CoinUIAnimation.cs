@@ -1,4 +1,5 @@
 ﻿using Character;
+using Player;
 using UnityEngine;
 using Utilities;
 
@@ -14,7 +15,7 @@ namespace GUI.Road
         {
             startLocalScale = transform.localScale;
             CurveTimer.TimerEnded += OnAnimationCompleted;
-            CharacterBodyCollision.Instance.CollisionCoin += OnCharacterCollisionCoin;
+            PlayerData.Instance.CurrentCoinsChanged += OnCurrentCoinsChanged;
         }
 
         void Update()
@@ -47,7 +48,7 @@ namespace GUI.Road
             transform.localScale = new Vector3(startLocalScale.x * value, startLocalScale.y, startLocalScale.z * value);
         }
 
-        public void OnCharacterCollisionCoin()
+        public void OnCurrentCoinsChanged()
         {
             StartAnimation();
         }
@@ -57,7 +58,7 @@ namespace GUI.Road
             isRunAnimation = false;
             CurveTimer.TimerEnded -= OnAnimationCompleted;
             CurveTimer = null;
-            CharacterBodyCollision.Instance.CollisionCoin -= OnCharacterCollisionCoin;
+            PlayerData.Instance.CurrentCoinsChanged -= OnCurrentCoinsChanged;
         }
     }
 }

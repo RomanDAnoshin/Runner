@@ -63,6 +63,7 @@ MonoBehaviour:
   - {fileID: 4297994896770171932, guid: 6d37e9613d6c0cb44984d24933f7476b, type: 3}
   - {fileID: 5399341022868909257, guid: 767e563b1b2e03248ace3895b38fa195, type: 3}
   BlockCount: 10
+  characterStartPosition: {x: 0, y: 0.8, z: -9}
   DifficultyCurve:
     serializedVersion: 2
     m_Curve:
@@ -136,6 +137,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StartSpeed: 12.5
+  FinalValueOfCoins: 200
+  SpeedGainModifier: 0.005
 --- !u!114 &8149684786900492359
 MonoBehaviour:
   m_ObjectHideFlags: 0

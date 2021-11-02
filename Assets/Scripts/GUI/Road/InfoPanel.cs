@@ -15,7 +15,7 @@ namespace GUI.Road
         {
             PlayerData.Instance.CoinsChanged += OnCoinsCountChanged;
             PlayerData.Instance.CurrentDistanceChanged += OnCurrentDistanceCountChanged;
-            RoadMovement.Instance.SpeedModificatorChanged += OnSpeedModificatorChanged;
+            PlayerData.Instance.CurrentSpeedModificatorChanged += OnSpeedModificatorChanged;
             Refresh();
         }
 
@@ -31,7 +31,7 @@ namespace GUI.Road
 
         private void OnSpeedModificatorChanged()
         {
-            var speedModstring = RoadMovement.Instance.SpeedModificator.ToString();
+            var speedModstring = PlayerData.Instance.CurrentSpeedModificator.ToString();
             if (speedModstring.Length >= 3) {
                 SpeedModificator.text = "Speed Modificator: x" + speedModstring.Substring(0, 3);
             } else {
@@ -49,7 +49,7 @@ namespace GUI.Road
         {
             PlayerData.Instance.CoinsChanged -= OnCoinsCountChanged;
             PlayerData.Instance.CurrentDistanceChanged -= OnCurrentDistanceCountChanged;
-            RoadMovement.Instance.SpeedModificatorChanged -= OnSpeedModificatorChanged;
+            PlayerData.Instance.CurrentSpeedModificatorChanged -= OnSpeedModificatorChanged;
             Coins = null;
             Distance = null;
             SpeedModificator = null;

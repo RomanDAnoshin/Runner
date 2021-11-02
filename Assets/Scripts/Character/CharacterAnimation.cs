@@ -1,43 +1,52 @@
 ﻿using UnityEngine;
 using Player;
 using Road;
+using System;
 
 namespace Character
 {
     public class CharacterAnimation : MonoBehaviour, IPlayerControllable
     {
-        [SerializeField] private Animator Animator;
+        [SerializeField] private int FinalValueOfCoins;
+        [SerializeField] private float SpeedGainModifier;
+
+        private Animator animator;
+        private CharacterBodyCollision сharacterBodyCollision;
 
         void Start()
         {
+            animator = gameObject.GetComponentInChildren<Animator>();
+            сharacterBodyCollision = gameObject.GetComponentInChildren<CharacterBodyCollision>();
+            сharacterBodyCollision.CollisionBarricade += OnCharacterCollisionBarricade;
             PlayerInput.Instance.PlayerActed += OnPlayerActed;
-            CharacterBodyCollision.Instance.CollisionBarricade += OnCharacterCollisionBarricade;
             PlayerData.Instance.CurrentCoinsChanged += OnCurrentCoinsChanged;
         }
 
         public void Run()
         {
-            Animator.SetTrigger("Run");
+            animator.SetTrigger("Run");
         }
 
         public void Die()
         {
-            Animator.speed = 1f;
-            Animator.SetTrigger("Die");
+            animator.speed = 1f;
+            animator.SetTrigger("Die");
         }
 
         public void OnPlayerActed()
         {
-            if (GameData.Instance.Status != GameData.GameStatus.Lose &&
+            if (GameData.Instance.Status != GameStatus.Lose &&
                 PlayerInput.Instance.Value == PlayerInput.PlayerActions.Run
             ) {
                 Run();
+                PlayerInput.Instance.PlayerActed -= OnPlayerActed;
             }
         }
 
         private void OnCharacterCollisionBarricade()
         {
             Die();
+            сharacterBodyCollision.CollisionBarricade -= OnCharacterCollisionBarricade;
         }
 
         private void OnCurrentCoinsChanged()
@@ -45,22 +54,20 @@ namespace Character
             UpdateSpeedModificator();
         }
 
-        private void UpdateSpeedModificator() // TODO bring animation speed control to a higher level
+        private void UpdateSpeedModificator()
         {
-            if (PlayerData.Instance.CurrentCoins > 100) {
-                Animator.speed = 1.5f;
+            animator.speed = 1f + PlayerData.Instance.CurrentCoins * SpeedGainModifier;
+            if (PlayerData.Instance.CurrentCoins == FinalValueOfCoins) {
                 PlayerData.Instance.CurrentCoinsChanged -= OnCurrentCoinsChanged;
-            } else {
-                Animator.speed = 1f + PlayerData.Instance.CurrentCoins / 200f;
             }
         }
 
         void OnDestroy()
         {
-            PlayerInput.Instance.PlayerActed -= OnPlayerActed;
-            CharacterBodyCollision.Instance.CollisionBarricade -= OnCharacterCollisionBarricade;
-            Animator = null;
+            animator = null;
             PlayerData.Instance.CurrentCoinsChanged -= OnCurrentCoinsChanged;
+            сharacterBodyCollision.CollisionBarricade -= OnCharacterCollisionBarricade;
+            сharacterBodyCollision = null;
         }
     }
 }

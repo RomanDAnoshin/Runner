@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Road;
+using UnityEngine;
 
 namespace Character
 {
@@ -14,17 +15,19 @@ namespace Character
 
         void Start()
         {
-            CharacterBodyCollision.Instance.CollisionBarricade += OnCharacterCollisionBarricade;
+            GameData.Instance.StatusChanged += OnGameStatusChanged;
         }
 
-        private void OnCharacterCollisionBarricade()
+        private void OnGameStatusChanged(GameStatus gameStatus)
         {
-            State = CharacterState.Died;
+            if(gameStatus == GameStatus.Lose) {
+                State = CharacterState.Died;
+            }
         }
 
         void OnDestroy()
         {
-            CharacterBodyCollision.Instance.CollisionBarricade -= OnCharacterCollisionBarricade;
+            GameData.Instance.StatusChanged -= OnGameStatusChanged;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Road
 
         [SerializeField, Range(1, 30)] private int BlockCount;
 
-        private Transform characterTransform;
+        [SerializeField] private Vector3 characterStartPosition;
         private float blockLenght;
 
         [SerializeField] private AnimationCurve DifficultyCurve;
@@ -29,7 +29,6 @@ namespace Road
         void Start()
         {
             CurrentRoadBlocks = new LinkedList<GameObject>();
-            characterTransform = CharacterMovement.Instance.transform;
             SortPrefabsByDifficult();
             PrepareSegmentsMap();
             AddStartBlockToCollection();
@@ -47,7 +46,7 @@ namespace Road
 
         private bool IsNecessarySpawn()
         {
-            return CurrentRoadBlocks.First.Value.transform.position.z + blockLenght < characterTransform.position.z;
+            return CurrentRoadBlocks.First.Value.transform.position.z + blockLenght < characterStartPosition.z;
         }
 
         private void SpawnBlockByCoins(int coins)
@@ -184,7 +183,6 @@ namespace Road
                 Destroy(block);
             }
             CurrentRoadBlocks = null;
-            characterTransform = null;
         }
     }
 }

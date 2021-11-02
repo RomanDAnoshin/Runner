@@ -5,18 +5,18 @@ using UnityEngine;
 
 namespace Road
 {
+    public enum GameStatus
+    {
+        PrepareToStart,
+        Play,
+        Lose
+    }
+
     public class GameData : MonoBehaviour, IPlayerControllable
     {
         public static GameData Instance;
 
-        public enum GameStatus
-        {
-            PrepareToStart,
-            Play,
-            Lose
-        }
-
-        public Action StatusChanged;
+        public Action<GameStatus> StatusChanged;
 
         private GameStatus status;
         public GameStatus Status
@@ -25,8 +25,10 @@ namespace Road
                 return status;
             }
             protected set {
-                status = value;
-                StatusChanged?.Invoke();
+                if(status != value) {
+                    status = value;
+                    StatusChanged?.Invoke(status);
+                }
             }
         }
 

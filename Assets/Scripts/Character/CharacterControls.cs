@@ -18,7 +18,7 @@ namespace Character
 
         public void OnPlayerActed()
         {
-            if (GameData.Instance.Status != GameData.GameStatus.Lose) {
+            if (GameData.Instance.Status != GameStatus.Lose) {
                 switch (PlayerInput.Instance.Value) {
                     case PlayerInput.PlayerActions.MoveLeft:
                         characterMovement.MoveLeft();
