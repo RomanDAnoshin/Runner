@@ -83,6 +83,9 @@ MonoBehaviour:
   - {fileID: 4409665206463050210, guid: e3f5600858e1f0f48a28514b950e4f5e, type: 3}
   - {fileID: 8117806518655240833, guid: bfc88c73d1c11f04080d44d3342b6e0d, type: 3}
   - {fileID: 4468756637425616838, guid: 2f335da2417ab884bad8916540ea1788, type: 3}
+  - {fileID: 3321761385144053329, guid: 28bfc3250bd79474ab638b66448a53b4, type: 3}
+  - {fileID: 5133967838727388462, guid: 8eda66ea748fbe8408dcbfdb312cf766, type: 3}
+  - {fileID: 8038728148242145587, guid: 52b39596de4cb704d827df9b446be8a7, type: 3}
   DifficultyCurve:
     serializedVersion: 2
     m_Curve:

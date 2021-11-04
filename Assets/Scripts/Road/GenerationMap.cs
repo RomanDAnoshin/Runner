@@ -7,7 +7,7 @@ namespace Road
     public class GenerationMap
     {
         private GameObject[][] PrefabsWithSegments;
-        private int[] PrefabsDifficultWithSegments;
+        private int[] UniqueDifficults;
         private int[][] RepetitionCountsMap;
 
         public GenerationMap(List<GameObject> sortedRoadBlocks)
@@ -32,9 +32,9 @@ namespace Road
             }
             uniqueItemIndices.Add(sortedRoadBlocks.Count); // add end
 
-            PrefabsDifficultWithSegments = new int[uniqueDifficults.Count];
+            UniqueDifficults = new int[uniqueDifficults.Count];
             for (var i = 0; i < uniqueDifficults.Count; i++) {
-                PrefabsDifficultWithSegments[i] = uniqueDifficults[i];
+                UniqueDifficults[i] = uniqueDifficults[i];
             }
 
             PrefabsWithSegments = new GameObject[uniqueDifficults.Count][];
@@ -55,17 +55,18 @@ namespace Road
         public GameObject GetBlockByDifficulty(float difficult)
         {
             var indexInFirstRow = 0;
-            var difference = float.MaxValue;
-            for (var i = 0; i < PrefabsDifficultWithSegments.Length; i++) {
-                if (PrefabsDifficultWithSegments[i] > difficult) {
-                    break;
-                }
-                if (difficult - PrefabsDifficultWithSegments[i] < difference) {
-                    indexInFirstRow = i;
-                    difference = difficult - PrefabsDifficultWithSegments[i];
+            if (UniqueDifficults.Length > 1) {
+                var upperIndex = GetUpperBound(UniqueDifficults, difficult);
+                var lowerIndex = upperIndex - 1;
+                if (
+                    lowerIndex > 0 &&
+                    difficult - UniqueDifficults[lowerIndex] < UniqueDifficults[upperIndex] - difficult
+                ) {
+                    indexInFirstRow = lowerIndex;
+                } else {
+                    indexInFirstRow = upperIndex;
                 }
             }
-
             return GetBlockWithFewerRepetitions(indexInFirstRow);
         }
 
@@ -87,6 +88,26 @@ namespace Road
                 RepetitionCountsMap[indexInFirstRow][0]++;
                 return PrefabsWithSegments[indexInFirstRow][0];
             }
+        }
+
+        private int GetUpperBound(int[] array, float value)
+        {
+            var first = 0;
+            var count = array.Length - 1 - first;
+            int step;
+            int i;
+            while(count > 0) {
+                i = first;
+                step = count / 2;
+                i += step;
+                if(!(value < array[i])) {
+                    first = ++i;
+                    count -= step + 1;
+                } else {
+                    count = step;
+                }
+            }
+            return first;
         }
     }
 }
