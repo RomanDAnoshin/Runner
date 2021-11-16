@@ -173,7 +173,7 @@ PrefabInstance:
     - target: {fileID: 4451081071638328838, guid: 8c2f79c1fab12b54f806034f13938d6d,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 8
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4451081071638328838, guid: 8c2f79c1fab12b54f806034f13938d6d,
         type: 3}
@@ -311,7 +311,7 @@ PrefabInstance:
     - target: {fileID: 4451081071638328838, guid: 8c2f79c1fab12b54f806034f13938d6d,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -8
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 4451081071638328838, guid: 8c2f79c1fab12b54f806034f13938d6d,
         type: 3}
@@ -424,6 +424,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8265176135166972316, guid: 0c96909ebb4b6ea42a6b8f4891326a00,
         type: 3}
+      propertyPath: isLineNAvailableToEntry.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8265176135166972316, guid: 0c96909ebb4b6ea42a6b8f4891326a00,
+        type: 3}
+      propertyPath: isNLineAvailableToExit.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8265176135166972316, guid: 0c96909ebb4b6ea42a6b8f4891326a00,
+        type: 3}
       propertyPath: difficult
       value: 60
       objectReference: {fileID: 0}
@@ -431,6 +441,26 @@ PrefabInstance:
         type: 3}
       propertyPath: maxCoinsCanBeCollected
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8265176135166972316, guid: 0c96909ebb4b6ea42a6b8f4891326a00,
+        type: 3}
+      propertyPath: isLineNAvailableToEntry.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8265176135166972316, guid: 0c96909ebb4b6ea42a6b8f4891326a00,
+        type: 3}
+      propertyPath: isLineNAvailableToEntry.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8265176135166972316, guid: 0c96909ebb4b6ea42a6b8f4891326a00,
+        type: 3}
+      propertyPath: isNLineAvailableToExit.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8265176135166972316, guid: 0c96909ebb4b6ea42a6b8f4891326a00,
+        type: 3}
+      propertyPath: isNLineAvailableToExit.Array.data[1]
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c96909ebb4b6ea42a6b8f4891326a00, type: 3}
