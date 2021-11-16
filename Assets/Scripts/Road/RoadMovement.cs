@@ -52,9 +52,7 @@ namespace Road
         private void MoveRoad()
         {
             if (isMoving) {
-                foreach(var block in roadBuffer.CurrentBlocks) {
-                    block.transform.position -= new Vector3(0f, 0f, currentSpeed * Time.deltaTime * SpeedModificator);
-                }
+                roadBuffer.ForEach(block => block.transform.position -= new Vector3(0f, 0f, currentSpeed * Time.deltaTime * SpeedModificator));
                 UpdateCurrentDistance();
             }
         }

@@ -1,46 +1,127 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 namespace Road
 {
     public class RoadBuffer : MonoBehaviour
     {
-        public LinkedList<GameObject> CurrentBlocks { get; private set; }
-        [Range(1, 30)] public int Capacity;
+        private GameObject[] Buffer;
 
-        void Start()
+        [Range(1, 30)]
+        [SerializeField]
+        private int capacity;
+        public int Capacity
         {
-            CurrentBlocks = new LinkedList<GameObject>();
-        }
-
-        public void AddBlockToTop(GameObject block)
-        {
-            if(CurrentBlocks.Count < Capacity) {
-                if (CurrentBlocks.Count > 0) {
-                    var topBlockTransform = CurrentBlocks.Last.Value.transform;
-                    block.transform.position = new Vector3(0, 0, topBlockTransform.position.z + topBlockTransform.GetChild(0).localScale.z);
-                } else {
-                    block.transform.position = Vector3.zero;
-                }
-                CurrentBlocks.AddLast(block);
+            get {
+                return capacity;
             }
         }
 
-        public void DestroyBottomBlock()
+        private int count;
+        public int Count
         {
-            if(CurrentBlocks.Count > 0) {
-                Destroy(CurrentBlocks.First.Value);
-                CurrentBlocks.RemoveFirst();
+            get {
+                return count;
+            }
+        }
+
+        private int indexFirst;
+        private int indexLast;
+
+        public GameObject TopBlock
+        {
+            get {
+                return Buffer[indexLast];
+            }
+            private set {
+                Buffer[indexLast] = value;
+            }
+        }
+
+        public GameObject BottomBlock
+        {
+            get {
+                return Buffer[indexFirst];
+            }
+            private set {
+                Buffer[indexFirst] = value;
+            }
+        }
+
+        void Start()
+        {
+            Buffer = new GameObject[capacity];
+        }
+
+        public void AddToTop(GameObject block)
+        {
+            if (count == capacity) {
+                DestroyBottomBlock();
+            }
+            if (count > 0) {
+                block.transform.position = new Vector3(0, 0, TopBlock.transform.position.z + TopBlock.transform.GetChild(0).localScale.z);
+                UpIndexLast();
+            } else {
+                block.transform.position = Vector3.zero;
+            }
+            count++;
+            Buffer[indexLast] = block;
+        }
+
+        private void DestroyBottomBlock()
+        {
+            if(count > 0) {
+                Destroy(BottomBlock);
+                BottomBlock = null;
+                count--;
+                UpIndexFirst();
+            }
+        }
+
+        private void UpIndexFirst()
+        {
+            if (indexFirst < capacity - 1) {
+                indexFirst++;
+            } else {
+                indexFirst = 0;
+            }
+        }
+
+        private void UpIndexLast()
+        {
+            if(indexLast < capacity - 1) {
+                indexLast++;
+            } else {
+                indexLast = 0;
+            }
+        }
+
+        public void ForEach(Action<GameObject> action)
+        {
+            if (count > 0) {
+                if(count == 1) {
+                    action(Buffer[indexFirst]);
+                } else if (indexFirst < indexLast) {
+                    for (var i = indexFirst; i <= indexLast; i++) {
+                        action(Buffer[i]);
+                    }
+                } else {
+                    for(var i = 0; i <= indexLast; i++) {
+                        action(Buffer[i]);
+                    }
+                    for(var i = indexFirst; i < capacity; i++) {
+                        action(Buffer[i]);
+                    }
+                }
             }
         }
 
         void OnDestroy()
         {
-            foreach (var block in CurrentBlocks) {
+            foreach (var block in Buffer) {
                 Destroy(block);
             }
-            CurrentBlocks = null;
+            Buffer = null;
         }
     }
 }

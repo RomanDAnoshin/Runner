@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Road
 {
-    public class RoadCoin : MonoBehaviour
+    public class RoadCoinCollision : MonoBehaviour
     {
         private void OnTriggerEnter(Collider other)
         {
