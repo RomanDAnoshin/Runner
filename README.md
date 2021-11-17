@@ -40,6 +40,7 @@ Consists of two scenes:
   
 ![road](https://raw.githubusercontent.com/RomanDAnoshin/Runner/master/Readme%20screens/Road.JPG)
 > Press the [up arrow] or [W] key to start.
+> 
 > Moving between the lines is carried out using the keys [arrow to the left], [arrow to the right] or [A], [D].
 > To move quickly between the extreme lines, press the key twice.
 > 
@@ -58,9 +59,9 @@ Launching in the editor must be done only from the scene of the Main Menu!
 * The road consists of Blocks with coins and barricades on them.
   
 ![roadblock](https://raw.githubusercontent.com/RomanDAnoshin/Runner/master/Readme%20screens/RoadBlock.JPG)
-> Each Block has a difficulty from 0 to 100.
-> Each block keeps track of how many coins a player could collect.
-> Indicates the availability of entry and exit on three lines.
+> * Each Block has a difficulty from 0 to 100.
+> * Each block keeps track of how many coins a player could collect.
+> * Indicates the availability of entry and exit on three lines.
 
 * The road works in a similar way to a treadmill. As you move, the passed block is removed from the lower end and a new block is generated at the upper end of the track.
 ![automat](https://upload.wikimedia.org/wikipedia/commons/3/3d/Maquina.png)
@@ -68,9 +69,9 @@ Launching in the editor must be done only from the scene of the Main Menu!
 * The road is generated according to the difficulty curve.
   
 ![difficultycurve](https://raw.githubusercontent.com/RomanDAnoshin/Runner/master/Readme%20screens/DifficultyCurve.JPG)
-> Where the X-axis is the value of the coins collected by the player.
-> The Y-axis is the difficulty value.
-> The graph is looped for infinity running.
+> * Where the X-axis is the value of the coins collected by the player.
+> * The Y-axis is the difficulty value.
+> * The graph is looped for infinity running.
 > 
 > The graph can be reconfigured, but it is necessary to accept that Y cannot be higher than 100 and lower than 0. If you need values outside this range, then you should also push the boundaries of the complexity of the blocks and create blocks with the necessary values.
 > 
@@ -109,6 +110,7 @@ The camera constantly follows the character.
   
 ![road](https://raw.githubusercontent.com/RomanDAnoshin/Runner/master/Readme%20screens/Road.JPG)
 > Для старта необходимо нажать клавишу [стрелка вверх] или [W].
+> 
 > Перемещение между линиями осуществляется через клавиши [стрелка влево], [стрелка вправо] или [A], [D].
 > Для быстрого перемещения между крайними линиями необходимо нажать клавишу дважды.
 >  
@@ -127,9 +129,9 @@ The camera constantly follows the character.
 * Состоит из Блоков, на которых выставлены монеты и баррикады.
   
 ![roadblock](https://raw.githubusercontent.com/RomanDAnoshin/Runner/master/Readme%20screens/RoadBlock.JPG)
-> Каждому Блоку выставлена сложность от 0 до 100.
-> В каждом блоке ведётся учет, сколько максимально игрок мог бы собрать монет.
-> Указывается доступность входа и выхода по трём линиям.
+> * Каждому Блоку выставлена сложность от 0 до 100.
+> * В каждом блоке ведётся учет, сколько максимально игрок мог бы собрать монет.
+> * Указывается доступность входа и выхода по трём линиям.
 
 * Дорога работает по принципу, схожему с беговой дорожкой. По мере движения, из нижнего конца убирается пройденный блок и в верхний конец дорожки генерируется новый блок.
 ![automat](https://upload.wikimedia.org/wikipedia/commons/3/3d/Maquina.png)
@@ -137,9 +139,9 @@ The camera constantly follows the character.
 * Дорога генерируется по кривой сложности.
   
 ![difficultycurve](https://raw.githubusercontent.com/RomanDAnoshin/Runner/master/Readme%20screens/DifficultyCurve.JPG)
-> Где осью Х выступает значение монет, собранных игроком.
-> Осью Y выступает значение сложности.
-> График зациклен для бесконечности бега.
+> * Где осью Х выступает значение монет, собранных игроком.
+> * Осью Y выступает значение сложности.
+> * График зациклен для бесконечности бега.
 > 
 > График можно перенастроить, но необходимо принять, что Y не может быть выше 100 и ниже 0. Если необходимы значения за этим диапазоном, то так же следует раздвинуть границы у сложности блоков и создать блоки с необходимыми значениями.
 > 
