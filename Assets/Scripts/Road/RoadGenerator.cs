@@ -1,7 +1,5 @@
-﻿using Character;
-using Game;
+﻿using Game;
 using Player;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,18 +7,20 @@ namespace Road
 {
     public class RoadGenerator : MonoBehaviour
     {
-        [SerializeField] private GameObject StartBlockPrefab;
-        [SerializeField] private GameObject TransitionBlockPrefab;
-        [SerializeField] private List<GameObject> RoadBlocksPrefabs; // TODO: create mirror blocks on start; auto add prefabs
         [SerializeField] private AnimationCurve DifficultyCurve;
         [SerializeField] private int SearchDistance;
 
+        private GameObject StartBlockPrefab;
+        private GameObject TransitionBlockPrefab;
+        private List<GameObject> RoadBlocksPrefabs; // TODO: create mirror blocks on start;
         private GenerationMap generationMap;
         private RoadBuffer roadBuffer;
         private int CoinsCanBeCollectedOnStart;
 
         void Start()
         {
+            LoadRoadPrefabs();
+            LoadSpecialRoadPrefabs();
             roadBuffer = gameObject.GetComponent<RoadBuffer>();
             SortPrefabsByDifficult();
             generationMap = new GenerationMap(RoadBlocksPrefabs);
@@ -32,6 +32,31 @@ namespace Road
             if (IsNecessarySpawn()) {
                 SpawnBlockByCoins(PlayerData.Instance.CurrentCoins + CoinsCanBeCollectedOnStart);
             }
+        }
+
+        private void LoadSpecialRoadPrefabs()
+        {
+            var specialBlocks = Resources.LoadAll<GameObject>("RoadBlocks/Special");
+            if (specialBlocks[0].name.Contains("Start")) {
+                StartBlockPrefab = specialBlocks[0];
+                TransitionBlockPrefab = specialBlocks[1];
+            } else {
+                StartBlockPrefab = specialBlocks[1];
+                TransitionBlockPrefab = specialBlocks[0];
+            }
+        }
+
+        private void LoadRoadPrefabs()
+        {
+            RoadBlocksPrefabs = new List<GameObject>();
+            var prefabs = Resources.LoadAll<GameObject>("RoadBlocks/Easy");
+            RoadBlocksPrefabs.AddRange(prefabs);
+            prefabs = Resources.LoadAll<GameObject>("RoadBlocks/Medium");
+            RoadBlocksPrefabs.AddRange(prefabs);
+            prefabs = Resources.LoadAll<GameObject>("RoadBlocks/Hard");
+            RoadBlocksPrefabs.AddRange(prefabs);
+            prefabs = Resources.LoadAll<GameObject>("RoadBlocks/VeryHard");
+            RoadBlocksPrefabs.AddRange(prefabs);
         }
 
         private bool IsNecessarySpawn()
