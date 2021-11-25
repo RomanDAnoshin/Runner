@@ -62,6 +62,7 @@ Launching in the editor must be done only from the scene of the Main Menu!
 > * Each Block has a difficulty from 0 to 100.
 > * Each block keeps track of how many coins a player could collect.
 > * Indicates the availability of entry and exit on three lines.
+> * The block prefabs are located in "Assets / Resources / RoadBlocks". They are automatically read from there at startup.
 
 * The road works in a similar way to a treadmill. As you move, the passed block is removed from the lower end and a new block is generated at the upper end of the track.
 ![automat](https://upload.wikimedia.org/wikipedia/commons/3/3d/Maquina.png)
@@ -132,6 +133,7 @@ The camera constantly follows the character.
 > * Каждому Блоку выставлена сложность от 0 до 100.
 > * В каждом блоке ведётся учет, сколько максимально игрок мог бы собрать монет.
 > * Указывается доступность входа и выхода по трём линиям.
+> * Префабы блоков находятся в "Assets/Resources/RoadBlocks". Они автоматически считываются оттуда при старте.
 
 * Дорога работает по принципу, схожему с беговой дорожкой. По мере движения, из нижнего конца убирается пройденный блок и в верхний конец дорожки генерируется новый блок.
 ![automat](https://upload.wikimedia.org/wikipedia/commons/3/3d/Maquina.png)
