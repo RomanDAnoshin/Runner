@@ -1,12 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Road
 {
     public class RoadBlockData : MonoBehaviour
     {
-        [HideInInspector] 
         public int Difficult
         {
             get {
@@ -16,7 +13,6 @@ namespace Road
         [SerializeField, Range(0, 100)] 
         private int difficult;
 
-        [HideInInspector]
         public int MaxCoinsCanBeCollected
         {
             get {
@@ -29,7 +25,6 @@ namespace Road
         [Header("Entrance")]
         [SerializeField]
         private bool[] isLineNAvailableToEntry;
-        [HideInInspector]
         public bool[] IsLineNAvailableToEntry
         {
             get {
@@ -40,11 +35,33 @@ namespace Road
         [Header("Exit")]
         [SerializeField]
         private bool[] isNLineAvailableToExit;
-        [HideInInspector]
         public bool[] IsNLineAvailableToExit
         {
             get {
                 return isNLineAvailableToExit;
+            }
+        }
+
+        [Header("Symmetry")]
+        [SerializeField]
+        private bool isSymmetrical;
+        public bool IsSymmetrical
+        {
+            get {
+                return isSymmetrical;
+            }
+        }
+
+        public void MirrorEntrancesAndExits()
+        {
+            if (!isSymmetrical) {
+                var buffer = isLineNAvailableToEntry[0];
+                isLineNAvailableToEntry[0] = isLineNAvailableToEntry[isLineNAvailableToEntry.Length - 1];
+                isLineNAvailableToEntry[isLineNAvailableToEntry.Length - 1] = buffer;
+
+                buffer = isNLineAvailableToExit[0];
+                isNLineAvailableToExit[0] = isNLineAvailableToExit[isNLineAvailableToExit.Length - 1];
+                isNLineAvailableToExit[isNLineAvailableToExit.Length - 1] = buffer;
             }
         }
     }

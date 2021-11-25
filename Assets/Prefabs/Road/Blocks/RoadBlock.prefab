@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2804053254671618151}
   - component: {fileID: 8265176135166972316}
+  - component: {fileID: 4242970746087261618}
   m_Layer: 0
   m_Name: RoadBlock
   m_TagString: Untagged
@@ -48,6 +49,19 @@ MonoBehaviour:
   maxCoinsCanBeCollected: 0
   isLineNAvailableToEntry: 
   isNLineAvailableToExit: 
+  isSymmetrical: 0
+--- !u!114 &4242970746087261618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2804053254671618150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbd20bce866dc364585abde3c6146fd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2804053255831649054
 GameObject:
   m_ObjectHideFlags: 0

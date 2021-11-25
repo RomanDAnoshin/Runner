@@ -12,7 +12,7 @@ namespace Road
 
         private GameObject StartBlockPrefab;
         private GameObject TransitionBlockPrefab;
-        private List<GameObject> RoadBlocksPrefabs; // TODO: create mirror blocks on start;
+        private List<GameObject> RoadBlocksPrefabs;
         private GenerationMap generationMap;
         private RoadBuffer roadBuffer;
         private int CoinsCanBeCollectedOnStart;
@@ -49,13 +49,9 @@ namespace Road
         private void LoadRoadPrefabs()
         {
             RoadBlocksPrefabs = new List<GameObject>();
-            var prefabs = Resources.LoadAll<GameObject>("RoadBlocks/Easy");
+            var prefabs = Resources.LoadAll<GameObject>("RoadBlocks/Common");
             RoadBlocksPrefabs.AddRange(prefabs);
-            prefabs = Resources.LoadAll<GameObject>("RoadBlocks/Medium");
-            RoadBlocksPrefabs.AddRange(prefabs);
-            prefabs = Resources.LoadAll<GameObject>("RoadBlocks/Hard");
-            RoadBlocksPrefabs.AddRange(prefabs);
-            prefabs = Resources.LoadAll<GameObject>("RoadBlocks/VeryHard");
+            prefabs = Resources.LoadAll<GameObject>("RoadBlocks/Mirrors");
             RoadBlocksPrefabs.AddRange(prefabs);
         }
 
