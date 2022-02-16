@@ -63,7 +63,7 @@ Launching in the editor must be done only from the scene of the Main Menu!
 > * Each block keeps track of how many coins a player could collect.
 > * Indicates the availability of entry and exit on three lines.
 > * The block prefabs are located in "Assets / Resources / RoadBlocks". They are automatically read from there at startup.
-> * There is no need to create a second mirrored block. To do this, simply click the "ProjectFunctional / Regenerate RoadBlocks Mirrors" button in the top Unity menu.
+> * You don't need to create a second mirrored block manually! To do this, simply click the "ProjectFunctional / Regenerate RoadBlocks Mirrors" button in the top Unity menu.
 
 * The road works in a similar way to a treadmill. As you move, the passed block is removed from the lower end and a new block is generated at the upper end of the track.
 ![automat](https://upload.wikimedia.org/wikipedia/commons/3/3d/Maquina.png)
