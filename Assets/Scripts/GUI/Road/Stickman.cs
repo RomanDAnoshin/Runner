@@ -4,41 +4,44 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Stickman : MonoBehaviour
+namespace GUI.Road
 {
-    private Animator animator;
-
-    void Start()
+    public class Stickman : MonoBehaviour
     {
-        animator = gameObject.GetComponent<Animator>();
+        private Animator animator;
 
-        PlayerInput.Instance.Ran += OnPlayerRan;
-        GameData.Instance.Lost += OnGameLost;
-        PlayerData.Instance.CurrentSpeedModificatorChanged += OnSpeedModificatorChanged;
-        animator.enabled = false;
-    }
+        void Start()
+        {
+            animator = gameObject.GetComponent<Animator>();
+            animator.enabled = false;
 
-    private void OnPlayerRan()
-    {
-        PlayerInput.Instance.Ran -= OnPlayerRan;
-        animator.enabled = true;
-    }
+            PlayerInput.Instance.Ran += OnPlayerRan;
+            GameData.Instance.Lost += OnGameLost;
+            PlayerData.Instance.CurrentSpeedModificatorChanged += OnSpeedModificatorChanged;
+        }
 
-    private void OnGameLost()
-    {
-        GameData.Instance.Lost -= OnGameLost;
-        animator.enabled = false;
-    }
+        private void OnPlayerRan()
+        {
+            PlayerInput.Instance.Ran -= OnPlayerRan;
+            animator.enabled = true;
+        }
 
-    private void OnSpeedModificatorChanged()
-    {
-        animator.speed = PlayerData.Instance.CurrentSpeedModificator;
-    }
+        private void OnGameLost()
+        {
+            GameData.Instance.Lost -= OnGameLost;
+            animator.enabled = false;
+        }
 
-    void OnDestroy()
-    {
-        PlayerData.Instance.CurrentSpeedModificatorChanged -= OnSpeedModificatorChanged;
-        PlayerInput.Instance.Ran -= OnPlayerRan;
-        GameData.Instance.Lost -= OnGameLost;
+        private void OnSpeedModificatorChanged()
+        {
+            animator.speed = PlayerData.Instance.CurrentSpeedModificator;
+        }
+
+        void OnDestroy()
+        {
+            PlayerData.Instance.CurrentSpeedModificatorChanged -= OnSpeedModificatorChanged;
+            PlayerInput.Instance.Ran -= OnPlayerRan;
+            GameData.Instance.Lost -= OnGameLost;
+        }
     }
 }

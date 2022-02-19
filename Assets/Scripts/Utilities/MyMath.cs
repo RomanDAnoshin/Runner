@@ -68,4 +68,14 @@ public static class MyMath
         }
         return false;
     }
+
+    public static float TruncateToDecimals(float value)
+    {
+        return (float)System.Math.Truncate(10f * value) * 0.1f;
+    }
+
+    public static float TruncateToHundredths(float value)
+    {
+        return (float)System.Math.Truncate(100f * value) * 0.01f;
+    }
 }
