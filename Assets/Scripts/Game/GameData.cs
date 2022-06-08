@@ -14,11 +14,12 @@ namespace Game
 
     public class GameData : MonoBehaviour
     {
-        public static GameData Instance;
-
         public Action<GameStatus> StatusChanged;
         public Action Played;
         public Action Lost;
+
+        [SerializeField] private GameObject Character;
+        [SerializeField] private PlayerInput PlayerInput;
 
         private GameStatus status;
         public GameStatus Status
@@ -44,15 +45,10 @@ namespace Game
 
         private CharacterBodyCollision characterBodyCollision;
 
-        void Awake()
-        {
-            Instance = this;
-        }
-
         void Start()
         {
-            PlayerInput.Instance.Ran += OnPlayerRan;
-            characterBodyCollision = GameGenerator.Instance.Character.GetComponentInChildren<CharacterBodyCollision>();
+            PlayerInput.Ran += OnPlayerRan;
+            characterBodyCollision = Character.GetComponentInChildren<CharacterBodyCollision>();
             characterBodyCollision.CollisionBarricade += OnCharacterBodyCollisionBarricade;
         }
 
@@ -76,7 +72,7 @@ namespace Game
         {
             if (Status != GameStatus.Lose) {
                 Play();
-                PlayerInput.Instance.Ran -= OnPlayerRan;
+                PlayerInput.Ran -= OnPlayerRan;
             }
         }
     }

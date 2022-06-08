@@ -12,6 +12,8 @@ namespace GUI.Road
         [SerializeField] private Button ButtonRestart;
         [SerializeField] private Button ButtonQuit;
 
+        public PlayerData PlayerData;
+
         void Start()
         {
             ButtonRestart.onClick.AddListener(OnClickButtonRestart);
@@ -20,13 +22,13 @@ namespace GUI.Road
 
         private void OnClickButtonRestart()
         {
-            PlayerData.Instance.Save();
+            PlayerData.Save();
             SceneManager.LoadScene("Road");
         }
 
         private void OnClickButtonQuit()
         {
-            PlayerData.Instance.Save();
+            PlayerData.Save();
             SceneManager.LoadScene("MainMenu");
         }
 

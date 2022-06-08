@@ -14,8 +14,6 @@ namespace Player
 
     public class PlayerInput : MonoBehaviour
     {
-        public static PlayerInput Instance;
-
         public Action<PlayerActions> PlayerActed;
         public Action MovedLeft;
         public Action MovedRight;
@@ -46,11 +44,6 @@ namespace Player
                     }
                 }
             }
-        }
-
-        void Awake()
-        {
-            Instance = this;
         }
 
         void Update()

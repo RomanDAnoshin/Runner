@@ -7,7 +7,7 @@ using Game;
 
 namespace Character
 {
-    public class CharacterMovement : MonoBehaviour, IMovable
+    public class CharacterMovement : Movement
     {
         public enum HorizontalMove
         {
@@ -15,24 +15,25 @@ namespace Character
             Left,
             Right
         }
-        public Action PositionChanged;
 
+        [SerializeField] private GameData GameData;
+        [SerializeField] private LanesData LanesData;
+        [SerializeField] private PlayerData PlayerData;
         [SerializeField] private float StartTimeForChangeLane;
         [SerializeField] private float FinalReducedTimeForChangeLane;
         [SerializeField] private int FinalCoinsToStopReduce;
 
         private float currentTimeForChangeLane;
         private float reduceModifier;
-        private bool isMoving;
         private int targetLane;
         private HorizontalMove horizontalMove;
         private Vector3 velocitySmoothDamp;
 
         void Start()
         {
-            GameData.Instance.Lost += OnGameLost;
-            targetLane = GameGenerator.Instance.LanesData.StartLaneIndex;
-            PlayerData.Instance.CurrentCoinsChanged += OnCurrentCoinsChanged;
+            GameData.Lost += OnGameLost;
+            targetLane = LanesData.StartLaneIndex;
+            PlayerData.CurrentCoinsChanged += OnCurrentCoinsChanged;
             currentTimeForChangeLane = StartTimeForChangeLane;
             reduceModifier = (StartTimeForChangeLane - FinalReducedTimeForChangeLane) / FinalCoinsToStopReduce;
         }
@@ -45,12 +46,12 @@ namespace Character
         private void HorizontalMovement()
         {
             if (
+                IsMoving != false &&
                 horizontalMove != HorizontalMove.None &&
-                transform.position.x != GameGenerator.Instance.LanesData.Positions[targetLane].x
+                Position.x != LanesData.Positions[targetLane].x
             ) {
-                var lanePos = new Vector3(GameGenerator.Instance.LanesData.Positions[targetLane].x, transform.position.y, transform.position.z);
-                transform.position = Vector3.SmoothDamp(transform.position, lanePos, ref velocitySmoothDamp, currentTimeForChangeLane);
-                PositionChanged?.Invoke();
+                var lanePos = new Vector3(LanesData.Positions[targetLane].x, Position.y, Position.z);
+                Position = Vector3.SmoothDamp(Position, lanePos, ref velocitySmoothDamp, currentTimeForChangeLane);
             }
         }
 
@@ -58,7 +59,7 @@ namespace Character
         {
             if (
                 targetLane != 0 &&
-                isMoving != false
+                IsMoving != false
             ) {
                 targetLane--;
                 horizontalMove = HorizontalMove.Left;
@@ -68,23 +69,18 @@ namespace Character
         public void MoveRight()
         {
             if (
-                targetLane != GameGenerator.Instance.LanesData.Positions.Length - 1 &&
-                isMoving != false
+                targetLane != LanesData.Positions.Length - 1 &&
+                IsMoving != false
             ) {
                 targetLane++;
                 horizontalMove = HorizontalMove.Right;
             }
         }
 
-        public void Stay()
+        public override void Stay()
         {
-            isMoving = false;
+            base.Stay();
             horizontalMove = HorizontalMove.None;
-        }
-
-        public void Move()
-        {
-            isMoving = true;
         }
 
         private void OnGameLost()
@@ -92,23 +88,23 @@ namespace Character
             Stay();
         }
 
-        private void OnCurrentCoinsChanged()
+        private void OnCurrentCoinsChanged(int value)
         {
-            UpdateSpeedModificator();
+            UpdateSpeedModificator(value);
         }
 
-        private void UpdateSpeedModificator()
+        private void UpdateSpeedModificator(int value)
         {
-            currentTimeForChangeLane = StartTimeForChangeLane - PlayerData.Instance.CurrentCoins * reduceModifier;
-            if (PlayerData.Instance.CurrentCoins == FinalCoinsToStopReduce) {
-                PlayerData.Instance.CurrentCoinsChanged -= OnCurrentCoinsChanged;
+            currentTimeForChangeLane = StartTimeForChangeLane - value * reduceModifier;
+            if (value == FinalCoinsToStopReduce) {
+                PlayerData.CurrentCoinsChanged -= OnCurrentCoinsChanged;
             }
         }
 
         void OnDestroy()
         {
             Stay();
-            GameData.Instance.Lost -= OnGameLost;
+            GameData.Lost -= OnGameLost;
         }
     }
 }

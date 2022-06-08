@@ -8,25 +8,16 @@ using Utilities.SimpleJSON;
 
 namespace Player
 {
-    public class PlayerData
+    public class PlayerData : MonoBehaviour
     {
-        public static PlayerData Instance
-        {
-            get {
-                if(instance == null) {
-                    instance = new PlayerData();
-                }
-                return instance;
-            }
-        }
-        private static PlayerData instance;
+        [SerializeField] private GameObject Character;
 
-        public Action PlayerNameChanged;
-        public Action CoinsChanged;
-        public Action CurrentCoinsChanged;
-        public Action DistanceChanged;
-        public Action CurrentDistanceChanged;
-        public Action CurrentSpeedModificatorChanged;
+        public Action<string> PlayerNameChanged;
+        public Action<int> CoinsChanged;
+        public Action<int> CurrentCoinsChanged;
+        public Action<int> DistanceChanged;
+        public Action<float> CurrentDistanceChanged;
+        public Action<float> CurrentSpeedModificatorChanged;
 
         private CharacterBodyCollision characterBodyCollision;
 
@@ -38,7 +29,7 @@ namespace Player
             }
             set {
                 playerName = value;
-                PlayerNameChanged?.Invoke();
+                PlayerNameChanged?.Invoke(value);
             }
         }
 
@@ -50,7 +41,7 @@ namespace Player
             }
             set {
                 currentCoins = value;
-                CurrentCoinsChanged?.Invoke();
+                CurrentCoinsChanged?.Invoke(value);
             }
         }
 
@@ -62,7 +53,7 @@ namespace Player
             }
             set {
                 coins = value;
-                CoinsChanged?.Invoke();
+                CoinsChanged?.Invoke(value);
             }
         }
 
@@ -74,7 +65,7 @@ namespace Player
             }
             set {
                 distance = value;
-                DistanceChanged?.Invoke();
+                DistanceChanged?.Invoke(value);
             }
         }
 
@@ -86,7 +77,7 @@ namespace Player
             }
             set {
                 currentDistance = value;
-                CurrentDistanceChanged?.Invoke();
+                CurrentDistanceChanged?.Invoke(value);
             }
         }
 
@@ -98,16 +89,17 @@ namespace Player
             }
             set {
                 currentSpeedModificator = value;
-                CurrentSpeedModificatorChanged?.Invoke();
+                CurrentSpeedModificatorChanged?.Invoke(value);
             }
         }
 
-        private PlayerData()
+        void Awake()
         {
             if (HasSaved()) {
                 Load();
             }
-            SceneManager.activeSceneChanged += OnActiveSceneChanged;
+            BindCharacterBodyCollision();
+            ResetCurrentFields();
         }
 
         public void Save()
@@ -165,26 +157,24 @@ namespace Player
             CurrentCoins++;
         }
 
-        private void OnActiveSceneChanged(Scene oldScene, Scene newScene)
+        private void BindCharacterBodyCollision()
         {
-            RebindCharacterBodyCollision(newScene);
-            ResetCurrentFields();
-        }
-
-        private void RebindCharacterBodyCollision(Scene newScene)
-        {
-            if (newScene.name == "Road") {
-                characterBodyCollision = GameGenerator.Instance.Character.GetComponentInChildren<CharacterBodyCollision>();
+            if (Character != null) {
+                characterBodyCollision = Character.GetComponentInChildren<CharacterBodyCollision>();
                 characterBodyCollision.CollisionCoin += OnCharacterBodyCollisionCoin;
-                characterBodyCollision.Destroying += () => {
-                    characterBodyCollision.CollisionCoin -= OnCharacterBodyCollisionCoin;
-                };
             }
         }
 
         private void OnCharacterBodyCollisionCoin()
         {
             UpCoins();
+        }
+
+        void OnDestroy()
+        {
+            if(characterBodyCollision != null) {
+                characterBodyCollision.CollisionCoin -= OnCharacterBodyCollisionCoin;
+            }
         }
     }
 }

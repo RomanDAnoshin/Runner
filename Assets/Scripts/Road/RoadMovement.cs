@@ -10,6 +10,9 @@ namespace Road
     {
         public Action SpeedModificatorChanged;
 
+        [SerializeField] private PlayerInput PlayerInput;
+        [SerializeField] private PlayerData PlayerData;
+        [SerializeField] private GameData GameData;
         [SerializeField] private float StartSpeed;
         [SerializeField] private int FinalCoinsToStopGain;
         [SerializeField] private float FinalGainedSpeedModificator;
@@ -23,7 +26,7 @@ namespace Road
             }
             protected set {
                 speedModificator = value;
-                PlayerData.Instance.CurrentSpeedModificator = value;
+                PlayerData.CurrentSpeedModificator = value;
             }
         }
         private float startSpeedModificator;
@@ -34,14 +37,14 @@ namespace Road
 
         void Start()
         {
-            PlayerInput.Instance.Ran += OnPlayerRan;
-            PlayerData.Instance.CurrentCoinsChanged += OnCurrentCoinsChanged;
+            PlayerInput.Ran += OnPlayerRan;
+            PlayerData.CurrentCoinsChanged += OnCurrentCoinsChanged;
             roadBuffer = gameObject.GetComponent<RoadBuffer>();
             currentSpeed = StartSpeed;
             startSpeedModificator = 1f;
             speedModificator = startSpeedModificator;
             gainSpeedModificator = (FinalGainedSpeedModificator - startSpeedModificator) / FinalCoinsToStopGain;
-            GameData.Instance.Lost += OnGameLost;
+            GameData.Lost += OnGameLost;
         }
 
         void Update()
@@ -69,12 +72,12 @@ namespace Road
 
         public void UpdateCurrentDistance()
         {
-            PlayerData.Instance.CurrentDistance += currentSpeed * Time.deltaTime * SpeedModificator;
+            PlayerData.CurrentDistance += currentSpeed * Time.deltaTime * SpeedModificator;
         }
 
         public void OnPlayerRan()
         {
-            if (GameData.Instance.Status != GameStatus.Lose) {
+            if (GameData.Status != GameStatus.Lose) {
                 Move();
             }
         }
@@ -84,26 +87,26 @@ namespace Road
             Stay();
         }
 
-        private void OnCurrentCoinsChanged()
+        private void OnCurrentCoinsChanged(int value)
         {
-            UpdateSpeedModificator();
+            UpdateSpeedModificator(value);
         }
 
-        private void UpdateSpeedModificator()
+        private void UpdateSpeedModificator(int value)
         {
-            SpeedModificator = startSpeedModificator + PlayerData.Instance.CurrentCoins * gainSpeedModificator;
-            if (PlayerData.Instance.CurrentCoins == FinalCoinsToStopGain) {
-                PlayerData.Instance.CurrentCoinsChanged -= OnCurrentCoinsChanged;
+            SpeedModificator = startSpeedModificator + value * gainSpeedModificator;
+            if (value == FinalCoinsToStopGain) {
+                PlayerData.CurrentCoinsChanged -= OnCurrentCoinsChanged;
             }
         }
 
         void OnDestroy()
         {
             Stay();
-            PlayerInput.Instance.Ran -= OnPlayerRan;
-            PlayerData.Instance.CurrentCoinsChanged -= OnCurrentCoinsChanged;
+            PlayerInput.Ran -= OnPlayerRan;
+            PlayerData.CurrentCoinsChanged -= OnCurrentCoinsChanged;
             roadBuffer = null;
-            GameData.Instance.Lost -= OnGameLost;
+            GameData.Lost -= OnGameLost;
         }
     }
 }

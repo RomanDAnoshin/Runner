@@ -4,12 +4,28 @@ namespace Utilities
 {
     public class TargetFollower : MonoBehaviour
     {
-        public Transform Target;
         public Vector3 PositionRelativeToTarget;
 
-        public void OnTargetPositionChanged()
+        public Movement TargetMovement;
+
+        void Start()
         {
-            transform.position = Target.position + PositionRelativeToTarget;
+            if(TargetMovement != null) {
+                TargetMovement.PositionChanged += OnTargetPositionChanged;
+                OnTargetPositionChanged(TargetMovement.Position);
+            }
+        }
+
+        public void OnTargetPositionChanged(Vector3 value)
+        {
+            transform.position = value + PositionRelativeToTarget;
+        }
+
+        void OnDestroy()
+        {
+            if (TargetMovement != null) {
+                TargetMovement.PositionChanged -= OnTargetPositionChanged;
+            }
         }
     }
 }

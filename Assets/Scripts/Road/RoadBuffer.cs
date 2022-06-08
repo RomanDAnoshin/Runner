@@ -48,7 +48,7 @@ namespace Road
             }
         }
 
-        void Start()
+        void Awake()
         {
             Buffer = new GameObject[capacity];
         }

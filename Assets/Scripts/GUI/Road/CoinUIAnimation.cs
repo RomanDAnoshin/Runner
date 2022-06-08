@@ -7,7 +7,9 @@ namespace GUI.Road
 {
     public class CoinUIAnimation : MonoBehaviour
     {
+        [SerializeField] private PlayerData PlayerData;
         [SerializeField] private CurveTimer CurveTimer;
+
         private bool isRunAnimation;
         private Vector3 startLocalScale;
 
@@ -15,7 +17,7 @@ namespace GUI.Road
         {
             startLocalScale = transform.localScale;
             CurveTimer.TimerEnded += OnAnimationCompleted;
-            PlayerData.Instance.CurrentCoinsChanged += OnCurrentCoinsChanged;
+            PlayerData.CurrentCoinsChanged += OnCurrentCoinsChanged;
         }
 
         void Update()
@@ -48,7 +50,7 @@ namespace GUI.Road
             transform.localScale = new Vector3(startLocalScale.x * value, startLocalScale.y, startLocalScale.z * value);
         }
 
-        public void OnCurrentCoinsChanged()
+        public void OnCurrentCoinsChanged(int value)
         {
             StartAnimation();
         }
@@ -58,7 +60,7 @@ namespace GUI.Road
             isRunAnimation = false;
             CurveTimer.TimerEnded -= OnAnimationCompleted;
             CurveTimer = null;
-            PlayerData.Instance.CurrentCoinsChanged -= OnCurrentCoinsChanged;
+            PlayerData.CurrentCoinsChanged -= OnCurrentCoinsChanged;
         }
     }
 }

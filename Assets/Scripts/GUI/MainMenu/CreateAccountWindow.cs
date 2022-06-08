@@ -11,6 +11,8 @@ namespace GUI.MainMenu
         [SerializeField] private InputField InputField;
         [SerializeField] private Button ButtonOk;
 
+        public PlayerData PlayerData;
+
         void Start()
         {
             InputField.onEndEdit.AddListener(OnEndEditInputField);
@@ -21,8 +23,8 @@ namespace GUI.MainMenu
         {
             if (!string.IsNullOrWhiteSpace(InputField.text)) {
                 ButtonOk.interactable = true;
-                PlayerData.Instance.PlayerName = InputField.text;
-                PlayerData.Instance.Save();
+                PlayerData.PlayerName = InputField.text;
+                PlayerData.Save();
             }
         }
 

@@ -90,6 +90,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5765819106158023332}
   - component: {fileID: 5765819106158023333}
+  - component: {fileID: 5934864700044517614}
   m_Layer: 5
   m_Name: MainMenu
   m_TagString: Untagged
@@ -134,6 +135,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ButtonStartGame: {fileID: 5765819106338805789}
   ButtonQuit: {fileID: 5765819107017202408}
+--- !u!114 &5934864700044517614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5765819106158023335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f1ac8d8a8dfcb94d9b1d8a95f6b1c5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Character: {fileID: 0}
 --- !u!1 &5765819106338805791
 GameObject:
   m_ObjectHideFlags: 0
@@ -531,6 +545,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5765819106158023332}
     m_Modifications:
+    - target: {fileID: 3055031362790771495, guid: 251c7d7938e9f8244a552a417b33b86e,
+        type: 3}
+      propertyPath: PlayerData
+      value: 
+      objectReference: {fileID: 5934864700044517614}
     - target: {fileID: 7658514084282756856, guid: 251c7d7938e9f8244a552a417b33b86e,
         type: 3}
       propertyPath: m_Name

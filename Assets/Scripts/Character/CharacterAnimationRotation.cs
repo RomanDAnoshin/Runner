@@ -7,6 +7,9 @@ namespace Character
 {
     public class CharacterAnimationRotation : MonoBehaviour
     {
+        [SerializeField] private PlayerInput PlayerInput;
+        [SerializeField] private PlayerData PlayerData;
+        [SerializeField] private GameData GameData;
         [SerializeField] private CurveTimer CurveTimer;
         [SerializeField] private int FinalCoinsToStopReduce;
         [SerializeField] private float FinalReducedSpeed;
@@ -19,7 +22,7 @@ namespace Character
 
         void Start()
         {
-            PlayerInput.Instance.PlayerActed += OnPlayerActed;
+            PlayerInput.PlayerActed += OnPlayerActed;
             CurveTimer.TimerEnded += OnAnimationCompleted;
             startRotation = transform.localRotation;
             reduceModifier = (1f - FinalReducedSpeed) / FinalCoinsToStopReduce;
@@ -72,7 +75,7 @@ namespace Character
 
         public void OnPlayerActed(PlayerActions playerAction)
         {
-            if (GameData.Instance.Status == GameStatus.Play) {
+            if (GameData.Status == GameStatus.Play) {
                 switch (playerAction) {
                     case PlayerActions.MoveLeft:
                         StartAnimationLeft();
@@ -88,8 +91,8 @@ namespace Character
         {
             if (previousCoins < FinalCoinsToStopReduce) {
                 var coinsDifference = 1;
-                if (PlayerData.Instance.CurrentCoins <= FinalCoinsToStopReduce) {
-                    coinsDifference = PlayerData.Instance.CurrentCoins - previousCoins;
+                if (PlayerData.CurrentCoins <= FinalCoinsToStopReduce) {
+                    coinsDifference = PlayerData.CurrentCoins - previousCoins;
                 } else {
                     coinsDifference = FinalCoinsToStopReduce - previousCoins;
                 }
@@ -97,14 +100,14 @@ namespace Character
                 for (var i = 0; i < CurveTimer.Curve.keys.Length; i++) {
                     CurveTimer.Curve.MoveKey(i, new Keyframe(CurveTimer.Curve.keys[i].time - CurveTimer.Curve.keys[i].time * reduceModifier * coinsDifference, CurveTimer.Curve.keys[i].value));
                 }
-                previousCoins = PlayerData.Instance.CurrentCoins;
+                previousCoins = PlayerData.CurrentCoins;
             }
         }
 
         void OnDestroy()
         {
             isRunAnimation = false;
-            PlayerInput.Instance.PlayerActed -= OnPlayerActed;
+            PlayerInput.PlayerActed -= OnPlayerActed;
             CurveTimer.TimerEnded -= OnAnimationCompleted;
             CurveTimer = null;
         }

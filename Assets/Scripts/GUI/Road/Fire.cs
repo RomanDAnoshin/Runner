@@ -10,6 +10,9 @@ namespace GUI.Road
 {
     public class Fire : MonoBehaviour
     {
+        [SerializeField] private PlayerInput PlayerInput;
+        [SerializeField] private PlayerData PlayerData;
+        [SerializeField] private GameData GameData;
         [SerializeField] private Color[] Colors;
 
         private Animator animator;
@@ -23,13 +26,13 @@ namespace GUI.Road
             animator = gameObject.GetComponent<Animator>();
             animator.enabled = false;
 
-            PlayerInput.Instance.Ran += OnPlayerRan;
-            GameData.Instance.Lost += OnGameLost;
+            PlayerInput.Ran += OnPlayerRan;
+            GameData.Lost += OnGameLost;
 
             if(Colors == null || Colors.Length < 10) {
                 Debug.LogError("Fire: Colors.Length < 10");
             } else {
-                PlayerData.Instance.CurrentSpeedModificatorChanged += OnSpeedModificatorChanged;
+                PlayerData.CurrentSpeedModificatorChanged += OnSpeedModificatorChanged;
                 previousSpeedModificator = 1f;
 
                 image = gameObject.GetComponent<Image>();
@@ -39,19 +42,19 @@ namespace GUI.Road
 
         private void OnPlayerRan()
         {
-            PlayerInput.Instance.Ran -= OnPlayerRan;
+            PlayerInput.Ran -= OnPlayerRan;
             animator.enabled = true;
         }
 
         private void OnGameLost()
         {
-            GameData.Instance.Lost -= OnGameLost;
+            GameData.Lost -= OnGameLost;
             animator.enabled = false;
         }
 
-        private void OnSpeedModificatorChanged()
+        private void OnSpeedModificatorChanged(float value)
         {
-            var current = MyMath.TruncateToDecimals(PlayerData.Instance.CurrentSpeedModificator);
+            var current = MyMath.TruncateToDecimals(value);
             if(previousSpeedModificator < current) {
                 previousSpeedModificator = current;
 
@@ -66,9 +69,9 @@ namespace GUI.Road
 
         void OnDestroy()
         {
-            PlayerData.Instance.CurrentSpeedModificatorChanged -= OnSpeedModificatorChanged;
-            PlayerInput.Instance.Ran -= OnPlayerRan;
-            GameData.Instance.Lost -= OnGameLost;
+            PlayerData.CurrentSpeedModificatorChanged -= OnSpeedModificatorChanged;
+            PlayerInput.Ran -= OnPlayerRan;
+            GameData.Lost -= OnGameLost;
         }
     }
 }

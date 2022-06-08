@@ -12,11 +12,14 @@ namespace GUI.Road
     {
         [SerializeField] private GameObject StartMessage;
         [SerializeField] private GameObject DeathWindow;
+        [SerializeField] private PlayerData PlayerData;
+        [SerializeField] private PlayerInput PlayerInput;
+        [SerializeField] private GameData GameData;
 
         void Start()
         {
-            PlayerInput.Instance.Ran += OnPlayerRan;
-            GameData.Instance.Lost += OnGameLost;
+            PlayerInput.Ran += OnPlayerRan;
+            GameData.Lost += OnGameLost;
         }
 
         private void OnPlayerRan()
@@ -32,13 +35,15 @@ namespace GUI.Road
         private IEnumerator OpenDeathWindow()
         {
             yield return new WaitForSeconds(4);
-            Instantiate(DeathWindow, transform);
+            var window = Instantiate(DeathWindow, transform);
+            var windowScript = window.GetComponent<DeathWindow>();
+            windowScript.PlayerData = PlayerData;
         }
 
         void OnDestroy()
         {
-            PlayerInput.Instance.Ran -= OnPlayerRan;
-            GameData.Instance.Lost -= OnGameLost;
+            PlayerInput.Ran -= OnPlayerRan;
+            GameData.Lost -= OnGameLost;
             StartMessage = null;
             DeathWindow = null;
         }

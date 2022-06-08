@@ -8,6 +8,10 @@ namespace GUI.Road
 {
     public class Stickman : MonoBehaviour
     {
+        [SerializeField] private PlayerData PlayerData;
+        [SerializeField] private PlayerInput PlayerInput;
+        [SerializeField] private GameData GameData;
+
         private Animator animator;
 
         void Start()
@@ -15,33 +19,33 @@ namespace GUI.Road
             animator = gameObject.GetComponent<Animator>();
             animator.enabled = false;
 
-            PlayerInput.Instance.Ran += OnPlayerRan;
-            GameData.Instance.Lost += OnGameLost;
-            PlayerData.Instance.CurrentSpeedModificatorChanged += OnSpeedModificatorChanged;
+            PlayerInput.Ran += OnPlayerRan;
+            GameData.Lost += OnGameLost;
+            PlayerData.CurrentSpeedModificatorChanged += OnSpeedModificatorChanged;
         }
 
         private void OnPlayerRan()
         {
-            PlayerInput.Instance.Ran -= OnPlayerRan;
+            PlayerInput.Ran -= OnPlayerRan;
             animator.enabled = true;
         }
 
         private void OnGameLost()
         {
-            GameData.Instance.Lost -= OnGameLost;
+            GameData.Lost -= OnGameLost;
             animator.enabled = false;
         }
 
-        private void OnSpeedModificatorChanged()
+        private void OnSpeedModificatorChanged(float value)
         {
-            animator.speed = PlayerData.Instance.CurrentSpeedModificator;
+            animator.speed = value;
         }
 
         void OnDestroy()
         {
-            PlayerData.Instance.CurrentSpeedModificatorChanged -= OnSpeedModificatorChanged;
-            PlayerInput.Instance.Ran -= OnPlayerRan;
-            GameData.Instance.Lost -= OnGameLost;
+            PlayerData.CurrentSpeedModificatorChanged -= OnSpeedModificatorChanged;
+            PlayerInput.Ran -= OnPlayerRan;
+            GameData.Lost -= OnGameLost;
         }
     }
 }

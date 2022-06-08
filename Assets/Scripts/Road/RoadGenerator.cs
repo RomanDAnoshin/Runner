@@ -9,6 +9,8 @@ namespace Road
     {
         [SerializeField] private AnimationCurve DifficultyCurve;
         [SerializeField] private int SearchDistance;
+        [SerializeField] private GameObject Character;
+        [SerializeField] private PlayerData PlayerData;
 
         private GameObject StartBlockPrefab;
         private GameObject TransitionBlockPrefab;
@@ -16,9 +18,11 @@ namespace Road
         private GenerationMap generationMap;
         private RoadBuffer roadBuffer;
         private int CoinsCanBeCollectedOnStart;
+        private Vector3 characterStartPosition;
 
         void Start()
         {
+            characterStartPosition = Character.transform.position;
             LoadRoadPrefabs();
             LoadSpecialRoadPrefabs();
             roadBuffer = gameObject.GetComponent<RoadBuffer>();
@@ -30,7 +34,7 @@ namespace Road
         void Update()
         {
             if (IsNecessarySpawn()) {
-                SpawnBlockByCoins(PlayerData.Instance.CurrentCoins + CoinsCanBeCollectedOnStart);
+                SpawnBlockByCoins(PlayerData.CurrentCoins + CoinsCanBeCollectedOnStart);
             }
         }
 
@@ -58,7 +62,7 @@ namespace Road
         private bool IsNecessarySpawn()
         {
             var bottomBlockTransform = roadBuffer.BottomBlock.transform;
-            return bottomBlockTransform.position.z + bottomBlockTransform.GetChild(0).localScale.z < GameGenerator.Instance.CharacterStartPosition.z;
+            return bottomBlockTransform.position.z + bottomBlockTransform.GetChild(0).localScale.z < characterStartPosition.z;
         }
 
         private void SpawnStartBlock()

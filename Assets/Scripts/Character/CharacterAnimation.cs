@@ -8,6 +8,9 @@ namespace Character
     {
         [SerializeField] private float FinalGainedSpeed;
         [SerializeField] private int FinalCoinsToStopGain;
+        [SerializeField] private PlayerInput PlayerInput;
+        [SerializeField] private PlayerData PlayerData;
+        [SerializeField] private GameData GameData;
 
         private float speedGainModifier;
         private float startAnimationSpeed;
@@ -19,8 +22,8 @@ namespace Character
             animator = gameObject.GetComponentInChildren<Animator>();
             characterBodyCollision = gameObject.GetComponentInChildren<CharacterBodyCollision>();
             characterBodyCollision.CollisionBarricade += OnCharacterCollisionBarricade;
-            PlayerInput.Instance.Ran += OnPlayerRan;
-            PlayerData.Instance.CurrentCoinsChanged += OnCurrentCoinsChanged;
+            PlayerInput.Ran += OnPlayerRan;
+            PlayerData.CurrentCoinsChanged += OnCurrentCoinsChanged;
             startAnimationSpeed = animator.speed;
             speedGainModifier = (FinalGainedSpeed - startAnimationSpeed) / FinalCoinsToStopGain;
         }
@@ -38,9 +41,9 @@ namespace Character
 
         public void OnPlayerRan()
         {
-            if (GameData.Instance.Status != GameStatus.Lose) {
+            if (GameData.Status != GameStatus.Lose) {
                 Run();
-                PlayerInput.Instance.Ran -= OnPlayerRan;
+                PlayerInput.Ran -= OnPlayerRan;
             }
         }
 
@@ -50,23 +53,23 @@ namespace Character
             characterBodyCollision.CollisionBarricade -= OnCharacterCollisionBarricade;
         }
 
-        private void OnCurrentCoinsChanged()
+        private void OnCurrentCoinsChanged(int value)
         {
             UpdateSpeedModificator();
         }
 
         private void UpdateSpeedModificator()
         {
-            animator.speed = startAnimationSpeed + PlayerData.Instance.CurrentCoins * speedGainModifier;
-            if (PlayerData.Instance.CurrentCoins == FinalCoinsToStopGain) {
-                PlayerData.Instance.CurrentCoinsChanged -= OnCurrentCoinsChanged;
+            animator.speed = startAnimationSpeed + PlayerData.CurrentCoins * speedGainModifier;
+            if (PlayerData.CurrentCoins == FinalCoinsToStopGain) {
+                PlayerData.CurrentCoinsChanged -= OnCurrentCoinsChanged;
             }
         }
 
         void OnDestroy()
         {
             animator = null;
-            PlayerData.Instance.CurrentCoinsChanged -= OnCurrentCoinsChanged;
+            PlayerData.CurrentCoinsChanged -= OnCurrentCoinsChanged;
             characterBodyCollision.CollisionBarricade -= OnCharacterCollisionBarricade;
             characterBodyCollision = null;
         }
