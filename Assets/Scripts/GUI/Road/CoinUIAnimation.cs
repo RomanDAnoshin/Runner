@@ -27,13 +27,13 @@ namespace GUI.Road
             }
         }
 
-        public void StartAnimation()
+        private void StartAnimation()
         {
             CurveTimer.StartCount();
             isRunAnimation = true;
         }
 
-        public void StopAnimation()
+        private void StopAnimation()
         {
             CurveTimer.StopCount();
             isRunAnimation = false;
@@ -50,7 +50,7 @@ namespace GUI.Road
             transform.localScale = new Vector3(startLocalScale.x * value, startLocalScale.y, startLocalScale.z * value);
         }
 
-        public void OnCurrentCoinsChanged(int value)
+        private void OnCurrentCoinsChanged(int value)
         {
             StartAnimation();
         }

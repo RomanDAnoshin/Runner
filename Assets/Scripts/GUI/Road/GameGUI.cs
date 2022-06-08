@@ -13,23 +13,22 @@ namespace GUI.Road
         [SerializeField] private GameObject StartMessage;
         [SerializeField] private GameObject DeathWindow;
         [SerializeField] private PlayerData PlayerData;
-        [SerializeField] private PlayerInput PlayerInput;
         [SerializeField] private GameData GameData;
 
         void Start()
         {
-            PlayerInput.Ran += OnPlayerRan;
+            GameData.Played += OnGamePlayed;
             GameData.Lost += OnGameLost;
         }
 
-        private void OnPlayerRan()
+        private void OnGamePlayed()
         {
             Destroy(StartMessage);
         }
 
         private void OnGameLost()
         {
-            StartCoroutine("OpenDeathWindow");
+            StartCoroutine(OpenDeathWindow());
         }
 
         private IEnumerator OpenDeathWindow()
@@ -42,10 +41,8 @@ namespace GUI.Road
 
         void OnDestroy()
         {
-            PlayerInput.Ran -= OnPlayerRan;
+            GameData.Played -= OnGamePlayed;
             GameData.Lost -= OnGameLost;
-            StartMessage = null;
-            DeathWindow = null;
         }
     }
 }

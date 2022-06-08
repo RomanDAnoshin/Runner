@@ -35,9 +35,7 @@ namespace GUI.Road
         void OnDestroy()
         {
             ButtonRestart.onClick.RemoveListener(OnClickButtonRestart);
-            ButtonRestart = null;
             ButtonQuit.onClick.RemoveListener(OnClickButtonQuit);
-            ButtonQuit = null;
         }
     }
 }

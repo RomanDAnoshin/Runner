@@ -22,7 +22,8 @@ namespace Character
 
         void Start()
         {
-            PlayerInput.PlayerActed += OnPlayerActed;
+            PlayerInput.MovedLeft += OnPlayerMovedLeft;
+            PlayerInput.MovedRight += OnPlayerMovedRight;
             CurveTimer.TimerEnded += OnAnimationCompleted;
             startRotation = transform.localRotation;
             reduceModifier = (1f - FinalReducedSpeed) / FinalCoinsToStopReduce;
@@ -51,14 +52,14 @@ namespace Character
             UpdateRotationSpeed();
         }
 
-        public void StopAnimation()
+        private void StopAnimation()
         {
             CurveTimer.StopCount();
             isRunAnimation = false;
             transform.localRotation = startRotation;
         }
 
-        public void OnAnimationCompleted()
+        private void OnAnimationCompleted()
         {
             isRunAnimation = false;
             transform.localRotation = startRotation;
@@ -73,17 +74,17 @@ namespace Character
             transform.localRotation = new Quaternion(startRotation.x, value, startRotation.z, startRotation.w);
         }
 
-        public void OnPlayerActed(PlayerActions playerAction)
+        private void OnPlayerMovedLeft()
         {
             if (GameData.Status == GameStatus.Play) {
-                switch (playerAction) {
-                    case PlayerActions.MoveLeft:
-                        StartAnimationLeft();
-                        break;
-                    case PlayerActions.MoveRight:
-                        StartAnimationRight();
-                        break;
-                }
+                StartAnimationLeft();
+            }
+        }
+
+        private void OnPlayerMovedRight()
+        {
+            if (GameData.Status == GameStatus.Play) {
+                StartAnimationRight();
             }
         }
 
@@ -107,9 +108,9 @@ namespace Character
         void OnDestroy()
         {
             isRunAnimation = false;
-            PlayerInput.PlayerActed -= OnPlayerActed;
+            PlayerInput.MovedLeft -= OnPlayerMovedLeft;
+            PlayerInput.MovedRight -= OnPlayerMovedRight;
             CurveTimer.TimerEnded -= OnAnimationCompleted;
-            CurveTimer = null;
         }
     }
 }

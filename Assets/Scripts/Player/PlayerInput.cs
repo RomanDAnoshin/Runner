@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 namespace Player
 {
-    public enum PlayerActions
+    public enum PlayerAction
     {
         None,
         MoveLeft,
@@ -14,13 +14,13 @@ namespace Player
 
     public class PlayerInput : MonoBehaviour
     {
-        public Action<PlayerActions> PlayerActed;
+        public Action<PlayerAction> PlayerActed;
         public Action MovedLeft;
         public Action MovedRight;
         public Action Ran;
 
-        private PlayerActions playerAction;
-        public PlayerActions PlayerAction
+        private PlayerAction playerAction;
+        public PlayerAction PlayerAction
         {
             get {
                 return playerAction;
@@ -28,16 +28,16 @@ namespace Player
             private set {
                 if (playerAction != value) {
                     playerAction = value;
-                    if(playerAction != PlayerActions.None) {
+                    if(playerAction != PlayerAction.None) {
                         PlayerActed?.Invoke(playerAction);
                         switch (playerAction) {
-                            case PlayerActions.MoveLeft:
+                            case PlayerAction.MoveLeft:
                                 MovedLeft?.Invoke();
                                 break;
-                            case PlayerActions.MoveRight:
+                            case PlayerAction.MoveRight:
                                 MovedRight?.Invoke();
                                 break;
-                            case PlayerActions.Run:
+                            case PlayerAction.Run:
                                 Ran?.Invoke();
                                 break;
                         }
@@ -50,14 +50,14 @@ namespace Player
         {
             if (Input.anyKeyDown) {
                 if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)) {
-                    PlayerAction = PlayerActions.MoveLeft;
+                    PlayerAction = PlayerAction.MoveLeft;
                 } else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)) {
-                    PlayerAction = PlayerActions.MoveRight;
+                    PlayerAction = PlayerAction.MoveRight;
                 } else if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space)) {
-                    PlayerAction = PlayerActions.Run;
+                    PlayerAction = PlayerAction.Run;
                 }
             } else {
-                PlayerAction = PlayerActions.None;
+                PlayerAction = PlayerAction.None;
             }
         }
     }

@@ -18,10 +18,10 @@ namespace Game
         public Action Played;
         public Action Lost;
 
-        [SerializeField] private GameObject Character;
+        [SerializeField] private CharacterBodyCollision CharacterBodyCollision;
         [SerializeField] private PlayerInput PlayerInput;
 
-        private GameStatus status;
+        private GameStatus status = GameStatus.PrepareToStart;
         public GameStatus Status
         {
             get {
@@ -43,37 +43,40 @@ namespace Game
             }
         }
 
-        private CharacterBodyCollision characterBodyCollision;
-
         void Start()
         {
             PlayerInput.Ran += OnPlayerRan;
-            characterBodyCollision = Character.GetComponentInChildren<CharacterBodyCollision>();
-            characterBodyCollision.CollisionBarricade += OnCharacterBodyCollisionBarricade;
+            CharacterBodyCollision.CollisionBarricade += OnCharacterBodyCollisionBarricade;
         }
 
-        public void Play()
+        private void Play()
         {
             Status = GameStatus.Play;
         }
 
-        public void Lose()
+        private void Lose()
         {
             Status = GameStatus.Lose;
         }
 
         private void OnCharacterBodyCollisionBarricade()
         {
+            CharacterBodyCollision.CollisionBarricade -= OnCharacterBodyCollisionBarricade;
             Lose();
-            characterBodyCollision.CollisionBarricade -= OnCharacterBodyCollisionBarricade;
         }
 
-        public void OnPlayerRan()
+        private void OnPlayerRan()
         {
             if (Status != GameStatus.Lose) {
-                Play();
                 PlayerInput.Ran -= OnPlayerRan;
+                Play();
             }
+        }
+
+        void OnDestroy()
+        {
+            PlayerInput.Ran -= OnPlayerRan;
+            CharacterBodyCollision.CollisionBarricade -= OnCharacterBodyCollisionBarricade;
         }
     }
 }

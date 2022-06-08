@@ -9,7 +9,6 @@ namespace GUI.Road
     public class Stickman : MonoBehaviour
     {
         [SerializeField] private PlayerData PlayerData;
-        [SerializeField] private PlayerInput PlayerInput;
         [SerializeField] private GameData GameData;
 
         private Animator animator;
@@ -19,14 +18,14 @@ namespace GUI.Road
             animator = gameObject.GetComponent<Animator>();
             animator.enabled = false;
 
-            PlayerInput.Ran += OnPlayerRan;
+            GameData.Played += OnGamePlayed;
             GameData.Lost += OnGameLost;
             PlayerData.CurrentSpeedModificatorChanged += OnSpeedModificatorChanged;
         }
 
-        private void OnPlayerRan()
+        private void OnGamePlayed()
         {
-            PlayerInput.Ran -= OnPlayerRan;
+            GameData.Played -= OnGamePlayed;
             animator.enabled = true;
         }
 
@@ -44,7 +43,7 @@ namespace GUI.Road
         void OnDestroy()
         {
             PlayerData.CurrentSpeedModificatorChanged -= OnSpeedModificatorChanged;
-            PlayerInput.Ran -= OnPlayerRan;
+            GameData.Played -= OnGamePlayed;
             GameData.Lost -= OnGameLost;
         }
     }

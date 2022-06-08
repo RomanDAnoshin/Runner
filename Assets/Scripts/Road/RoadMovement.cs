@@ -3,21 +3,20 @@ using Game;
 using Player;
 using System;
 using UnityEngine;
+using Utilities;
 
 namespace Road
 {
-    public class RoadMovement : MonoBehaviour, IMovable
+    public class RoadMovement : Movement
     {
         public Action SpeedModificatorChanged;
 
-        [SerializeField] private PlayerInput PlayerInput;
         [SerializeField] private PlayerData PlayerData;
         [SerializeField] private GameData GameData;
+
         [SerializeField] private float StartSpeed;
         [SerializeField] private int FinalCoinsToStopGain;
         [SerializeField] private float FinalGainedSpeedModificator;
-
-        private RoadBuffer roadBuffer;
 
         public float SpeedModificator
         {
@@ -29,22 +28,25 @@ namespace Road
                 PlayerData.CurrentSpeedModificator = value;
             }
         }
+
+        private RoadBuffer roadBuffer;
+
         private float startSpeedModificator;
         private float speedModificator;
         private float gainSpeedModificator;
-        private bool isMoving;
         private float currentSpeed;
 
         void Start()
         {
-            PlayerInput.Ran += OnPlayerRan;
+            GameData.Lost += OnGameLost;
+            GameData.Played += OnGamePlayed;
             PlayerData.CurrentCoinsChanged += OnCurrentCoinsChanged;
             roadBuffer = gameObject.GetComponent<RoadBuffer>();
+
             currentSpeed = StartSpeed;
             startSpeedModificator = 1f;
             speedModificator = startSpeedModificator;
             gainSpeedModificator = (FinalGainedSpeedModificator - startSpeedModificator) / FinalCoinsToStopGain;
-            GameData.Lost += OnGameLost;
         }
 
         void Update()
@@ -54,20 +56,10 @@ namespace Road
 
         private void MoveRoad()
         {
-            if (isMoving) {
+            if (IsMoving) {
                 roadBuffer.ForEach(block => block.transform.position -= new Vector3(0f, 0f, currentSpeed * Time.deltaTime * SpeedModificator));
                 UpdateCurrentDistance();
             }
-        }
-
-        public void Stay()
-        {
-            isMoving = false;
-        }
-
-        public void Move()
-        {
-            isMoving = true;
         }
 
         public void UpdateCurrentDistance()
@@ -75,15 +67,17 @@ namespace Road
             PlayerData.CurrentDistance += currentSpeed * Time.deltaTime * SpeedModificator;
         }
 
-        public void OnPlayerRan()
+        public void OnGamePlayed()
         {
             if (GameData.Status != GameStatus.Lose) {
+                GameData.Played -= OnGamePlayed;
                 Move();
             }
         }
 
         private void OnGameLost()
         {
+            GameData.Lost -= OnGameLost;
             Stay();
         }
 
@@ -100,13 +94,12 @@ namespace Road
             }
         }
 
-        void OnDestroy()
+        protected override void OnDestroy()
         {
-            Stay();
-            PlayerInput.Ran -= OnPlayerRan;
-            PlayerData.CurrentCoinsChanged -= OnCurrentCoinsChanged;
-            roadBuffer = null;
+            base.OnDestroy();
+            GameData.Played -= OnGamePlayed;
             GameData.Lost -= OnGameLost;
+            PlayerData.CurrentCoinsChanged -= OnCurrentCoinsChanged;
         }
     }
 }

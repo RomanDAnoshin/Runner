@@ -10,7 +10,6 @@ namespace Character
     {
         public Action CollisionBarricade;
         public Action CollisionCoin;
-        public Action Destroying;
 
         private void OnCollisionEnter(Collision collision)
         {
@@ -24,11 +23,6 @@ namespace Character
             if (other.gameObject.tag == "RoadCoin") {
                 CollisionCoin?.Invoke();
             }
-        }
-
-        void OnDestroy()
-        {
-            Destroying?.Invoke();
         }
     }
 }

@@ -8,8 +8,9 @@ namespace Utilities
 {
     public class CurveTimer : MonoBehaviour
     {
-        public AnimationCurve Curve;
         public Action TimerEnded;
+
+        public AnimationCurve Curve;
 
         [HideInInspector] public float CurrentTime { get; protected set; }
         private bool isCountDown = false;

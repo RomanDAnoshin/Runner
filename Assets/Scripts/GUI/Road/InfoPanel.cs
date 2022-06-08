@@ -52,9 +52,6 @@ namespace GUI.Road
             PlayerData.CoinsChanged -= OnCoinsCountChanged;
             PlayerData.CurrentDistanceChanged -= OnCurrentDistanceCountChanged;
             PlayerData.CurrentSpeedModificatorChanged -= OnSpeedModificatorChanged;
-            Coins = null;
-            Distance = null;
-            SpeedModificator = null;
         }
     }
 }

@@ -10,7 +10,6 @@ namespace GUI.Road
 {
     public class Fire : MonoBehaviour
     {
-        [SerializeField] private PlayerInput PlayerInput;
         [SerializeField] private PlayerData PlayerData;
         [SerializeField] private GameData GameData;
         [SerializeField] private Color[] Colors;
@@ -26,7 +25,7 @@ namespace GUI.Road
             animator = gameObject.GetComponent<Animator>();
             animator.enabled = false;
 
-            PlayerInput.Ran += OnPlayerRan;
+            GameData.Played += OnGamePlayed;
             GameData.Lost += OnGameLost;
 
             if(Colors == null || Colors.Length < 10) {
@@ -40,9 +39,9 @@ namespace GUI.Road
             }
         }
 
-        private void OnPlayerRan()
+        private void OnGamePlayed()
         {
-            PlayerInput.Ran -= OnPlayerRan;
+            GameData.Played -= OnGamePlayed;
             animator.enabled = true;
         }
 
@@ -70,7 +69,7 @@ namespace GUI.Road
         void OnDestroy()
         {
             PlayerData.CurrentSpeedModificatorChanged -= OnSpeedModificatorChanged;
-            PlayerInput.Ran -= OnPlayerRan;
+            GameData.Played -= OnGamePlayed;
             GameData.Lost -= OnGameLost;
         }
     }

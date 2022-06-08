@@ -36,9 +36,7 @@ namespace GUI.MainMenu
         void OnDestroy()
         {
             InputField.onEndEdit.RemoveListener(OnEndEditInputField);
-            InputField = null;
             ButtonOk.onClick.RemoveListener(OnClickButtonOk);
-            ButtonOk = null;
         }
     }
 }

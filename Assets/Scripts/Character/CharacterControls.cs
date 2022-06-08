@@ -9,37 +9,46 @@ namespace Character
 {
     public class CharacterControls : MonoBehaviour
     {
-        [SerializeField] PlayerInput PlayerInput;
-        [SerializeField] GameData GameData;
+        [SerializeField] private PlayerInput PlayerInput;
+        [SerializeField] private GameData GameData;
 
         private CharacterMovement characterMovement;
 
         void Start()
         {
-            PlayerInput.PlayerActed += OnPlayerActed;
+            PlayerInput.Ran += OnPlayerRan;
+            PlayerInput.MovedLeft += OnPlayerMovedLeft;
+            PlayerInput.MovedRight += OnPlayerMovedRight;
             characterMovement = gameObject.GetComponent<CharacterMovement>();
         }
 
-        public void OnPlayerActed(PlayerActions playerAction)
+        private void OnPlayerRan()
         {
             if (GameData.Status != GameStatus.Lose) {
-                switch (playerAction) {
-                    case PlayerActions.MoveLeft:
-                        characterMovement.MoveLeft();
-                        break;
-                    case PlayerActions.MoveRight:
-                        characterMovement.MoveRight();
-                        break;
-                    case PlayerActions.Run:
-                        characterMovement.Move();
-                        break;
-                }
+                PlayerInput.Ran -= OnPlayerRan;
+                characterMovement.Move();
+            }
+        }
+
+        private void OnPlayerMovedLeft()
+        {
+            if (GameData.Status == GameStatus.Play) {
+                characterMovement.MoveLeft();
+            }
+        }
+
+        private void OnPlayerMovedRight()
+        {
+            if (GameData.Status == GameStatus.Play) {
+                characterMovement.MoveRight();
             }
         }
 
         void OnDestroy()
         {
-            PlayerInput.PlayerActed -= OnPlayerActed;
+            PlayerInput.Ran -= OnPlayerRan;
+            PlayerInput.MovedLeft -= OnPlayerMovedLeft;
+            PlayerInput.MovedRight -= OnPlayerMovedRight;
             characterMovement = null;
         }
     }

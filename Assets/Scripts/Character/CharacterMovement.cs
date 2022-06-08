@@ -85,6 +85,7 @@ namespace Character
 
         private void OnGameLost()
         {
+            GameData.Lost -= OnGameLost;
             Stay();
         }
 
@@ -101,10 +102,11 @@ namespace Character
             }
         }
 
-        void OnDestroy()
+        protected override void OnDestroy()
         {
-            Stay();
+            base.OnDestroy();
             GameData.Lost -= OnGameLost;
+            PlayerData.CurrentCoinsChanged -= OnCurrentCoinsChanged;
         }
     }
 }

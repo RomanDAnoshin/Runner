@@ -31,5 +31,10 @@ namespace Utilities
         {
             IsMoving = false;
         }
+
+        protected virtual void OnDestroy()
+        {
+            Stay();
+        }
     }
 }

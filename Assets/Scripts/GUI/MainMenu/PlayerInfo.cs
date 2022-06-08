@@ -8,10 +8,10 @@ namespace GUI.MainMenu
 {
     public class PlayerInfo : MonoBehaviour
     {
-        [SerializeField] private Button ButtonReset;
         [SerializeField] private PlayerData PlayerData;
         [SerializeField] private GameObject CreateAccountWindow;
 
+        [SerializeField] private Button ButtonReset;
         [SerializeField] private Text PlayerName;
         [SerializeField] private Text Coins;
         [SerializeField] private Text Distance;
@@ -30,11 +30,11 @@ namespace GUI.MainMenu
             }
         }
 
-        public void Refresh()
+        private void Refresh()
         {
-            Distance.text = "Distance: " + PlayerData.Distance.ToString();
-            Coins.text = "Coins: " + PlayerData.Coins.ToString();
-            PlayerName.text = "Player name: " + PlayerData.PlayerName;
+            OnDistanceChanged(PlayerData.Distance);
+            OnCoinsChanged(PlayerData.Coins);
+            OnPlayerNameChanged(PlayerData.PlayerName);
         }
 
         private void OnDistanceChanged(int value)
@@ -72,11 +72,6 @@ namespace GUI.MainMenu
             PlayerData.CoinsChanged -= OnCoinsChanged;
             PlayerData.DistanceChanged -= OnDistanceChanged;
             ButtonReset.onClick.RemoveListener(OnClickButtonReset);
-            ButtonReset = null;
-            CreateAccountWindow = null;
-            PlayerName = null;
-            Coins = null;
-            Distance = null;
         }
     }
 }
