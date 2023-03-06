@@ -36,7 +36,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -130, y: 3.6}
+  m_AnchoredPosition: {x: -275, y: 3.6}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6787033832908079745
@@ -89,6 +89,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c740520f5ff64894d8c92b738aff21d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerData: {fileID: 0}
+  GameData: {fileID: 0}
 --- !u!95 &8990340141260776649
 Animator:
   serializedVersion: 3
@@ -144,7 +146,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -130, y: -41}
+  m_AnchoredPosition: {x: -275, y: -41}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &922331645679337312
@@ -216,6 +218,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44072dc2b990d984696ed3640bfb0b11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerData: {fileID: 0}
+  GameData: {fileID: 0}
   Colors:
   - {r: 0.972549, g: 0.6117647, b: 0, a: 1}
   - {r: 0.9137255, g: 0.38039216, b: 0, a: 1}
@@ -263,7 +267,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 13, y: -45}
-  m_SizeDelta: {x: 255, y: 40}
+  m_SizeDelta: {x: 510, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &907712450955922355
 CanvasRenderer:
@@ -294,7 +298,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 24
+    m_FontSize: 48
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
@@ -318,6 +322,7 @@ GameObject:
   - component: {fileID: 8124950405633792863}
   - component: {fileID: 8124950405633792862}
   - component: {fileID: 8124950405633792861}
+  - component: {fileID: 5581432221580607336}
   m_Layer: 5
   m_Name: InfoPanel
   m_TagString: Untagged
@@ -345,10 +350,10 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -355, y: 195}
-  m_SizeDelta: {x: 190, y: 60}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -370, y: 195}
+  m_SizeDelta: {x: 600, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8124950405633792863
 CanvasRenderer:
@@ -402,6 +407,21 @@ MonoBehaviour:
   Coins: {fileID: 8124950406538172120}
   Distance: {fileID: 8124950406318166679}
   SpeedModificator: {fileID: 3330155384318188498}
+  PlayerData: {fileID: 0}
+--- !u!114 &5581432221580607336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8124950405633792860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32fff8d33c0812b43908ed6a785082b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CanvasTransform: {fileID: 0}
+  Offset: 10
 --- !u!1 &8124950406318166677
 GameObject:
   m_ObjectHideFlags: 0
@@ -437,7 +457,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 13, y: 2.5}
-  m_SizeDelta: {x: 255, y: 40}
+  m_SizeDelta: {x: 510, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8124950406318166680
 CanvasRenderer:
@@ -468,7 +488,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 24
+    m_FontSize: 48
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
@@ -515,7 +535,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 13, y: 50}
-  m_SizeDelta: {x: 255, y: 40}
+  m_SizeDelta: {x: 510, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8124950406538172121
 CanvasRenderer:
@@ -546,7 +566,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 24
+    m_FontSize: 48
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
@@ -568,7 +588,7 @@ PrefabInstance:
     - target: {fileID: 1212359477454971162, guid: f6ce2c45342cf934798ca89e7b920e70,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -130
+      value: -275
       objectReference: {fileID: 0}
     - target: {fileID: 1212359477454971162, guid: f6ce2c45342cf934798ca89e7b920e70,
         type: 3}

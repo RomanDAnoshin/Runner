@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Game;
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -18,6 +19,8 @@ namespace Player
         public Action MovedLeft;
         public Action MovedRight;
         public Action Ran;
+
+        [SerializeField] private GameData GameData;
 
         private PlayerAction playerAction;
         public PlayerAction PlayerAction
@@ -55,6 +58,16 @@ namespace Player
                     PlayerAction = PlayerAction.MoveRight;
                 } else if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space)) {
                     PlayerAction = PlayerAction.Run;
+                }
+
+                if (Input.GetMouseButtonDown(0)) {
+                    if (GameData.Status == GameStatus.PrepareToStart) {
+                        PlayerAction = PlayerAction.Run;
+                    } else if (Input.mousePosition.x > Screen.width / 2f) {
+                        PlayerAction = PlayerAction.MoveRight;
+                    } else {
+                        PlayerAction = PlayerAction.MoveLeft;
+                    }
                 }
             } else {
                 PlayerAction = PlayerAction.None;
