@@ -110,6 +110,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FinalGainedSpeed: 1.5
   FinalCoinsToStopGain: 200
+  PlayerData: {fileID: 0}
+  GameData: {fileID: 0}
 --- !u!114 &8545750336597088254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,6 +124,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99ed908d079a93f4890d1776e02949dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerInput: {fileID: 0}
+  GameData: {fileID: 0}
 --- !u!114 &4215664253194131476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,6 +138,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb9939299952d804084096b030749b20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GameData: {fileID: 0}
+  LanesData: {fileID: 0}
+  PlayerData: {fileID: 0}
   StartTimeForChangeLane: 0.3
   FinalReducedTimeForChangeLane: 0.225
   FinalCoinsToStopReduce: 200
@@ -149,6 +156,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2887b732cbd6c5408fecafaba0c247b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerInput: {fileID: 0}
+  PlayerData: {fileID: 0}
+  GameData: {fileID: 0}
   CurveTimer: {fileID: 7534669802385902742}
   FinalCoinsToStopReduce: 200
   FinalReducedSpeed: 0.75
@@ -258,6 +268,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -3778852536295790002, guid: f8f319e582a342b48907da62657c55e0,
+        type: 3}
+      propertyPath: m_Quality
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f8f319e582a342b48907da62657c55e0,
         type: 3}
