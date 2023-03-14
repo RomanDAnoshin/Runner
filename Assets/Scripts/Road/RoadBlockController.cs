@@ -15,7 +15,10 @@ namespace Road
                     childTransform.localPosition.y,
                     childTransform.localPosition.z
                 );
-                if(childTransform.tag != "RoadCoin") {
+                if(
+                    childTransform.tag != "RoadCoin" &&
+                    childTransform.tag != "RoadMarker"
+                ) {
                     childTransform.Rotate(Vector3.right * 180, Space.World);
                 }
             }

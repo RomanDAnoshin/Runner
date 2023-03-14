@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35bac5f51961e2b4495202196bbacb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RotationSpeed: {x: 0, y: 0, z: 30}
+  RotationSpeed: {x: 0, y: 0, z: 45}
 --- !u!114 &6568688226974845960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42,10 +42,25 @@ PrefabInstance:
       propertyPath: m_TagString
       value: RoadCoin
       objectReference: {fileID: 0}
+    - target: {fileID: 654563518224248053, guid: 11ba9d92c4c7ad94dbba0b00b773c421,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 654563518224248053, guid: 11ba9d92c4c7ad94dbba0b00b773c421,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2018104553837670790, guid: 11ba9d92c4c7ad94dbba0b00b773c421,
         type: 3}
       propertyPath: m_IsTrigger
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2018104553837670790, guid: 11ba9d92c4c7ad94dbba0b00b773c421,
+        type: 3}
+      propertyPath: m_Radius
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 4586672265318361343, guid: 11ba9d92c4c7ad94dbba0b00b773c421,
         type: 3}

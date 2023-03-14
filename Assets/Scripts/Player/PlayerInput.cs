@@ -52,14 +52,6 @@ namespace Player
         void Update()
         {
             if (Input.anyKeyDown) {
-                if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)) {
-                    PlayerAction = PlayerAction.MoveLeft;
-                } else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)) {
-                    PlayerAction = PlayerAction.MoveRight;
-                } else if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space)) {
-                    PlayerAction = PlayerAction.Run;
-                }
-
                 if (Input.GetMouseButtonDown(0)) {
                     if (GameData.Status == GameStatus.PrepareToStart) {
                         PlayerAction = PlayerAction.Run;
