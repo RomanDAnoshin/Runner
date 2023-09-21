@@ -81,10 +81,10 @@ MonoBehaviour:
   m_Text: 'Tap to Start!
 
 
-    Tap sides of screen to move sideways.
+    Swipe sides of screen to move sideways.
 
-    Tap twice
-    to move faster.'
+    Swipe
+    twice to move faster.'
 --- !u!114 &1160016902283177934
 MonoBehaviour:
   m_ObjectHideFlags: 0

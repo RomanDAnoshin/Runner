@@ -2,6 +2,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 namespace Player
 {
@@ -21,6 +22,7 @@ namespace Player
         public Action Ran;
 
         [SerializeField] private GameData GameData;
+        [SerializeField] private SwipeManager SwipeManager;
 
         private PlayerAction playerAction;
         public PlayerAction PlayerAction
@@ -49,21 +51,40 @@ namespace Player
             }
         }
 
+        void Start()
+        {
+            SwipeManager.SwipeHappened += OnSwipeHappened;
+        }
+
         void Update()
         {
-            if (Input.anyKeyDown) {
-                if (Input.GetMouseButtonDown(0)) {
-                    if (GameData.Status == GameStatus.PrepareToStart) {
-                        PlayerAction = PlayerAction.Run;
-                    } else if (Input.mousePosition.x > Screen.width / 2f) {
-                        PlayerAction = PlayerAction.MoveRight;
-                    } else {
-                        PlayerAction = PlayerAction.MoveLeft;
-                    }
-                }
+            if (Input.GetMouseButtonDown(0) && GameData.Status == GameStatus.PrepareToStart) {
+                PlayerAction = PlayerAction.Run;
             } else {
                 PlayerAction = PlayerAction.None;
             }
+        }
+
+        private void OnSwipeHappened(MoveDirection direction)
+        {
+            if (GameData.Status != GameStatus.PrepareToStart) {
+                switch (direction) {
+                    case MoveDirection.Left:
+                        PlayerAction = PlayerAction.MoveLeft;
+                        break;
+                    case MoveDirection.Right:
+                        PlayerAction = PlayerAction.MoveRight;
+                        break;
+                    default:
+                        PlayerAction = PlayerAction.None;
+                        break;
+                }
+            }
+        }
+
+        void OnDestroy()
+        {
+            SwipeManager.SwipeHappened -= OnSwipeHappened;
         }
     }
 }
