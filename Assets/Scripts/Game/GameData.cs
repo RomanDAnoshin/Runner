@@ -1,7 +1,9 @@
 ﻿using Character;
+using GUI.Road;
 using Player;
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Game
 {
@@ -9,7 +11,9 @@ namespace Game
     {
         PrepareToStart,
         Play,
-        Lose
+        Lose,
+        Pause,
+        Unpause
     }
 
     public class GameData : MonoBehaviour
@@ -17,9 +21,13 @@ namespace Game
         public Action<GameStatus> StatusChanged;
         public Action Played;
         public Action Lost;
+        public Action Paused;
+        public Action Unpaused;
 
         [SerializeField] private CharacterBodyCollision CharacterBodyCollision;
         [SerializeField] private PlayerInput PlayerInput;
+        [SerializeField] private Button ButtonPause; // TODO: Refactoring
+        [SerializeField] private GameGUI GameGUI;
 
         private GameStatus status = GameStatus.PrepareToStart;
         public GameStatus Status
@@ -38,6 +46,12 @@ namespace Game
                         case GameStatus.Lose:
                             Lost?.Invoke();
                             break;
+                        case GameStatus.Pause:
+                            Paused?.Invoke();
+                            break;
+                        case GameStatus.Unpause:
+                            Unpaused?.Invoke();
+                            break;
                     }
                 }
             }
@@ -47,6 +61,8 @@ namespace Game
         {
             PlayerInput.Ran += OnPlayerRan;
             CharacterBodyCollision.CollisionBarricade += OnCharacterBodyCollisionBarricade;
+            ButtonPause.onClick.AddListener(OnClickButtonPause);
+            GameGUI.ButtonUnpauseClicked += OnClickButtonUnpause;
         }
 
         private void Play()
@@ -57,6 +73,16 @@ namespace Game
         private void Lose()
         {
             Status = GameStatus.Lose;
+        }
+
+        private void Pause()
+        {
+            Status = GameStatus.Pause;
+        }
+
+        private void Unpause()
+        {
+            Status = GameStatus.Unpause;
         }
 
         private void OnCharacterBodyCollisionBarricade()
@@ -73,10 +99,23 @@ namespace Game
             }
         }
 
+        private void OnClickButtonPause()
+        {
+            Pause();
+        }
+
+        private void OnClickButtonUnpause()
+        {
+            Unpause();
+            Play();
+        }
+
         void OnDestroy()
         {
             PlayerInput.Ran -= OnPlayerRan;
             CharacterBodyCollision.CollisionBarricade -= OnCharacterBodyCollisionBarricade;
+            ButtonPause.onClick.RemoveListener(OnClickButtonPause);
+            GameGUI.ButtonUnpauseClicked -= OnClickButtonUnpause;
         }
     }
 }
