@@ -11,6 +11,7 @@ namespace GUI.Road
     {
         public Action ButtonUnpauseClicked;
 
+        [SerializeField] private Transform CanvasTransform;
         [SerializeField] private GameObject StartMessage;
         [SerializeField] private GameObject DeathWindow;
         [SerializeField] private GameObject PauseWindow;
@@ -44,7 +45,7 @@ namespace GUI.Road
         private IEnumerator OpenDeathWindow()
         {
             yield return new WaitForSeconds(4);
-            var window = Instantiate(DeathWindow, transform);
+            var window = Instantiate(DeathWindow, CanvasTransform);
             var windowScript = window.GetComponent<DeathWindow>();
             windowScript.PlayerData = PlayerData;
         }
@@ -57,7 +58,7 @@ namespace GUI.Road
 
         private void OpenPauseWindow()
         {
-            var window = Instantiate(PauseWindow, transform);
+            var window = Instantiate(PauseWindow, CanvasTransform);
             pauseWindowScript = window.GetComponent<PauseWindow>();
             pauseWindowScript.PlayerData = PlayerData;
             pauseWindowScript.ButtonUnpauseClicked += OnClickButtonUnpause;
