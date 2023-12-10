@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace GUI.Road
 {
-    public class GameGUI : MonoBehaviour
+    public class GameUI : MonoBehaviour
     {
         public Action ButtonUnpauseClicked;
 

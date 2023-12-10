@@ -32,6 +32,7 @@ namespace Game
 
         void OnDestroy()
         {
+            Unpause();
             if (GameData != null) {
                 GameData.Paused -= Pause;
                 GameData.Unpaused -= Unpause;

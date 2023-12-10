@@ -27,7 +27,7 @@ namespace Game
         [SerializeField] private CharacterBodyCollision CharacterBodyCollision;
         [SerializeField] private PlayerInput PlayerInput;
         [SerializeField] private Button ButtonPause; // TODO: Refactoring
-        [SerializeField] private GameGUI GameGUI;
+        [SerializeField] private GameUI GameUI;
 
         private GameStatus status = GameStatus.PrepareToStart;
         public GameStatus Status
@@ -62,7 +62,7 @@ namespace Game
             PlayerInput.Ran += OnPlayerRan;
             CharacterBodyCollision.CollisionBarricade += OnCharacterBodyCollisionBarricade;
             ButtonPause.onClick.AddListener(OnClickButtonPause);
-            GameGUI.ButtonUnpauseClicked += OnClickButtonUnpause;
+            GameUI.ButtonUnpauseClicked += OnClickButtonUnpause;
         }
 
         private void Play()
@@ -115,7 +115,7 @@ namespace Game
             PlayerInput.Ran -= OnPlayerRan;
             CharacterBodyCollision.CollisionBarricade -= OnCharacterBodyCollisionBarricade;
             ButtonPause.onClick.RemoveListener(OnClickButtonPause);
-            GameGUI.ButtonUnpauseClicked -= OnClickButtonUnpause;
+            GameUI.ButtonUnpauseClicked -= OnClickButtonUnpause;
         }
     }
 }
