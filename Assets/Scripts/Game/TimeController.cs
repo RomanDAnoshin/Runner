@@ -13,7 +13,7 @@ namespace Game
         void Start()
         {
             if (GameData != null) {
-                GameData.Paused += Pause;
+                GameData.Paused += Pause; // TODO: Refactoring, This should be controlled through a new class GameController
                 GameData.Unpaused += Unpause;
             }
         }
@@ -32,7 +32,7 @@ namespace Game
 
         void OnDestroy()
         {
-            Unpause();
+            Unpause(); // TODO: Refactoring
             if (GameData != null) {
                 GameData.Paused -= Pause;
                 GameData.Unpaused -= Unpause;
